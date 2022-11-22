@@ -1,0 +1,174 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid addtaskmodalheader-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row addtaskmodalheader-row">
+                        <ion-col (click)="closeAddTask()" class="sheriff-col addtask-header-col close-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-addtask-header-btn-wrapper close-btn">
+                                <ion-icon class="sheriff-addtask-header-ico close-btn-ico" name="arrow-back"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col class="sheriff-col addtask-header-col title-col">
+                            <div class="sheriff-addtask-header title-wrapper">
+                                <span class="tsaddtask-title-prefix">Add Task</span>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col addtask-header-col save-addtask-btn-col ion-activatable ripple-parent">
+                            <ion-grid class="sheriff-grid addtask-header-fnbtn-grid">
+                                <ion-row class="sheriff-row addtask-header-fnbtn-row">
+                                    <ion-col class="sheriff-col addtask-header-fnbtn-col tab-header-action-btn-col cancelbtn-col taskcancel">
+                                        <ion-button (click)="closeAddTask()" class="task-add-btn canceladdtaskbtn sheriff-trans-btn">
+                                            <ion-icon name="close" class="task-canceladd-btn-ico sheriff-trans-btn-ico header-opt-btn-ico"></ion-icon>
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col class="sheriff-col addtask-header-fnbtn-col submitbtn-col tab-header-action-btn-col tasksubmit">
+                                        <ion-button (click)="submitAddTask()" [disabled]="!submitReady" [ngStyle]="{'filter':!submitReady?'grayscale(1)':'grayscale(0)'}" class="sheriff-trans-btn task-add-btn addtaskbtn">
+                                            <ion-icon name="checkmark" class="sheriff-btn-ico task-add-btn-ico sheriff-trans-btn-ico header-opt-btn-ico"></ion-icon>
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="tasks-addtask-content tasks-addtask-modal">
+    <div class="tasks-addtask-bground-wrapper"></div>
+    <div class="tasks-addtask-main-wrapper">
+        <ion-grid class="sheriff-grid tasks-addtask-item-grid heading-grid">
+            <ion-row class="sheriff-row tasks-addtask-item-row heading-row">
+                <ion-col size="2" class="sheriff-col sheriff-addtask-item-grid heading-ico-col">
+                    <img class="sheriff-addtask-heading-ico tasks-heading-ico" src="../../../../assets/img/sheriff-addtsheet-ico.png">
+                </ion-col>
+                <ion-col size="8" class="sheriff-col sheriff-addtask-item-grid heading-text-col">
+                    <div class="sheriff-addtask-heading-txt tasks-heading-txt">New Task</div>
+                </ion-col>
+                <ion-col size="2" class="sheriff-col sheriff-addtask-item-grid heading-ico-col">
+                    <div style="background-image:url({{workAvatar}})" class="sheriff-addtask-workplaceava-wrapper"></div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid class="sheriff-grid tasks-add-grid">
+            <!-- ----- TASK TITLE ----- -->
+            <ion-row class="sheriff-row tasks-add-row title-row">
+                <ion-col size="2" class="sheriff-col addtask-col title-ico-col">
+                    <ion-icon [ngStyle]="{'color':addForm.title.focus===true?'var(--ion-color-primary)':'#565656'}" [ngClass]="{'addtaskicovalfade':addForm.title.valid!==null}" name="list" class="addtask-ico title-ico"></ion-icon>
+                    <div class="addtask-ico-validation-wrapper title">
+                        <ion-icon *ngIf="addForm.title.valid!==null&&addForm.title.valid===true" style="color:var(--ion-color-success)" name="checkmark" class="addtask-ico valid-ico title"></ion-icon>
+                        <ion-icon *ngIf="addForm.title.valid!==null&&addForm.title.valid===false" style="color:var(--ion-color-danger)" name="close" class="addtask-ico invalid-ico title"></ion-icon>
+                    </div>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col addtask-col title-input-col">
+                    <div [ngStyle]="{'color':addForm.title.valid!==null&&addForm.title.valid===false?'var(--ion-color-danger)':'#727272'}" [ngClass]="{'taskfauxlabelhlight':addForm.title.focus!==null&&addForm.title.focus===true}" class="addtask-item-label tasktitle-label">Task Title:</div>
+                    <ion-item class="addtask-item tasktitle-item">
+                        <ion-input #atiTitle (ionFocus)="actionATField('focus','title',atiTitle.value)" (ionBlur)="actionATField('blur','title',atiTitle.value)" [required]="true" [type]="'text'" [clearInput]="true" [inputmode]="'text'" [mode]="'md'" [placeholder]="'Required'"
+                            class="addtask-item-input tasktitle-input"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <!-- ----- ASSIGN TO ----- -->
+            <ion-row class="sheriff-row tasks-add-row assign-row">
+                <ion-col size="2" class="sheriff-col addtask-col assign-ico-col">
+                    <ion-icon [ngStyle]="{'color':assSelIsOpen?'var(--ion-color-primary)':'#565656'}" [ngClass]="{'addtaskicovalfade':addForm.assign.valid!==null&&!assSelIsOpen}" name="person-add" class="addtask-ico assign-ico"></ion-icon>
+                    <div *ngIf="!assSelIsOpen" class="addtask-ico-validation-wrapper assign">
+                        <ion-icon *ngIf="addForm.assign.valid!==null&&addForm.assign.valid===true" style="color:var(--ion-color-success)" name="checkmark" class="addtask-ico valid-ico assign"></ion-icon>
+                        <ion-icon *ngIf="addForm.assign.valid!==null&&addForm.assign.valid===false" style="color:var(--ion-color-danger)" name="close" class="addtask-ico invalid-ico assign"></ion-icon>
+                    </div>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col tasks-addedit-formfield-col assignto-col" [ngStyle]="{'border-bottom':assSelIsOpen?'solid 2px var(--ion-color-primary)':'solid 1px #343434'}">
+                    <ion-grid class="sheriff-grid addtask-inner-grid assign">
+                        <ion-row class="sheriff-row addtask-inner-row assign label">
+                            <ion-col size="12" class="sheriff-col addtask-inner-col assign label">
+                                <div [ngStyle]="{'color':addForm.assign.valid!==null&&addForm.assign.valid===false?'var(--ion-color-danger)':'#727272'}" [ngClass]="{'taskfauxlabelhlight':assSelIsOpen}" class="addtask-item-label assigntolabel">Assign To:</div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="sheriff-row addtask-inner-row assign content">
+                            <ion-col size="12" (click)="openAssignSelect()" class="sheriff-col addtask-inner-col assign content input ion-activatable ripple-parent">
+                                <div *ngIf="addForm.assign.value!==null" class="addtask-assign-wrapper">
+                                    <ion-chip class="sheriff-chip addtask-assign-chip">
+                                        <ion-avatar class="sheriff-avatar addtask-assign-chip-avatar">
+                                            <img class="addtask-chip-avatar-img assign-avar-img" src="{{addForm.assign.value.Photo}}">
+                                        </ion-avatar>
+                                        <ion-label class="addtask-chip assign-txt-label">
+                                            <span *ngIf="addForm.assign.value.EmpId===myEmpId" class="assign-chip-txt-label you">You</span>
+                                            <span *ngIf="addForm.assign.value.EmpId!==myEmpId" class="assign-chip-txt-label other">
+                                    <span *ngIf="addForm.assign.value.FirstName.length>0" class="assign-chip-txt-label fname">{{addForm.assign.value.FirstName}}</span>
+                                            <span *ngIf="addForm.assign.value.LastName.length>0" class="assign-chip-txt-label lname"> {{addForm.assign.value.LastName.charAt(0)}}.</span>
+                                            <span *ngIf="addForm.assign.value.FirstName.length<1&&addForm.assign.value.LastName.length<1&&addForm.assign.value.DisplayName.length>0" class="assign-chip-txt-label dname">{{addForm.assign.value.DisplayName}}</span>
+                                            </span>
+                                        </ion-label>
+                                    </ion-chip>
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+            <!-- ----- DUE DATE ----- -->
+            <ion-row class="sheriff-row tasks-addedit-row tasks-addedit-duedate-row3">
+                <ion-col size="2" class="sheriff-col addtask-col duedate-ico-col">
+                    <ion-icon [ngClass]="{'addtaskicovalfade':addForm.duedate.valid!==null}" [ngStyle]="{'color':dateSelIsOpen?'var(--ion-color-primary)':'#565656'}" name="calendar" class="addtask-ico duedate-ico"></ion-icon>
+                    <div class="addtask-ico-validation-wrapper duedate">
+                        <ion-icon *ngIf="addForm.duedate.valid!==null&&addForm.duedate.valid===true" style="color:var(--ion-color-success)" name="checkmark" class="addtask-ico valid-ico duedate"></ion-icon>
+                        <ion-icon *ngIf="addForm.duedate.valid!==null&&addForm.duedate.valid===false" style="color:var(--ion-color-danger)" name="close" class="addtask-ico invalid-ico duedate"></ion-icon>
+                    </div>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col tasks-addedit-formfield-col duedate-co" [ngStyle]="{'border-bottom':dateSelIsOpen?'solid 2px var(--ion-color-primary)':'solid 1px #343434'}">
+                    <ion-grid class="sheriff-grid addtask-inner-grid duedate">
+                        <ion-row class="sheriff-row addtask-inner-row duedate label">
+                            <ion-col size="12" class="sheriff-col addtask-inner-col duedate label">
+                                <div [ngStyle]="{'color':addForm.duedate.valid!==null&&addForm.duedate.valid===false?'var(--ion-color-danger)':'#727272'}" [ngClass]="{'taskfauxlabelhlight':dateSelIsOpen}" class="addtask-item-label duedatelabel">Due Date:</div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="sheriff-row addtask-inner-row duedate content">
+                            <ion-col size="10" (click)="openDP()" class="sheriff-col addtask-inner-col duedate content input ion-activatable ripple-parent">
+                                <div *ngIf="addForm.duedate.value!==null" class="addtask-duedate-wrapper hasvalue">
+                                    {{addForm.duedate.txt}}
+                                    <div class="addtask-duedate-od" *ngIf="dateOD">
+                                        <ion-icon class="addtask-duedate-od-ico" name="warning-outline"></ion-icon>Due</div>
+                                </div>
+                                <div *ngIf="addForm.duedate.value===null" class="addtask-duedate-wrapper default">
+                                    Optional
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                            </ion-col>
+                            <ion-col size="2" class="sheriff-col addtask-inner-col duedate content clear">
+                                <div *ngIf="addForm.duedate.value!==null" (click)="clearDueDate()" class="addtask-custclearbtn-wrapper duedate ion-activatable ripple-parent">
+                                    <ion-icon class="addtask-custclearbtn-ico duedate" name="close"></ion-icon>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+            <!-- ----- NOTES ----- -->
+            <ion-row class="sheriff-row tasks-addedit-row tasks-addedit-tasknotes-row4">
+                <ion-col size="2" class="sheriff-col addtask-col notes-ico-col">
+                    <ion-icon [ngStyle]="{'color':addForm.notes.focus===true?'var(--ion-color-primary)':'#565656'}" name="pencil" [ngClass]="{'addtaskicovalfade':addForm.notes.valid!==null}" class="addtask-ico notes-ico"></ion-icon>
+                    <div class="addtask-ico-validation-wrapper notes">
+                        <ion-icon *ngIf="addForm.notes.valid!==null&&addForm.notes.valid===true" style="color:var(--ion-color-success)" name="checkmark" class="addtask-ico valid-ico notes"></ion-icon>
+                        <ion-icon *ngIf="addForm.notes.valid!==null&&addForm.notes.valid===false" style="color:var(--ion-color-danger)" name="close" class="addtask-ico invalid-ico notes"></ion-icon>
+                    </div>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col tasks-addedit-formfield-col notes-col">
+                    <div class="addtask-item-label tasknotes-label" [ngStyle]="{'color':addForm.notes.valid!==null&&addForm.notes.valid===false?'var(--ion-color-danger)':'#727272'}" [ngClass]="{'taskfauxlabelhlight':addForm.notes.focus!==null&&addForm.notes.focus===true}">Task Notes:</div>
+                    <ion-item class="addtask-item tasknotes-item">
+                        <ion-textarea #atiNotes (ionFocus)="actionATField('focus','notes',atiNotes.value)" (ionBlur)="actionATField('blur','notes',atiNotes.value)" [autoGrow]="true" [required]="false" [mode]="'md'" [placeholder]="'Optional'" class="addtask-item-input tasknotes-input"></ion-textarea>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </div>
+
+</ion-content>

@@ -1,0 +1,52 @@
+<div class="pop-peopledetail-main-wrapper">
+    <ion-grid class="sheriff-grid pop-people-detail-grid header-grid">
+        <ion-row class="sheriff-row pop-people-detail-header-row">
+            <ion-col size="2" class="sheriff-col pop-people-detail-header-col title-col">
+
+                <div class="pop-people-detail-header-closebtn-wrapper">
+                    <ion-button (click)="closePopover()" class="sheriff-btn pop-people-detail-close-btn">
+                        <ion-icon name="close" class="sheriff-btn-ico pop-people-detail-close-btn"></ion-icon>
+                    </ion-button>
+                </div>
+
+            </ion-col>
+            <ion-col size="7" class="sheriff-col pop-people-detail-header-col confirmreq-col">
+                <div class="pop-people-detail-header-title-wrapper">Recipients:</div>
+            </ion-col>
+            <ion-col size="3" class="sheriff-col pop-people-detail-header-col closebtn-col">
+                <div class="pop-people-detail-header-confirmreq-wrapper">
+                    <div class="confreqtext">Confirm</div>
+                </div>
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-list class="sheriff-list pop-people-detail-item-list">
+        <ion-item *ngFor="let person of people;let i=index" [ngClass]="{'pop-people-detail-isyou':person.Employee===myEmpId}" class="sheriff-item pop-people-detail-item">
+            <ion-grid class="sheriff-grid pop-people-detail-grid person-grid">
+                <ion-row class="sheriff-row pop-people-detail-row person-row">
+                    <ion-col size="2" class="sheriff-col pop-people-detail-col person-col person-ava-col">
+                        <div class="pop-person-ava-wrapper">
+                            <img src="{{person.Photo}}" class="pop-person-ava-img">
+                        </div>
+                    </ion-col>
+                    <ion-col size="8" class="sheriff-col pop-people-detail-col person-col person-name-col">
+                        <div class="pop-person-name-wrapper">
+                            {{person.DisplayName}}
+                        </div>
+                    </ion-col>
+                    <ion-col size="2" class="sheriff-col pop-people-detail-col person-col person-hasconf-col">
+                        <div *ngIf="!confReq" class="pop-person-hasconfirm-wrapper notreq">
+                            N/A
+                        </div>
+                        <div *ngIf="confReq" class="pop-person-hasconf-wrapper">
+                            <ion-icon *ngIf="pplConfStatus[i]===true" style="color:var(--ion-color-success)" class="sheriff-ico pop-person-hasconf-ico yes-ico" name="checkmark"></ion-icon>
+                            <ion-icon *ngIf="pplConfStatus[i]===false" style="color:var(--ion-color-danger)" class="sheriff-ico pop-person-hasconf-ico no-ico" name="close"></ion-icon>
+                            <ion-icon *ngIf="pplConfStatus[i]!==true&&pplConfStatus[i]!==false" style="color:var(--ion-color-warning)" class="sheriff-ico pop-person-hasconf-ico nk-ico" name="help"></ion-icon>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+</div>

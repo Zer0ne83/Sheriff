@@ -1,0 +1,62 @@
+<ion-content class="modal-recipients-content">
+    <div class="modal-recipients-main-wrapper">
+        <ion-grid class="sheriff-grid modal-recipients-grid header-grid">
+            <ion-row class="sheriff-row modal-recipients-header-row">
+                <ion-col size="8" class="sheriff-col modal-recipients-header-col titletext-col">
+                    <div class="modal-recipients-header-title-wrapper">Recipients:</div>
+                </ion-col>
+                <ion-col size="2" class="sheriff-col modal-recipients-header-col selall-col">
+                    <div (click)="bulkSelectRec('all')" class="mrec-header-allnone-btn-wrapper sel ion-activatable ripple-parent">
+                        <ion-icon class="allnonebtnico sel" name="person-add-outline"></ion-icon>
+                        <div class="allnonebtntxt sel">All</div>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                </ion-col>
+                <ion-col size="2" class="sheriff-col modal-recipients-header-col dselall-col ion-activatable ripple-parent">
+                    <div (click)="bulkSelectRec('none')" class="mrec-header-allnone-btn-wrapper dsel ion-activatable ripple-parent">
+                        <ion-icon class="allnonebtnico dsel" name="person-remove-outline"></ion-icon>
+                        <div class="allnonebtntxt dsel">All</div>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-list class="sheriff-list modal-recipients-item-list">
+            <ion-item *ngFor="let mRP of modalRecList;let mRPi=index" class="sheriff-item modal-recipients-item">
+                <ion-grid class="sheriff-grid modal-recipients-grid person-grid">
+                    <ion-row class="sheriff-row modal-recipients-row person-row">
+                        <ion-col size="2" class="sheriff-col modal-recipients-col person-col person-ava-col">
+                            <div class="pop-person-ava-wrapper">
+                                <img src="{{mRP.ava}}" class="pop-person-ava-img">
+                            </div>
+                        </ion-col>
+                        <ion-col size="8" class="sheriff-col modal-recipients-col person-col person-name-col">
+                            <div class="pop-person-name-wrapper">
+                                {{mRP.name}}
+                            </div>
+                        </ion-col>
+                        <ion-col size="2" class="sheriff-col modal-recipients-col person-col person-hasconf-col">
+                            <ion-checkbox (ionChange)="recChange(mRPi)" [checked]="mRP.isChecked" [mode]="'ios'" class="sheriff-checkbox recipients-checkbox"></ion-checkbox>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </ion-list>
+        <ion-grid class="sheriff-grid modal-recipients-grid button-grid">
+            <ion-row class="sheriff-row modal-recipients-button-row">
+                <ion-col size="6" class="sheriff-col modal-recipients-button-col cancel-col">
+                    <ion-button (click)="updateCancelList('cancel')" class="sheriff-btn recipients-btn cancel">
+                        <ion-icon class="sheriff-btn-ico" name="close"></ion-icon>
+                        <div class="sheriff-btn-txt">Cancel</div>
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" class="sheriff-col modal-recipients-button-col ok-col">
+                    <ion-button (click)="updateCancelList('update')" class="sheriff-btn recipients-btn ok">
+                        <ion-icon class="sheriff-btn-ico" name="checkmark"></ion-icon>
+                        <div class="sheriff-btn-txt">Update</div>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>

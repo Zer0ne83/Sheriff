@@ -1,0 +1,98 @@
+<div class="pop-alertschedule-main-wrapper">
+    <ion-grid class="sheriff-grid pop-alert-schedule-grid header-grid">
+        <ion-row class="sheriff-row pop-alert-schedule-header-row">
+            <ion-col size="12" class="sheriff-col pop-alert-schedule-header-col title-col">
+                <div class="pop-alert-schedule-header-title-wrapper">Scheduled Alerts</div> 
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid class="sheriff-grid pop-alert-schedule-grid col-label-grid">
+      <ion-row class="sheriff-row pop-alert-schedule-row col-label-row">
+        <ion-col class="sheriff-col pop-alert-schedule-col col-label-col event-type-id">
+          Event Id
+        </ion-col>
+        <ion-col class="sheriff-col pop-alert-schedule-col col-label-col event-date-time">
+          Event Due
+        </ion-col>
+        <ion-col class="sheriff-col pop-alert-schedule-col col-label-col event-alert-at-time">
+          Alert Time
+        </ion-col>
+        <ion-col size="2" class="sheriff-col pop-alert-schedule-col col-label-col event-alert-methods">
+          Method
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div *ngIf="noAlerts!==null&&noAlerts===true" class="pop-alertschedule-noitems-outter-wrapper">
+      <div class="pop-alertschedule-noitems-inner-wrapper">
+        <ion-icon class="pop-alertschedule-noitems-ico" name="warning"></ion-icon>
+        <div class="pop-alertschedule-noitems-txt">No Alerts Scheduled</div>
+      </div>
+    </div>
+    <ion-list *ngIf="noAlerts!==null&&noAlerts===false" class="sheriff-list pop-alert-schedule-item-list">
+        <ion-item *ngFor="let alert of alertsList;let ai=index" class="sheriff-item pop-alert-schedule-item" id="alert-{{alert.id}}">
+          <ion-grid class="sheriff-grid pop-alert-schedule-grid alert-item-grid">
+            <ion-row class="sheriff-row pop-alert-schedule-row alert-item-row">
+              <ion-col class="sheriff-col pop-alert-schedule-col alert-item-col event-type-id">
+                <div class="alertsched-item-line typeline">
+                  <div *ngIf="tMode&&!alert.isTest" class="delete-alert-wrapper">
+                    <ion-icon (click)="deleteAlert(alert.id)" class="del-alert-ico" style="color:var(--ion-color-danger)" name="trash"></ion-icon>
+                  </div>
+                  <span *ngIf="alert.isTest" style="color:var(--ion-color-danger)">Test</span>
+                  <span *ngIf="!alert.isTest" [ngStyle]="{'color':alert.type==='task'?'#b33d18':'var(--ion-color-yellow)'}">{{alert.uctype}}</span>
+                </div>
+                <div class="alertsched-item-line idline"> 
+                  #{{alert.id}}
+                </div>
+              </ion-col>
+              <ion-col class="sheriff-col pop-alert-schedule-col alert-item-col event-due">
+                <div class="alertsched-item-line event-at-date-line">
+                  {{alert.eventatNiceDate}}
+                </div>
+                <div class="alertsched-item-line event-at-time-line">
+                  {{alert.eventatNiceTime}}
+                </div>
+              </ion-col>
+              <ion-col class="sheriff-col pop-alert-schedule-col alert-item-col alert-at">
+                <div class="alertsched-item-line alert-at-date-line">
+                  {{alert.alertatNiceDate}}
+                </div>
+                <div class="alertsched-item-line alert-at-time-line">
+                  {{alert.alertatNiceTime}}
+                </div>
+              </ion-col>
+              <ion-col size="2" class="sheriff-col pop-alert-schedule-col alert-item-col alert-methods">
+                <div *ngIf="(!tMode&&!alert.isTest)||(tMode&&alert.isTest)" class="alertmethodsico-wrapper">
+                  <ion-icon [ngStyle]="{'color':alert.methods.phone?'var(--ion-color-success-68)':'#343434'}" class="alertmethod-ico phone" name="phone-portrait"></ion-icon>
+                  <ion-icon [ngStyle]="{'color':alert.methods.calendar?'var(--ion-color-success-68)':'#343434'}" class="alertmethod-ico calendar" name="calendar-number"></ion-icon>
+                </div>
+                <div *ngIf="tMode&&!alert.isTest" class="alertmethodsico-wrapper tmode">
+                  <ion-button (click)="testNote(alert.id)" class="sheriff-btn alertsched-testmode-btn">
+                    <ion-icon name="play" class="sheriff-btn-ico testmode-play-ico"></ion-icon>
+                  </ion-button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+    </ion-list>
+    <ion-grid class="sheriff-grid pop-alert-schedule-grid footer-grid">
+      <ion-row class="sheriff-row pop-alert-schedule-footer-row">
+          <ion-col size="6" class="sheriff-col pop-alert-schedule-footer-col closebtn-col">
+              <ion-button (click)="closeModal()" class="sheriff-btn settings-alertschedule-close-btn">
+                <ion-icon name="close" class="sheriff-btn-ico settings-alertschedule-close-btn-ico"></ion-icon>
+                <div class="sheriff-btn-txt settings-alertschedule-close-btn-txt">close</div>
+              </ion-button>
+          </ion-col>          
+          <ion-col size="6" class="sheriff-col pop-alert-schedule-footer-col closebtn-col">
+            <ion-button *ngIf="!tMode&&hasTestable" (click)="testMode()" class="sheriff-btn settings-alertschedule-testmode-btn activate">
+              <ion-icon name="construct" class="sheriff-btn-ico settings-alertschedule-testmode-btn-ico activate"></ion-icon>
+              <div class="sheriff-btn-txt settings-alertschedule-testmode-btn-txt activate">test</div>
+            </ion-button>
+            <ion-button *ngIf="tMode" (click)="testMode()" class="sheriff-btn settings-alertschedule-testmode-btn deactivate">
+              <ion-icon name="stop" class="sheriff-btn-ico settings-alertschedule-testmode-btn-ico deactivate"></ion-icon>
+              <div class="sheriff-btn-txt settings-alertschedule-testmode-btn-txt deactivate">stop</div>
+            </ion-button>
+        </ion-col>          
+      </ion-row>
+  </ion-grid>
+</div>

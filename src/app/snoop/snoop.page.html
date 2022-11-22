@@ -1,0 +1,110 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+  <ion-toolbar class="sheriff-toolbar">
+      <div class="sheriff-header-background-wrapper">
+          <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+          <div class="sheriff-header-background-inner-wrapper">
+              <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                  <ion-row class="sheriff-row sheriff-page-header-row">
+                      <ion-col class="sheriff-col sheriff-page-header-col left-col snoop">
+                          <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar snoop">
+                              <div class="sheriff-title-leftanimbar-inner snoop"></div>
+                          </div>
+                          <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                              <div class="sheriff-page-title sheriff-heading-sansman hcl-title snoop">
+                                  <div class="sheriff-title tight-wrap snoop">snoop data</div>
+                              </div>
+                          </div>
+                      </ion-col>
+                      <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                          <div class="sheriff-page-header-logo-wrapper">
+                              <div class="sheriff-page-header-logo-inner-wrapper">
+                                  <div class="sheriff-page-header-logo-highlight-layer hcl-ring snoop"></div>
+                                  <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle snoop hcl-progcirc snoop">
+                                      <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                          [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                  </div>
+                                  <div id="logo-top-patchcover-outter" class="logo-top-patchcover outter hcl-opatch snoop">
+                                      <div id="logo-top-patchcover-inner" class="logo-top-patchcover inner hcl-ipatch snoop"></div>
+                                  </div>
+                                  <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star snoop">
+                                  <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo snoop">
+                              </div>
+                          </div>
+                      </ion-col>
+                      <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                          <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                              <div class="sheriff-page-backbtn-wrapper snoopment">
+                                  <ion-back-button icon="chevron-back-outline" class="sheriff-backbtn snoop" defaultHref="/tabs"></ion-back-button>
+                              </div>
+                              <div class="sheriff-menu-button-wrapper">
+                                  <ion-menu-button class="sheriff-menu-button snoop" autoHide="false">
+                                      <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                  </ion-menu-button>
+                              </div>
+                          </div>
+                      </ion-col>
+                  </ion-row>
+              </ion-grid>
+          </div>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheriff-content tab-content snoop">
+  <!-- PAGE REFRESHER -->
+  <ion-refresher class="sheriff-refresher page snoop" slot="fixed" (ionRefresh)="doSnoopRefresh($event)">
+      <div class="sheriff-refresher-noise-wrapper">
+          <ion-refresher-content class="sheriff-refresher-content-class" pullingIcon="arrow-down-circle" refreshingSpinner="dots"></ion-refresher-content>
+      </div>
+  </ion-refresher>
+  <!-- PAGE-CONTENT -->
+  <!-- CONTENT HEADING -->
+  <div class="sheriff-tabcontent-mainheading-wrapper snoop">
+      <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid snoop">
+          <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 snoop">
+              <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 snoop">
+              </ion-col>
+              <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 snoop">
+                  <img class="sheriff-reflect-title" src="../../assets/img/sheriff-reflecttitle-snoop.png">
+              </ion-col>
+              <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 snoop">
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+  </div>  
+  <!-- CONTENT WRAPPER -->
+  <div class="sheriff-snoop-page main-page-outter-wrapper">
+    <div *ngIf="snoopD!==null" class="sheriff-snoop-page main-page-inner-wrapper">
+      <div *ngFor="let snoopDay of snoopD;let i=index" [ngStyle]="{'animation-delay':250+(i*50)+'ms'}" class="sheriff-snoop-line-div snoopday{{i}} animate__animated animate__fadeIn animDur-250">
+        <ion-grid class="sheriff-grid snoopday-grid">
+          <ion-row class="sheriff-grid snoopday-daytitle-row">
+            <ion-col size="8" class="sheriff-grid snoopday-daytitle-col date">
+              {{snoopDay.date}}
+            </ion-col>
+            <ion-col size="2" class="sheriff-grid snoopday-daytitle-col shifts">
+              <span class="snoop-daytitle no">{{snoopDay.ttlR}}</span><span class="snoop-daytitle txt">Shifts</span>
+            </ion-col>
+            <ion-col size="2" class="sheriff-grid snoopday-daytitle-col hrs">
+              <span class="snoop-daytitle no">{{snoopDay.ttlHrs}}</span><span class="snoop-daytitle txt">Hrs</span>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let snoopRos of snoopD[i].rosters;let ri=index" class="sheriff-grid snoopday-item-row">
+            <ion-col size="2" class="sheriff-grid snoopday-item-col rosid-col">
+              #{{snoopRos.Id}}
+            </ion-col>
+            <ion-col size="4" class="sheriff-grid snoopday-item-col rosemp-col">
+              {{snoopRos.EmpDName}}
+            </ion-col>
+            <ion-col size="4" class="sheriff-grid snoopday-item-col rosarea-col">
+              {{snoopRos.OperationalUnitObject.OperationalUnitName}}
+            </ion-col>
+            <ion-col size="2" class="sheriff-grid snoopday-item-col rostt-col">
+              {{snoopRos.TotalTime}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+  <!-- END OF PAGE-CONTENT -->
+</ion-content>

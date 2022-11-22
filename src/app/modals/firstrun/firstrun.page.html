@@ -1,0 +1,747 @@
+<ion-content id="sheriff-frmodal-slider-content">
+
+    <div class="sheriff-frmodal-slider-section-wrapper slides">
+        <ion-grid class="sheriff-grid frmodal-slider-main-grid">
+            <ion-row class="sheriff-row frmodal-slider-main-row1 slides">
+                <ion-col size="12" class="sheriff-col sheriff-frmodal-slider-main-col1 slides">
+                    <ion-slides id="frslidesid" class="sheriff-slides fr-slides" [scrollbar]="false" [mode]="'md'" [pager]=doShowPager [options]=slideOptions #slideWithNav (ionSlideWillChange)="ionSlideEvent($event)" (ionSlideDidChange)="slideDidChange(slideWithNav)" (ionSlidesDidLoad)="ionSlideEvent($event)">
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- SLIDE ONE ///////////////////////////////////////////////////////// -->
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <ion-slide class="frs-slide" id="frslide1-yourworkplace">
+                            <div class="fr-slide-flexy-wrap slide1">
+                                <div class="frs-slide-grid-wrapper title-grid workplace">
+                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid heading-grid workplace">
+                                        <ion-row class="sheriff-row modal-row mainheading-row workplace">
+                                            <ion-col class="sheriff-col modal-col mainheading-col workplace">
+                                                <div class="fr-slidetitle-wrapper-div workplace">
+                                                    <div class="fr-your">your</div>
+                                                    <div class="fr-titlebig workplace">workplace</div>
+                                                </div>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                                <div *ngIf="epTestsDone" class="infoandcontent-grid-wrapper-div workplace">
+                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid infocontent-grid workplace">
+                                        <ion-row class="sheriff-row modal-row firstrun-row infocontent-row workplace">
+                                            <ion-col class="sheriff-col modal-col firstrun-col infocontent-col workplace">
+                                                <!-- No WP --------------------------------------------------- -->
+                                                <div *ngIf="wpNoOf===0" id="fr-s1-workplace-none">
+                                                    <p class="notop-para nowps dimable"><span class="sheriff-brand-txt smaller">Sheriff</span> found <span class="sheriff-red">no workplaces</span> currently linked to your account.</p>
+                                                    <ion-grid class="sheriff-grid fr-grid nowps-grid">
+                                                        <ion-row class="sheriff-row fr-row nowps-row notright-row dimable">
+                                                            <ion-col size="12" class="sheriff-col fr-col nowps-col notright-col">
+                                                                <div class="fr-nowps notright-wrapper">Double check the email address you just used to sign into <span class="sheriff-brand-txt smaller">Sheriff</span> (<span style="font-variant: all-small-caps;color:var(--ion-color-success)">{{userEmail}}</span>) is the <span style="font-style: italic;color:#eee">original email address</span> used to activate your <span class="deputy-brand-txt smaller">deputy</span> account.</div>
+                                                            </ion-col>
+                                                            <ion-col size="6" class="sheriff-col fr-col nowps-col checkaccount-col checkaccount-content-col content-col left">
+                                                                <p class="notrightpara para2" style="color:#ff9800">If not, tap to logout and</p>
+                                                            </ion-col>
+                                                            <ion-col size="6" class="sheriff-col fr-col nowps-col checkaccount-col checkaccount-content-col content-col button">
+                                                                <div (click)="logoutAndSwitch()" class="firstrun-btn firstrun-corenavbtn nowps signoutandswitch ion-activatable ripple-parent" id="firstrun-searchformissing-workplace-btn">
+                                                                    <ion-icon class="fr-searchagain-ico" name="swap-horizontal-outline"></ion-icon>Switch Login
+                                                                    <ion-ripple-effect></ion-ripple-effect>
+                                                                </div>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                        <ion-row class="sheriff-row fr-row nowps-row ordividerrow dimable">
+                                                          <ion-col class="sheriff-col fr-col nowps-col orderdivider-col">
+                                                              <div id="fr-or-divider-wrapper" class="nowps dimable">
+                                                                  <div id="fr-or-divider-text" class="nowps dimable nowpor">OR REFRESH</div>
+                                                              </div>
+                                                          </ion-col>
+                                                        </ion-row>
+                                                        <ion-row *ngIf="wpSearchAgain" class="sheriff-row fr-row nowps-row refreshlist-row">
+                                                            <ion-col size="12" class="sheriff-col fr-col nowps-col searchagain-col searchagain-results-col">
+                                                              <ion-grid class="sheriff-grid workplace-searchagain-grid">
+                                                                <ion-row class="sheriff-row workplace-searchagain-row">
+                                                                  <ion-col class="sheriff-col workplace-searchagain-col">
+                                                                    <div *ngIf="wpSearchAgain" class="fr-workplace-searchagain-wrapper">
+                                                                        <div *ngIf="wpSearchAgainStage==='waiting'">
+                                                                          <div id="fr-workplace-searchagain-spinner-wrapper">
+                                                                            <ion-spinner id="fr-workplace-searchagain-spinner" name="dots"></ion-spinner>
+                                                                            <div class="fr-workplace-searchagain-spinner-txt">Refreshing Workplaces</div>
+                                                                          </div>
+                                                                        </div>
+                                                                        <div *ngIf="wpSearchAgainStage==='nonew'" class="wpsearchagainresult-txt nonew">
+                                                                            <ion-icon class="wpsearchagainresult-ico sheriff-red" name="close-circle"></ion-icon>No New Workplaces Found
+                                                                        </div>
+                                                                        <div *ngIf="wpSearchAgainStage==='gotnew'" class="wpsearchagainresult-txt gotnew">
+                                                                            <ion-icon class="wpsearchagainresult-ico sheriff-green" name="checkmark-circle"></ion-icon>{{newWPNo}} New Workplaces Found
+                                                                        </div>
+                                                                    </div>
+                                                                  </ion-col>
+                                                                </ion-row>
+                                                              </ion-grid>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                        <ion-row class="sheriff-row fr-row nowps-row refreshlist-row dimable">
+                                                            <ion-col size="12" class="sheriff-col fr-col nowps-col searchagain-col searchagain-content-col content-col top">
+                                                                <p class="searchagaininfo para1">If you are expecting an invite from a new employer or experiencing issues with your data connection:</p>
+                                                            </ion-col>
+                                                            <ion-col size="6" class="sheriff-col fr-col nowps-col searchagain-col searchagain-content-col content-col left">
+                                                                <div style="color:#ff9800" class="fr-nowps searchagaininfo-wrapper try-refreshingwp dimable">
+                                                                    Try refreshing your
+                                                                </div>
+                                                            </ion-col>
+                                                            <ion-col size="6" class="sheriff-col fr-col nowps-col searchagain-col searchagain-content-col content-col btn dimable">
+                                                                <div (click)="searchForMissingWP()" class="firstrun-btn firstrun-corenavbtn nowps skip ion-activatable ripple-parent" id="firstrun-searchformissing-workplace-btn">
+                                                                    <ion-icon class="fr-searchagain-ico" name="search-outline"></ion-icon>
+                                                                    workplaces
+                                                                    <ion-ripple-effect></ion-ripple-effect>
+                                                                </div>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                        <ion-row class="sheriff-row fr-row nowps-row ordividerrow dimable">
+                                                            <ion-col class="sheriff-col fr-col nowps-col orderdivider-col">
+                                                                <div id="fr-or-divider-wrapper" class="nowps dimable">
+                                                                    <div id="fr-or-divider-text" class="nowps dimable nowpor">OR IMPORT</div>
+                                                                </div>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                        <ion-row class="sheriff-row fr-row nowps-row archiveoffline-row dimable">
+                                                            <ion-col size="12" class="sheriff-col fr-col nowps-col archiveoffline-col openimportbtn-col open">
+                                                                <div (click)="skipWorkplaceImport()" class="ion-activatable ripple-parent nowps-saveddatabtn openlocaldb-btn">
+                                                                    <ion-icon class="fr-searchagain-ico" name="server-outline"></ion-icon>
+                                                                    Database Cloud Backup
+                                                                    <ion-ripple-effect></ion-ripple-effect>
+                                                                </div>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                    </ion-grid>
+                                                </div>
+                                                <!-- Mult WPs -------------------------------------------------------- -->
+                                                <div *ngIf="wpNoOf>1" id="fr-s1-workplace-multiple">
+                                                    <p class="notop-para multiple dimable"><span class="sheriff-brand-txt smaller">Sheriff</span> found <span class="sheriff-gold">{{wpNoOf}} linked workplaces</span>.</p>
+                                                    <p class="dimable multiple-wp-lastpara" style="text-align:left">To help us streamline access to the data you use most, select your <span style="font-weight:500;color:#eee">primary/most-used workplace</span> below:</p>
+                                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid froptions-grid workplace dimable">
+                                                        <ion-row *ngFor="let workplace of wpWorkplaces; let i=index" class="sheriff-row modal-row multiple-workplace multiple-workplace{{i}}" (click)="toggleWPCB(i,workplace.id)">
+                                                            <ion-col size="1" class="sheriff-col modal-col firstrun-col froptions-col workplace{{i}} checkbox-col">
+                                                                <ion-checkbox mode="ios" checked="{{workplace.ischecked}}" class="sheriff-checkbox fr-workplace-cb workplace{{i}}-cb"></ion-checkbox>
+                                                            </ion-col>
+                                                            <ion-col class="sheriff-col fr-multipleworkplace-col block-col">
+                                                                <div [ngStyle]="{background:workplace.color}" class="fr-workplace-portfolio-block">
+                                                                    <ion-icon [ngStyle]="{color:workplace.labelcolor}" class="fr-workplace-ico" name="business-outline"></ion-icon>
+                                                                </div>
+                                                            </ion-col>
+                                                            <ion-col class="sheriff-col fr-multipleworkplace-col deets-col">
+                                                                <div class="fr-multipleworkplace-nameandaddress-wrapper">
+                                                                    <div class="fr-multipleworkplace-name-wrapper">{{workplace.name}} <span class="fr-wp-code-span" *ngIf="workplace.code !== null">({{workplace.code}})</span></div>
+                                                                    <div *ngIf="workplace.address!==null" class="fr-singleworkplace-address-wrapper">{{workplace.address}}</div>
+                                                                </div>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                    </ion-grid>
+                                                    <div *ngIf="wpSearchAgain&&!wpOneIsChecked" class="fr-workplace-searchagain-wrapper multiple">
+                                                      <ion-grid class="sheriff-grid workplace-searchagain-grid">
+                                                        <ion-row class="sheriff-row workplace-searchagain-row">
+                                                          <ion-col class="sheriff-col workplace-searchagain-col">
+                                                            <div *ngIf="wpSearchAgain" class="fr-workplace-searchagain-wrapper">
+                                                                  <div *ngIf="wpSearchAgainStage==='waiting'">
+                                                                    <div id="fr-workplace-searchagain-spinner-wrapper">
+                                                                      <ion-spinner id="fr-workplace-searchagain-spinner" name="dots"></ion-spinner>
+                                                                      <div class="fr-workplace-searchagain-spinner-txt">Refreshing Workplaces</div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div *ngIf="wpSearchAgainStage==='nonew'" class="wpsearchagainresult-txt nonew">
+                                                                      <ion-icon class="wpsearchagainresult-ico sheriff-red" name="close-circle"></ion-icon>No New Workplaces Found
+                                                                  </div>
+                                                                  <div *ngIf="wpSearchAgainStage==='gotnew'" class="wpsearchagainresult-txt gotnew">
+                                                                      <ion-icon class="wpsearchagainresult-ico sheriff-green" name="checkmark-circle"></ion-icon>{{newWPNo}} New Workplaces Found
+                                                                  </div>
+                                                            </div>
+                                                          </ion-col>
+                                                        </ion-row>
+                                                      </ion-grid>
+                                                    </div>
+                                                    <div *ngIf="!wpOneIsChecked" (click)="searchForMissingWP()" class="firstrun-btn firstrun-corenavbtn multiple skip ion-activatable ripple-parent" id="firstrun-searchformissing-workplace-btn">
+                                                        <ion-icon class="fr-searchagain-ico" name="search-outline"></ion-icon>workplaces
+                                                        <ion-ripple-effect></ion-ripple-effect>
+                                                    </div>
+                                                    <div *ngIf="wpOneIsChecked" class="fr-swipe2continue-wrapper dimable multiple animate__animated animate__fadeIn">
+                                                       <div *ngIf="wpNoOf>0||(hasBUDB&&mustRestoreStatus==='success')" class="sheriff-slider-bodynav-nextarrow-div-wrapper">
+                                                          <div class="sheriff-slider-bodynav-nextarrow-btn-inner sheriff-btn sheriff-fr-nextbtn ion-activatable ripple-parent" (click)="slideNext(slideWithNav)">
+                                                            <div class="sheriff-btn-txt sheriff-nextbtn-txt">SWIPE/TAP TO CONTINUE</div>
+                                                            <ion-icon class="sheriff-fr-btn-ico sheriff-fr-nextbtn-ico" name="arrow-forward-outline"></ion-icon>
+                                                            <ion-ripple-effect></ion-ripple-effect>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- 1 WP ------------------------------------------------------------ -->
+                                                <div *ngIf="wpNoOf===1" id="fr-s1-workplace-single">
+                                                    <p class="notop-para dimable"><span class="sheriff-brand-txt smaller">Sheriff</span> has set your <span class="fr-primarywp">primary workplace</span> to:</p>
+                                                    <ion-grid class="fr-singleworkplace-wrapper dimable">
+                                                        <ion-row class="sheriff-row fr-singleworkplace-row">
+                                                            <ion-col class="sheriff-col fr-singleworkplace-col block-col">
+                                                                <div [ngStyle]="{background:wpWorkplaces[0].color}" class="fr-workplace-portfolio-block">
+                                                                    <ion-icon [ngStyle]="{color:wpWorkplaces[0].labelcolor}" class="fr-workplace-ico" name="business-outline"></ion-icon>
+                                                                </div>
+                                                            </ion-col>
+                                                            <ion-col class="sheriff-col fr-singleworkplace-col deets-col">
+                                                                <div class="fr-singleworkplace-nameandaddress-wrapper">
+                                                                    <div class="fr-singleworkplace-name-wrapper">{{wpWorkplaces[0].name}} <span class="fr-wp-code-span" *ngIf="wpWorkplaces[0].code!==null">({{wpWorkplaces[0].code}})</span></div>
+                                                                    <div *ngIf="wpWorkplaces[0].address!==null" class="fr-singleworkplace-address-wrapper">{{wpWorkplaces[0].address}}</div>
+                                                                </div>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                    </ion-grid>
+                                                    <ion-grid class="sheriff-grid workplace-searchagain-grid">
+                                                      <ion-row class="sheriff-row workplace-searchagain-row">
+                                                        <ion-col class="sheriff-col workplace-searchagain-col">
+                                                          <div *ngIf="wpSearchAgain" class="fr-workplace-searchagain-wrapper">
+                                                              <div *ngIf="wpSearchAgainStage==='waiting'">
+                                                                <div id="fr-workplace-searchagain-spinner-wrapper">
+                                                                  <ion-spinner id="fr-workplace-searchagain-spinner" name="dots"></ion-spinner>
+                                                                  <div class="fr-workplace-searchagain-spinner-txt">Refreshing Workplaces</div>
+                                                                </div>
+                                                              </div>
+                                                              <div *ngIf="wpSearchAgainStage==='nonew'" class="wpsearchagainresult-txt nonew">
+                                                                  <ion-icon class="wpsearchagainresult-ico sheriff-red" name="close-circle"></ion-icon>No New Workplaces Found
+                                                              </div>
+                                                              <div *ngIf="wpSearchAgainStage==='gotnew'" class="wpsearchagainresult-txt gotnew">
+                                                                  <ion-icon class="wpsearchagainresult-ico sheriff-green" name="checkmark-circle"></ion-icon>{{newWPNo}} New Workplaces Found
+                                                              </div>
+                                                          </div>
+                                                        </ion-col>
+                                                      </ion-row>
+                                                    </ion-grid>
+                                                    <div class="fr-swipe2continue-wrapper dimable"> 
+                                                        <div *ngIf="wpNoOf>0||(hasBUDB&&mustRestoreStatus==='success')" class="sheriff-slider-bodynav-nextarrow-div-wrapper">
+                                                          <div class="sheriff-slider-bodynav-nextarrow-btn-inner sheriff-btn sheriff-fr-nextbtn ion-activatable ripple-parent" (click)="slideNext(slideWithNav)">
+                                                            <div class="sheriff-btn-txt sheriff-nextbtn-txt">SWIPE/TAP TO CONTINUE</div>
+                                                            <ion-icon class="sheriff-fr-btn-ico sheriff-fr-nextbtn-ico" name="arrow-forward-outline"></ion-icon>
+                                                            <ion-ripple-effect></ion-ripple-effect>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="fr-or-divider-wrapper dimable">
+                                                        <div id="fr-or-divider-text">OR</div>
+                                                    </div>
+                                                    <div class="fr-searchformissing-workplace-wrapper">
+                                                        <ion-grid class="sheriff-grid fr-missingwp-grid">
+                                                            <ion-row class="sheriff-row fr-missingwp-row">
+                                                                <ion-col class="sheriff-col fr-missingwp-col1">
+                                                                    <span *ngIf="!wpSearchAgain" class="sheriff-search-again-red">SEARCH AGAIN</span>
+                                                                    <span *ngIf="wpSearchAgain" class="sheriff-search-again-red">SEARCHING...</span>
+                                                                    <ion-icon class="fr-s2c-ico bad" name="remove-outline"></ion-icon>
+                                                                </ion-col>
+                                                                <ion-col class="sheriff-col fr-missingwp-col2">
+                                                                    <div (click)="searchForMissingWP()" class="firstrun-btn firstrun-corenavbtn skip ion-activatable ripple-parent" id="firstrun-searchformissing-workplace-btn">
+                                                                        <ion-icon class="fr-searchagain-ico" name="search-outline"></ion-icon>workplaces
+                                                                        <ion-ripple-effect></ion-ripple-effect>
+                                                                    </div>
+                                                                </ion-col>
+                                                            </ion-row>
+                                                        </ion-grid>
+                                                    </div>
+                                                </div>
+                                                <!-- ------------------------------------------------------------------- -->
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                            </div>
+                        </ion-slide>
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- SLIDE TWO ///////////////////////////////////////////////////////// -->
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <ion-slide class="frs-slide" id="frslide2-yourrecords">
+                            <div class="fr-slide-flexy-wrap slide2" [ngClass]="{'frxtraoptsadjust':showMoreOpts,'alreadydone':dlDidComplete}">
+                                <!-- ------------------------------------------------------------------- -->
+                                <div *ngIf="!showMoreOpts" class="fr-top-mainslidetitle slide2-records">
+                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid heading-grid records">
+                                      <ion-row class="sheriff-row modal-row mainheading-row records">
+                                          <ion-col class="sheriff-col modal-col mainheading-col records">
+                                              <div class="fr-slidetitle-wrapper-div records">
+                                                  <div class="fr-your">your</div>
+                                                  <div class="fr-titlebig workplace">records</div>
+                                              </div>
+                                          </ion-col>
+                                      </ion-row>
+                                    </ion-grid>
+                                </div>
+                                <div *ngIf="backupCheckIsDone&&!dlDidComplete" class="fr-backupcheck-hasfinished-wrapper">
+                                    <!-- ------------------------------------------------------------------- -->
+                                    <div class="fr-top-infoblurb-wrapper slide2-records">
+                                        <ion-grid *ngIf="!showMoreOpts&&!dloadInProgress&&!dlDidComplete&&!noBackupWillFail&&startFreshChecked" class="sheriff-grid modal-grid firstrun-grid infocontent-grid records infoparagridtop">
+                                            <ion-row class="sheriff-row modal-row firstrun-row infocontent-row records intro1">
+                                                <ion-col class="sheriff-col modal-col firstrun-col infocontent-col records">
+                                                    <p class="fr-rec-intro-p1">By <span style="color:#ff9800">default </span><span class="sheriff-brand-txt smaller">Sheriff</span> will download and save <span style="color:#ff9800">all</span> of your existing Deputy data so that your
+                                                        records are always available, even if you offline or leave your job.</p>
+                                                    <p class="fr-rec-intro-p2">That said, if you want to <span style="color:#ff9800">limit/change</span> the scope of the intial default download, you can do that too.</p>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </div>
+                                    <!-- ------------------------------------------------------------------- -->
+                                    <div *ngIf="!dloadInProgress&&!dlDidComplete&&!showMoreOpts&&!startFreshChecked" class="backupdbfound-div-wrapper">
+                                      <div class="fr-rec-budb-found-titletext">
+                                        <span class="fr-records-bufound sheriff-brand-txt">Sheriff</span><span class="fr-records-bufound hasfounda"> has found a</span><span class="fr-records-bufound records-backup"> Records Backup</span><span class="fr-records-bufound normal-txt">:</span>
+                                      </div>
+                                      <ion-grid class="sheriff-grid fr-grid backupdbfound-grid">
+                                        <ion-row class="sheriff-row fr-grid-row backupfound-row main-row">
+                                          <ion-col class="sheriff-col fr-grid-col backupfound-col main-ico-col">
+                                            <div [ngStyle]="{background:wpWorkplaces[0].color}" class="fr-backupfound-ico-block">
+                                              <ion-icon [ngStyle]="{color:wpWorkplaces[0].labelcolor}" class="fr-backupfound-ico" name="cloud-done"></ion-icon>
+                                            </div>
+                                          </ion-col>
+                                          <ion-col class="sheriff-col fr-grid-col backupfound-col main-details-txt-block">
+                                            <div class="budb-details-line1">
+                                              <div class="budbfname">{{buDBNiceFName}}</div>
+                                              <div class="budbbrackdeet budbfsize"> ({{buDBFSize}})</div>
+                                            </div>
+                                            <div class="budb-details-line2">
+                                              <div class="budbmoddate">{{buDBModDate}}</div>
+                                              <div class="budbbrackdeet budbmodago"> {{buDBModAgo}}</div>
+                                            </div>
+                                          </ion-col>
+                                        </ion-row>
+                                      </ion-grid>
+                                    </div>
+                                    <!-- ------------------------------------------------------------------- -->
+                                    <div *ngIf="!dloadInProgress&&!dlDidComplete&&!showMoreOpts&&!noBackupWillFail" class="fr-backuporrefresh-choice-paratext-div">
+                                      How should <span class="fr-records-bufound sheriff-brand-txt">Sheriff</span> proceed?
+                                    </div>
+                                    <ion-grid *ngIf="!dloadInProgress&&!dlDidComplete&&!showMoreOpts&&!noBackupWillFail" class="sheriff-grid fr-grid backuporfresh1-grid">
+                                      <ion-row *ngIf="!noBackupWillFail" class="sheriff-row fr-grid-row backupdbfound-row restoreorfresh-row restorerow">
+                                        <ion-col [ngStyle]="{'opacity':startFreshChecked?'0.5':'1'}" class="sheriff-col fr-grid-col backupfound-col restoreorfresh-col restorecb-col">
+                                          <div class="fr-founddbbackup-restoreopt-wrapper restorebudbopt" [ngClass]="{'fr-rec-opt-active':buDBChecked}">
+                                            <ion-checkbox #restoreBUDBCB mode="ios" checked={{buDBChecked}} class="sheriff-checkbox recordsrestoreorfresh-cb fr-restorebudbcb"></ion-checkbox>
+                                            <div (click)="toggleBUDB(restoreBUDBCB.checked)" class="restorebuorfreshlabel restore-label ion-activatable ripple-parent" [ngStyle]="{'color':buDBChecked?'#ff9800':'#848484'}">
+                                              <div class="resorfres-label-txt restore">LOAD BACKUP</div>
+                                              <ion-ripple-effect></ion-ripple-effect>
+                                            </div>
+                                          </div>
+                                        </ion-col>
+                                        <ion-col [ngStyle]="{'opacity':buDBChecked||startFreshChecked?'0.5':'1'}" size="1" class="sheriff-col fr-grid-col backupfound-col restoreorfresh-col or-col">
+                                          <div class="recordoptsorwrap">OR</div>
+                                        </ion-col>
+                                        <ion-col [ngStyle]="{'opacity':buDBChecked?'0.5':'1'}" class="sheriff-col fr-grid-col backupfound-col restoreorfresh-col freshstart-col">
+                                          <div class="fr-founddbbackup-restoreopt-wrapper freshopt" [ngClass]="{'fr-rec-opt-active':startFreshChecked}">
+                                            <ion-checkbox #startFreshCB mode="ios" checked={{startFreshChecked}} class="sheriff-checkbox recordsrestoreorfresh-cb fr-startfreshcb"></ion-checkbox>
+                                            <div (click)="toggleStartFresh(startFreshCB.checked)" class="restorebuorfreshlabel fresh-label ion-activatable ripple-parent" [ngStyle]="{'color':startFreshChecked?'#ff9800':'#848484'}">
+                                              <div class="resorfres-label-txt fresh">START FRESH</div>
+                                              <ion-ripple-effect></ion-ripple-effect>
+                                            </div>
+                                          </div>
+                                        </ion-col>
+                                      </ion-row>
+                                    </ion-grid>
+                                    <!-- ------------------------------------------------------------------------- -->
+                                    <ion-grid *ngIf="buDBChecked&&!dloadInProgress&&!dlDidComplete&&!showMoreOpts" class="sheriff-grid fr-grid restorebu-nextbtn-grid">
+                                      <ion-row class="sheriff-row fr-grid restorebu-nextbtn-row">
+                                        <ion-col size="12" class="sheriff-col fr-grid-col backupfound-col restoreorfresh-col swipetapnext-col">
+                                          <div class="sheriff-slider-bodynav-nextarrow-btn-inner sheriff-btn sheriff-fr-nextbtn ion-activatable ripple-parent restorebunextbtn" (click)="restoreBUStart()">
+                                            <ion-icon class="sheriff-fr-btn-ico sheriff-fr-nextbtn-ico" name="download-outline"></ion-icon>
+                                            <div class="sheriff-btn-txt sheriff-nextbtn-txt restorebutxt">RESTORE BACKUP</div>
+                                            <ion-ripple-effect></ion-ripple-effect>
+                                          </div>
+                                        </ion-col>
+                                      </ion-row>
+                                    </ion-grid>
+                                    <!-- ------------------------------------------------------------------------- -->
+                                    <ion-grid *ngIf="startFreshChecked&&!dloadInProgress&&!dlDidComplete&&!showMoreOpts" class="sheriff-grid fr-grid freshoptions-grid">
+                                      <ion-row class="sheriff-row fr-grid-row freshoptions-row linediv-row">
+                                        <ion-col class="sheriff-row fr-grid-row freshoptions-row linediv-col">
+                                          <div class="sheriff-recopts-divline-div"></div>
+                                        </ion-col>
+                                      </ion-row>
+                                      <ion-row class="sheriff-row fr-grid-row freshoptions-row usedefaults-btn-row">
+                                        <ion-col size="12" class="sheriff-col fr-grid-col freshoptions-col usedefaults-btn-col">
+                                          <div class="sheriff-slider-bodynav-nextarrow-btn-inner sheriff-btn sheriff-fr-nextbtn ion-activatable ripple-parent usedefaultsbtn" (click)="freshStartDLStart('all')">
+                                            <ion-icon class="sheriff-fr-btn-ico sheriff-fr-nextbtn-ico" name="file-tray-full-outline"></ion-icon>
+                                            <div class="sheriff-btn-txt sheriff-nextbtn-txt allrecordstxt">ALL RECORDS<span class="freshoptlabelbrack all">(Default)</span></div>
+                                            <ion-ripple-effect></ion-ripple-effect>
+                                          </div>
+                                        </ion-col>
+                                      </ion-row>
+                                      <ion-row class="sheriff-row fr-grid-row freshoptions-row or-title-row">
+                                        <ion-col class="sheriff-col fr-grid-col freshoptions-col or-title-col">
+                                          <div class="ortitlewrapperdiv">OR</div>
+                                        </ion-col>
+                                      </ion-row>
+                                      <ion-row class="sheriff-row fr-grid-row freshoptions-row moreopt-btn-row">
+                                        <ion-col class="sheriff-col fr-grid-col freshoptions-col moreopt-btn-col">
+                                          <div class="fr-records-options-limit-btn ion-activatable ripple-parent showmoreoptions" (click)="showMoreOptions(true)">
+                                            <ion-icon class="sheriff-fr-btn-ico sheriff-fr-nextbtn-ico optsico" name="options-outline"></ion-icon>
+                                            <div class="sheriff-btn-txt sheriff-dllimitopts-txt limitrecords">LIMIT RECORDS<span class="freshoptlabelbrack options">(Options)</span></div>
+                                            <ion-ripple-effect></ion-ripple-effect>
+                                          </div>
+                                        </ion-col>
+                                      </ion-row>
+                                    </ion-grid>
+                                    <!-- MUST RESTORE / NO API --------------------------------------------- -->
+                                    <div *ngIf="noBackupWillFail&&hasBUDB" class="fr-records-maindiv-backupfound-wrapper">
+                                      <ion-grid class="sheriff-grid mustrestorebu-grid">
+                                        <ion-row class="sheriff-row mustrestorebu-row status-row">
+                                          <ion-col size="12" class="sheriff-col mustrestorebu-col status-col">
+                                            <span *ngIf="mustRestoreStatus==='loading'" style="color:var(--ion-color-primary-68)">LOADING</span>
+                                            <span *ngIf="mustRestoreStatus==='loaded'" style="color:var(--ion-color-primary)">LOADED</span>
+                                            <span *ngIf="mustRestoreStatus==='failed'" style="color:var(--ion-color-danger)">FAILED</span>
+                                            <span *ngIf="mustRestoreStatus==='success'" style="color:var(--ion-color-success)">SUCCESS</span>
+                                          </ion-col>
+                                        </ion-row>
+                                        <ion-row class="sheriff-row mustrestorebu-row dbwplist-row">
+                                          <ion-col *ngIf="mustRestoreStatus==='failed'" size="12" class="sheriff-col mustrestorebu-col importres-col failed-col">
+                                            <div class="mustrestorebu-txt fail-l1">Import Cloud Backup Failed</div>
+                                            <div class="mustrestorebu-txt fail-l2">No Workplaces Detected</div>
+                                            <div class="mustrestorebu-txt fail-l3"><span class="sheriff-brand-txt">Sheriff</span> Setup Cannot Continue.</div>
+                                          </ion-col>
+                                          <ion-col *ngIf="mustRestoreStatus==='loaded'" size="12" class="sheriff-col mustrestorebu-col importres-col loaded-col">
+                                            <div class="mustrestorebu-txt loaded-l1"> Searching for Workplaces...</div>
+                                          </ion-col>    
+                                          <ion-col *ngIf="mustRestoreStatus==='success'" size="12" class="sheriff-col mustrestorebu-col importres-col success-col">
+                                            <div class="mustrestorebu-txt success-count"><span style="color:var(--ion-color-primary);font-weight:500">{{forceRestoreWPArr.length}}</span> Workplaces Found</div>
+                                            <div class="mustrestorebu-txt success-wpitem-name"><span style="font-weight:500;color:#eee">{{forceRestoreWPName}}</span><span style="text-transform:uppercase" *ngIf="forceRestoreWP.Code"> ({{forceRestoreWP.Code}})</span></div>
+                                          </ion-col>                                      
+                                        </ion-row>
+                                      </ion-grid>
+                                    </div>                                   
+                                    <!-- ------------------------------------------------------------------- -->
+                                    <div *ngIf="dloadInProgress||dlDidComplete" class="animate__animated animate__flipInX animate__faster" id="downloading-selected-data-progress-wrapper-div records">
+                                        <div *ngIf="dbImportDone" class="dbimportdonebox">
+                                            <ion-icon class="dbimportdone-ico" name="shield-checkmark-outline"></ion-icon>BACKUP RESTORED
+                                        </div>
+                                        <div class="fr-dl-startfreshmode-div-wrapper">
+                                          <div class="fr-dl-startfreshmode-txt-div">
+                                              <span class="dl-scope-txt label">Download Scope:</span><span *ngIf="selectDataScope==='all'" class="dl-scope-txt value default">Default</span><span *ngIf="selectDataScope==='moreopts'" class="dl-scope-txt value custom">Custom</span>
+                                          </div> 
+                                        </div>
+                                        <ion-grid *ngIf="!dbImportDone" class="sheriff-grid modal-grid firstrun-grid dlprogress-grid records">
+                                            <ion-row [ngStyle]="{'color': (dlBoxError) ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'}" class="sheriff-row modal-row firstrun-row dlprogress-row0 subheader records">
+                                                <ion-col size="12" class="sheriff-col modal-col firstrun-col dlprogress-colsubheader-col records">
+                                                    <div class="dlprogress-subheader-wrapper">
+                                                        <ion-icon *ngIf="dlBoxInProgress" class="fr-inprogico first-run-btn getmyrecords-btn-ico subheader" name="cloud-download"></ion-icon>
+                                                        <ion-icon *ngIf="dlBoxError" class="first-run-btn getmyrecords-btn-ico subheader" name="alert-circle"></ion-icon>
+                                                        <ion-icon *ngIf="dlBoxSuccess" class="animate__animated animate__flipInX animate__faster first-run-btn getmyrecords-btn-ico subheader" name="checkmark-circle"></ion-icon>
+                                                        <span *ngIf="dlBoxInProgress"><span id="ipt"> {{dlInProgText}}</span></span>
+                                                        <span *ngIf="dlBoxError"> failed</span>
+                                                        <span *ngIf="dlBoxSuccess" class="animate__animated animate__flipInX animate__faster"> success</span>
+                                                    </div>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row class="sheriff-row modal-row firstrun-row dlprogress-row1 statustexttop records">
+                                                <ion-col size="12" class="sheriff-col modal-col firstrun-col dlprogress-col statustexttop-action-mode-col records">
+                                                    <div *ngIf="!dlBoxSuccess">
+                                                        <span class="statustexttop-action-txt" id="fr-dl-action-target">{{nowDataTarget}}</span>
+                                                        <span *ngIf="!dlMyRunning&&thisDataValue!==-1&&thisDataMax!==-1" class="statustexttop-action-txt lilsep"> - </span>
+                                                        <span *ngIf="!dlMyRunning&&thisDataValue!==-1&&thisDataMax!==-1" class="statustexttop-action-txt nowvalue">{{thisDataValue}}</span>
+                                                        <span *ngIf="!dlMyRunning&&thisDataValue!==-1&&thisDataMax!==-1" class="statustexttop-action-txt lilslash">/</span>
+                                                        <span *ngIf="!dlMyRunning&&thisDataValue!==-1&&thisDataMax!==-1" class="statustexttop-action-txt nowmax">{{thisDataMax}}</span>
+                                                    </div>
+                                                    <div style="color:var(--ion-color-success)" *ngIf="dlBoxSuccess">All Records Completed</div>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row class="sheriff-row modal-row firstrun-row dlprogress-row1 progressbar-row">
+                                                <ion-col size="12" class="sheriff-col modal-col firstrun-col dlprogress-col progressbar-col">
+                                                    <div id="fr-data-progressbar-wrapper-div">
+                                                        <ion-progress-bar class="frpbar" id="fr-dl-getthis-pbar" value={{getThisPBar}} type="determinate"></ion-progress-bar>
+                                                        <ion-progress-bar class="frpbar" id="fr-dl-getall-pbar" value={{getAllPBar}} type="determinate"></ion-progress-bar>
+                                                        <div id="firstrun-download-progress-bar-perc-overlay">{{getAllPerc}}<span id="fr-dl-getallpersign">%</span></div>
+                                                    </div>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row class="sheriff-row modal-row firstrun-row dlprogress-row1 statustextbottom">
+                                                <ion-col size="6" class="sheriff-col modal-col firstrun-col dlprogress-col statustextbottom-1 xoutofy">
+                                                    <div id="statustextbottom-xoutofy-wrapper">
+                                                        <span class="xoy done">{{getAllCount}}</span><span class="xoy sep"> / </span><span class="xoy total">{{getAllTotal}}</span>
+                                                    </div>
+                                                </ion-col>
+                                                <ion-col size="6" class="sheriff-col modal-col firstrun-col dlprogress-col statustextbottom timeremain">
+                                                    <div *ngIf="!dlBoxSuccess" id="statustextbottom-timeremain-txt-wrapper">Running</div>
+                                                    <div *ngIf="dlBoxSuccess" style="color:var(--ion-color-success)" id="statustextbottom-timeremain-txt-wrapper">DONE</div>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row class="sheriff-row modal-row firstrun-row dlprogress-images images-bottom">
+                                                <ion-col size="12" class="sheriff-col fr-dl-images-col title-col">
+                                                  <div class="fr-dl-images-col title-txt-wrap"><span class="title-txt-wrap-label-span">saved images:</span><span class="title-txt-wrap-label-count-span">{{convImgs.length}}</span></div>
+                                                </ion-col>
+                                                <ion-col size="12" class="sheriff-col fr-dl-images-col images-col">
+                                                    <div class="fr-dl-images-wrapper">
+                                                        <img *ngFor="let convImgUri of convImgs; let i = index" src="{{convImgUri}}" class="fr-conv-image fr-conv-img-{{i}} animate__animated animate__zoomIn animDel-{{((i+1)*50)+100}} animDur-200">
+                                                    </div>
+                                                    <div class="fr-cl-images-gradient-cover-div"></div>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </div>
+                                    <!-- ------------------------------------------------------------------- -->
+                                    <ion-grid *ngIf="showMoreOpts&&!dloadInProgress&&!dlDidComplete" class="sheriff-grid firstrun-grid records-grid select-moreopts-grid">
+                                        <ion-row class="sheriff-row firstrun-row records-row select-moreopts-row backbtnrow">
+                                          <ion-col size="6" class="sheriff-col firstrun-col records-col select-moreopts-col backbtn-col">
+                                            <ion-button (click)="showMoreOptions(false)" class="sheriff-btn sheriff-fr-moreopts-backbtn">
+                                              <ion-icon class="sheriff-btn-ico sheriff-fr-moreopts-backbtn-ico" name="arrow-back-outline"></ion-icon>
+                                              <div class="sheriff-btn-txt sheriff-fr-moreopts-backbtn-txt">cancel/back</div>
+                                            </ion-button>
+                                          </ion-col>
+                                          <ion-col size="6" class="sheriff-col firstrun-col records-col select-moreopts-col startdl-col">
+                                            <ion-button (click)="freshStartDLStart('moreopts')" class="sheriff-btn sheriff-fr-moreopts-startdl">
+                                              <div class="sheriff-btn-txt sheriff-fr-moreopts-startdl-txt">save/start</div>
+                                              <ion-icon class="sheriff-btn-ico sheriff-fr-moreopts-startdl-ico" name="play"></ion-icon>
+                                            </ion-button>
+                                          </ion-col>
+                                        </ion-row>
+                                        <ion-row class="sheriff-row firstrun-row records-row select-moreopts-row row0">
+                                            <ion-col size="2" class="sheriff-col modal-col firstrun-col selectdata-col moreopts-col subheading-col skipoff">
+                                                <div class="moreopts-subheading-wrapper recordtype">skip</div>
+                                            </ion-col>
+                                            <ion-col size="4" class="sheriff-col modal-col firstrun-col selectdata-col moreopts-col subheading-col recordtype">
+                                                <div class="moreopts-subheading-wrapper recordtype">limit by type</div>
+                                            </ion-col>
+                                            <ion-col size="6" class="sheriff-col modal-col firstrun-col selectdata-col moreopts-col subheading-col itemlimit">
+                                                <div class="moreopts-subheading-wrapper recordtype">limit by no.</div>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngFor="let record of recordsUserOptsArr;let i=index" class="sheriff-row firstrun-row records-row select-moreopts-row row{{i+1}} {{record.ep}} animate__animated animate__zoomIn animDel-{{((i+1)*100)+200}} animDur-400 {{record.checked}}">
+                                            <ion-col size="2" class="sheriff-col modal-col firstrun-col selectdata-col moreopts-col dltype-toggle-col {{record.ep}}">
+                                                <ion-toggle disabled="{{record.disabled}}" (ionChange)="recordMOToggleChange(i,record.ep)" checked="{{record.checked}}" mode="ios" class="sheriff-toggle firstrun-toggle records-toggle {{record.ep}}"></ion-toggle>
+                                            </ion-col>
+                                            <ion-col size="4" class="sheriff-col modal-col firstrun-col selectdata-col moreopts-col dltype-label-col {{record.ep}}">
+                                                <span class="fr-records-moreopts-itemtypelabel {{record.checked}}">{{record.ep}}</span>
+                                                <div *ngIf="!record.disabled&&record.checked" class="fr-records-moreopts-itemcount-floater {{record.ep}} gotval">
+                                                    <span [ngStyle]="{'color':(record.value<record.max)?'#ff9800':'var(--ion-color-success)'}">{{record.value}}</span>
+                                                    <span style="color:#eee;font-weight:300" class="dlnosdiv"> / </span>{{record.max}}
+                                                </div>
+                                                <div *ngIf="record.disabled||!record.checked" class="fr-records-moreopts-itemcount-floater {{record.ep}} noaccesszero">
+                                                    <span style="color:#848484;font-weight:300">0 / {{record.max}}</span>
+                                                </div>
+                                            </ion-col>
+                                            <ion-col size="6" class="sheriff-col modal-col firstrun-col selectdata-col moreopts-col dltype-range-col {{record.ep}}">
+                                                <ion-range *ngIf="!record.disabled&&record.checked" pin="true" (ionChange)="recordMORangeChange(i,record.ep)" mode="ios" class="swiper-no-swiping sheriff-range firstrun-range records-range {{record.ep}}" min="{{record.min}}" max="{{record.max}}" value="{{record.value}}"></ion-range>
+                                                <div class="records-range offlabel" *ngIf="!record.checked&&record.max>=1">off / skip</div>
+                                                <div class="records-range offlabel" *ngIf="record.disabled&&record.max===0">no access/records</div>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <!-- ------------------------------------------------------------------- -->
+                                </div>
+                                <div *ngIf="dlDidComplete" class="fr-records-alreadydone-notice-wrapper">
+                                    <div class="fr-records-alreadydone-notice-inner">
+                                        <div class="fr-records-alreadydone-notice-text">
+                                            <img class="fr-records-alreadydone-img completedstamp" src="../../../assets/img/sheriff-fr-completed-stamp.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ion-slide>
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- SLIDE THREE /////////////////////////////////////////////////////// -->
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <ion-slide class="frs-slide" id="frslide3-youralerts">
+                            <div class="fr-slide-flexy-wrap slide3">
+                                <div class="frs-slide-grid-wrapper title-grid alerts">
+                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid heading-grid alerts">
+                                        <ion-row class="sheriff-row modal-row mainheading-row alerts">
+                                            <ion-col class="sheriff-col modal-col mainheading-co alerts">
+                                                <div class="sheriff-modal-mainheading-title-txt alerts"><span class="fr-your">your</span>ALERTS</div>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                                <div class="infoandcontent-grid-wrapper-div alerts">
+                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid infocontent-grid alerts">
+                                        <ion-row class="sheriff-row modal-row firstrun-row infocontent-row alerts">
+                                            <ion-col class="sheriff-col modal-col firstrun-col infocontent-col alerts">
+                                                <p class="fr-alerts-p1">Notifications can be genuinely <span style="color:#ff9800">helpful </span>but, done wrong, they can also be<span style="color:#ff9800"> infuriating.</span>
+                                                    <p class="fr-alerts-p2">You can always<span style="color:#ff9800"> adjust </span><span class="sheriff-brand-txt smaller">Sheriff</span> alerts via <span style="font-style:italic;color:#ff9800">Settings</span> but, for a start,
+                                                        confirm or change our defaults:</p>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                                <div class="alertopts-grid-wrapper-div alerts methods">
+                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid alerts-grid alertmethods-grid">
+                                        <ion-row class="sheriff-row modal-row firstrun-row alertssubheader-row alertmethods">
+                                            <ion-col size="12" class="sheriff-col modal-col firstrun-col alertssubheader-col">
+                                                <div class="fr-alerts-subheader-text alertmethods">alert methods</div>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row class="sheriff-row modal-row firstrun-row alerts-cb-row alertmethods phone">
+                                            <ion-col size="4" class="sheriff-col firstrun-col alertmethods-col phone">
+                                                <div (click)="toggleAlertM($event,'phone')" class="fr-alertmethods-wrapper phone {{finalModalData.alertOpts.alertMethods.value.phone}}">
+                                                    <ion-checkbox class="sheriff-checkbox fr-alertmethods-cb" [mode]="'ios'" [checked]="finalModalData.alertOpts.alertMethods.value.phone"></ion-checkbox>
+                                                    <ion-icon class="alertmethods-ico phone {{finalModalData.alertOpts.alertMethods.value.phone}}" name="notifications"></ion-icon>
+                                                    <div class="alertmethods-label phone {{finalModalData.alertOpts.alertMethods.value.phone}}">Phone</div>
+                                                </div>
+                                            </ion-col>
+                                            <ion-col size="4" class="sheriff-col firstrun-col alertmethods-col calendar">
+                                              <div (click)="toggleAlertM($event,'calendar')" class="fr-alertmethods-wrapper calendar {{finalModalData.alertOpts.alertMethods.value.calendar}}">
+                                                  <ion-checkbox class="sheriff-checkbox fr-alertmethods-cb calendar" [mode]="'ios'" [checked]="finalModalData.alertOpts.alertMethods.value.calendar"></ion-checkbox>
+                                                  <ion-icon class="alertmethods-ico calendar {{finalModalData.alertOpts.alertMethods.value.calendar}}" name="calendar"></ion-icon>
+                                                  <div class="alertmethods-label calendar {{finalModalData.alertOpts.alertMethods.value.calendar}}">Calendar</div>
+                                              </div>
+                                          </ion-col>
+                                          <ion-col size="4" class="sheriff-col firstrun-col alertmethods-col email">
+                                            <div (click)="toggleAlertM($event,'email')" class="fr-alertmethods-wrapper email {{finalModalData.alertOpts.alertMethods.value.email}}">
+                                                <ion-checkbox class="sheriff-checkbox fr-alertmethods-cb email" [mode]="'ios'" [checked]="finalModalData.alertOpts.alertMethods.value.email"></ion-checkbox>
+                                                <ion-icon class="alertmethods-ico email {{finalModalData.alertOpts.alertMethods.value.email}}" name="mail"></ion-icon>
+                                                <div class="alertmethods-label email {{finalModalData.alertOpts.alertMethods.value.email}}">Email</div>
+                                            </div>
+                                          </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                                <div class="alertopts-grid-wrapper-div alerts events">
+                                    <ion-grid class="sheriff-grid modal-grid firstrun-grid alerts-grid alertevents-grid">
+                                        <ion-row class="sheriff-row modal-row firstrun-row alertssubheader-row alertevents">
+                                            <ion-col size="12" class="sheriff-col modal-col firstrun-col alertssubheader-col">
+                                                <div class="fr-alerts-subheader-text alertmethods">alert events</div>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row class="sheriff-row modal-row firstrun-row alerts-cb-row alertevents">
+                                            <ion-col size="4" class="sheriff-col firstrun-col alertevents-col shift">
+                                                <div (click)="toggleAlertE($event,'shift')" class="fr-alertevents-wrapper shift {{finalModalData.alertOpts.alertEvents.value.shift}}">
+                                                    <ion-checkbox [ngStyle]="{'display':(finalModalData.alertOpts.alertEvents.value.shift)?'inline-block':'none'}" class="sheriff-checkbox fr-alertevents-cb shift" [mode]="'ios'" [checked]="finalModalData.alertOpts.alertEvents.value.shift"></ion-checkbox>
+                                                    <ion-icon class="alertevents-ico shift {{finalModalData.alertOpts.alertEvents.value.shift}}" name="alarm"></ion-icon>
+                                                    <div class="alertevents-label shift {{finalModalData.alertOpts.alertEvents.value.shift}}">Shift</div>
+                                                </div>
+                                            </ion-col>
+                                            <ion-col size="4" class="sheriff-col firstrun-col alertevents-col task">
+                                              <div (click)="toggleAlertE($event,'task')" class="fr-alertevents-wrapper task {{finalModalData.alertOpts.alertEvents.value.task}}">
+                                                  <ion-checkbox [ngStyle]="{'display':(finalModalData.alertOpts.alertEvents.value.task)?'inline-block':'none'}" class="sheriff-checkbox fr-alertevents-cb task" [mode]="'ios'" [checked]="finalModalData.alertOpts.alertEvents.value.task"></ion-checkbox>
+                                                  <ion-icon class="alertevents-ico task {{finalModalData.alertOpts.alertEvents.value.task}}" name="list"></ion-icon>
+                                                  <div class="alertevents-label task {{finalModalData.alertOpts.alertEvents.value.task}}">Task</div>
+                                              </div>
+                                          </ion-col>
+                                          <ion-col class="sheriff-col firstrun-col alertevents-col tsheet">
+                                            <div (click)="toggleAlertE($event,'tsheet')" class="fr-alertevents-wrapper tsheet {{finalModalData.alertOpts.alertEvents.value.tsheet}}">
+                                                <ion-checkbox [ngStyle]="{'display':(finalModalData.alertOpts.alertEvents.value.tsheet)?'inline-block':'none'}" class="sheriff-checkbox fr-alertevents-cb tsheet" [mode]="'ios'" [checked]="finalModalData.alertOpts.alertEvents.value.tsheet"></ion-checkbox>
+                                                <ion-icon class="alertevents-ico tsheet {{finalModalData.alertOpts.alertEvents.value.tsheet}}" name="stopwatch"></ion-icon>
+                                                <div class="alertevents-label shift {{finalModalData.alertOpts.alertEvents.value.tsheet}}">TSheet</div>
+                                            </div>
+                                        </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                                <div class="fr-swipe2continue-wrapper dimable">
+                                    <span class="sheriff-green">CHECK<span style="color:#aaa;padding:0px 2px">/</span><span style="color:var(--ion-color-danger)">CHANGE</span></span>
+                                    <ion-icon class="fr-s2c-ico" name="remove-outline"></ion-icon>
+                                    <span class="fr-continueref">SWIPE TO FINISH</span>
+                                    <ion-icon class="fr-s2c-ico" name="chevron-forward-outline"></ion-icon>
+                                </div>
+                            </div>
+                        </ion-slide>
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                    </ion-slides>
+                    <div class="sheriff-pagination-backer"></div>
+                    <div *ngIf="usingDefaults" class="fr-using-defaults-notice-wrapper outter animate__animated animate__zoomIn">
+                      <div class="fr-using-defaults-notice-wrapper inner">
+                        <div class="fr-using-defaults-notice-content-wrapper"> 
+                          <ion-grid class="sheriff-grid using-defaults-grid">
+                            <ion-row class="sheriff-row using-defaults-row">
+                              <ion-col size="2" class="sheriff-col using-defaults-col ico-col">
+                                <ion-icon class="fr-using-defaults-bigico" name="play-skip-forward"></ion-icon>      
+                              </ion-col>
+                              <ion-col size="10" class="sheriff-col using-defaults-col txt-col">
+                                <div class="fr-using-defaults-txt line1">
+                                  <span class="fr-fastfwd-txt">using</span><span class="fr-ff-using-def-txt">defaults</span>
+                                </div>
+                                <div class="fr-using-defaults-txt line2">
+                                  <span class="fr-ff-sheriff-txt">sheriff</span><span class="fr-ff-will-txt">will auto-complete</span>
+                                </div>
+                                <div class="fr-using-defaults-txt line3">
+                                  <span class="fr-ff-andenter-txt">& enter main app</span><span class="fr-ff-sheriff-txt shortly">shortly</span>
+                                </div>
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                        </div>
+                      </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <!-- SLIDER NAV START /////////////////////////////////////////////////////////////////// -->
+    <div class="sheriff-frmodal-slider-section-wrapper nav">
+        <ion-grid *ngIf="!dloadInProgress&&!usingDefaults" class="sheriff-grid frmodal-slider-nav-grid">
+            <ion-row *ngIf="thisSlideNo!==3" class="sheriff-row frmodal-slider-nav-row">
+                <ion-col size="2" class="sheriff-col sheriff-frmodal-slider-nav-col1 prev-arrow">
+                    <div *ngIf="!lockPrev" class="sheriff-slider-nav-arrow-wrapper back-arrow-outter-wrapper" (click)="slidePrev(slideWithNav)">
+                        <div class="sheriff-slider-nav-arrow-wrapper forward-arrow-inner-wrapper">
+                            <img class="sheriff-slider-arrow-icon frslidericon backicon" src="../../../assets/img/sheriff-firstrun-backarrow.svg">
+                        </div>
+                    </div>
+                </ion-col>
+                <ion-col size="8" class="sheriff-col sheriff-frmodal-slider-nav-col2 navbtns">
+                    <div *ngIf="thisSlideNo===1&&wpNoOf<1" (click)="exitSheriff()" class="firstrun-searchformissing-workplace-btn firstrun-btn firstrun-corenavbtn nowps exitsheriff ion-activatable ripple-parent">
+                        <div class="fr-exitsheriff-btn-inner-wrap">
+                          <ion-icon class="fr-exitsheriff-ico" name="exit-outline"></ion-icon>
+                          <div class="fr-existsheriff-btn-txt">Exit Sheriff</div>
+                        </div>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                    <div *ngIf="thisSlideNo===1&&wpNoOf===1" (click)="useDefaults()" class="firstrun-btn firstrun-corenavbtn skip ion-activatable ripple-parent" id="firstrun-skipdefault-btn">
+                      <div class="fr-defaultsskipsheriff-btn-inner-wrap">
+                        <div class="fr-defaultsskip-btn-txt">Use Default/Skip</div>
+                        <ion-icon class="fr-skip-ico" name="play-skip-forward-outline"></ion-icon>
+                      </div>
+                      <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                </ion-col>
+                <ion-col size="2" class="sheriff-col sheriff-frmodal-slider-nav-col3 next-arrow">
+                    <div  *ngIf="!lockNext" class="sheriff-slider-nav-arrow-wrapper forward-arrow-outter-wrapper" (click)="slideNext(slideWithNav)">
+                        <div class="sheriff-slider-nav-arrow-wrapper forward-arrow-inner-wrapper">
+                            <img class="sheriff-slider-arrow-icon frslidericon forwardicon" src="../../../assets/img/sheriff-firstrun-fwdarrow.svg">
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <!-- FINAL NAV ROW ---------------------------------------------------------- -->
+            <ion-row *ngIf="thisSlideNo===3" class="sheriff-row frmodal-slider-nav-row">
+                <ion-col size="2" class="sheriff-col sheriff-frmodal-slider-nav-col1 prev-arrow">
+                    <div *ngIf="!lockPrev" class="sheriff-slider-nav-arrow-wrapper back-arrow-outter-wrapper" (click)="slidePrev(slideWithNav)">
+                        <div class="sheriff-slider-nav-arrow-wrapper forward-arrow-inner-wrapper">
+                            <img class="sheriff-slider-arrow-icon frslidericon backicon" src="../../../assets/img/sheriff-firstrun-backarrow.svg">
+                        </div>
+                    </div>
+                </ion-col>
+                <ion-col size="4" class="sheriff-col sheriff-frmodal-slider-nav-col2 navbtns skip"></ion-col>
+                <ion-col size="6" class="sheriff-col sheriff-frmodal-slider-nav-col3 next-arrow lastslidealigncolcenter">
+                    <ion-button (click)="firstRunCompleted()" class="animate__animated animate__pulse animate__infinite animate__slow firstrun-btn firstrun-corenavbtn closemodal" id="firstrun-closemodal-btn">
+                        <div class="fr-letsgobtn-txt1"><span class="start">SAVE</span><span class="andwha">&</span><span class="enter">ENTER<span style="font-weight:300;padding-left:1px;">></span></span>
+                        </div>
+                        <div class="fr-letsgobtn-txt2">SHERIFF</div>
+                        <ion-icon class="letsgoico" name="rocket-outline"></ion-icon>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <!-- SLIDER NAV END /////////////////////////////////////////////////////////////////// -->
+    <!-- MODAL FEAT PICS START //////////////////////////////////////////////////////////// -->
+    <div id="fr-featimages-wrapper">
+        <!-- SLIDE 1 BACKGROUND -->
+        <div class="fr-featimg-wrapper slide1">
+            <div class="slide1skybacker"></div>
+            <div class="stars"></div>
+            <div class="clouds"></div>
+            <div class="slide-bg slide1 fore"></div>
+        </div>
+        <!-- SLIDE 2 BACKGROUND -->
+        <div class="fr-featimg-wrapper slide2">
+            <div class="slide-bg slide2">
+                <div class="stars2"></div>
+                <div id="slide2-sunlayer"></div>
+                <div class="slide-bg slide2 shootingstar">
+                    <div class="shooting">
+                        <div class="core"></div>
+                        <div class="trail"></div>
+                    </div>
+                </div>
+                <div class="clouds2"></div>
+                <div class="slide-bg slide2 fore"></div>
+            </div>
+        </div>
+        <!-- SLIDE 3 BACKGROUND -->
+        <div class="fr-featimg-wrapper slide3">
+            <div class="slide-bg slide3">
+                <div class="stars"></div>
+                <div class="clouds3"></div>
+                <div class="slide-bg slide3 fore"></div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL FEAT PICS END //////////////////////////////////////////////////////////// -->
+</ion-content>

@@ -1,0 +1,39 @@
+<ion-content class="modal-recipients-content assignee">
+    <div class="modal-recipients-main-wrapper assignee">
+        <ion-grid class="sheriff-grid modal-recipients-grid header-grid assignee">
+            <ion-row class="sheriff-row modal-recipients-header-row assignee">
+                <ion-col size="12" class="sheriff-col modal-recipients-header-col titletext-col assignee">
+                    <div class="modal-recipients-header-title-wrapper assignee">Assign To:</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-list class="sheriff-list modal-recipients-item-list assignee">
+            <ion-item (click)="assSelChange(assI)" [button]="true" *ngFor="let ass of modalAssList;let assI=index" class="sheriff-item modal-recipients-item assignee">
+                <ion-grid class="sheriff-grid modal-recipients-grid person-grid assignee">
+                    <ion-row class="sheriff-row modal-recipients-row person-row assignee">
+                        <ion-col size="2" class="sheriff-col modal-recipients-col person-col person-ava-col assignee">
+                            <div class="pop-person-ava-wrapper assignee">
+                                <img src="{{ass.Photo}}" class="pop-person-ava-img assignee">
+                            </div>
+                        </ion-col>
+                        <ion-col size="10" class="sheriff-col modal-recipients-col person-col person-name-col assignee">
+                            <div class="pop-person-name-wrapper assignee">
+                                {{ass.DisplayName}}
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </ion-list>
+        <ion-grid class="sheriff-grid modal-recipients-grid button-grid assignee">
+            <ion-row class="sheriff-row modal-recipients-button-row assignee">
+                <ion-col size="12" class="sheriff-col modal-recipients-button-col cancel-col assignee">
+                    <ion-button (click)="assSelCancel()" class="sheriff-btn recipients-btn cancel assignee">
+                        <ion-icon class="sheriff-btn-ico assignee" name="close"></ion-icon>
+                        <div class="sheriff-btn-txt assignee">Cancel</div>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>

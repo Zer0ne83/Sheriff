@@ -1,0 +1,155 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid addtsheetmodalheader-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row addtsheetmodalheader-row">
+                        <ion-col (click)="closeAddNews()" class="sheriff-col addtsheet-header-col close-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-addtsheet-header-btn-wrapper close-btn">
+                                <ion-icon class="sheriff-addtsheet-header-ico close-btn-ico" name="arrow-back"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col class="sheriff-col addtsheet-header-col title-col">
+                            <div class="sheriff-addtsheet-header title-wrapper">
+                                <span class="tsaddtsheet-title-prefix">Create Post</span>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col addtsheet-header-col save-addtsheet-btn-col">
+                            <ion-button (click)="addRecipients()" #addPplBtn [disabled]="false" class="sheriff-trans-btn header-opt-btn add-ppl-btn">
+                                <ion-icon class="sheriff-trans-btn-ico headder-opt-btn-ico add-ppl-btn-ico" name="person-add"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                        <ion-col class="sheriff-col addtsheet-header-col save-addtsheet-btn-col">
+                            <ion-button (click)="memoBoxEvent('send',newMemoBox.value.toString())" #postMemoBtn class="sheriff-trans-btn header-opt-btn post-memo-btn">
+                                <ion-icon class="sheriff-trans-btn-ico headder-opt-btn-ico post-memo-btn-ico" name="send"></ion-icon>
+                                <ion-spinner *ngIf="mbStatus.type!==null&&mbStatus.type==='spinner'" [duration]="1500" class="memo-comment-chatbox-sending-btn-spinner"></ion-spinner>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [ngStyle]="{'top':isNegH?negH:'0px'}" class="news-addmemo-content">
+
+    <ion-grid class="sheriff-grid news-addmemo-memodata-grid">
+        <ion-row class="sheriff-row news-addmemo-recipient-list-row">
+            <ion-col size="1" class="sheriff-col news-addmemo-recipient-list-col addmemo-label-col">
+                <div class="news-addmemo-memodata-label to">To:</div>
+            </ion-col>
+            <ion-col size="11" class="sheriff-col news-addmemo-recipient-list-col pplchips-col">
+                <div class="news-addmemo-list-outter-wrapper">
+                    <ion-chip *ngFor="let rP of recShowHead;let i=index" class="sheriff-chip news-addmemo-person-chip">
+                        <ion-avatar class="sheriff-avatar news-addmemo-person-chip-avatar">
+                            <img src="{{rP.ava}}" class="news-addmemo-person-chip-avatar-img">
+                        </ion-avatar>
+                        <div class="news-addmemo-person-chip-txt">{{rP.name}}</div>
+                        <ion-icon (click)="removeRP(i)" class="news-addmemo-person-chip-delete-ico namrico" name="close-circle"></ion-icon>
+                    </ion-chip>
+                    <div class="news-addmemo-addbtn-outter-wrapper">
+                        <div (click)="addRecipients()" class="news-addmemo-no-add recipients ion-activatable ripple-parent">
+                            <ion-icon class="sheriff-ico news-addmemo-na-ico" name="add-circle-outline"></ion-icon>
+                            <div class="news-addmemo-nar-text">Add</div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </div>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="sheriff-row news-addmemo-addfile-row">
+            <ion-col size="1" class="sheriff-col news-addmemo-addfile-col addmemo-label-col">
+                <div [ngStyle]="{'color':memoFiles.length>0?'var(--ion-color-primary)':'#646464'}" class="news-addmemo-memodata-label">File:</div>
+            </ion-col>
+            <ion-col size="11" class="sheriff-col news-addmemo-addfile-col files-col">
+                <div class="news-addmemo-list-outter-wrapper">
+                    <div *ngIf="memoFiles.length>0" class="news-addmemo-memodata-fileids-wrapper">
+                        <div class="news-addmemo-file-wrapper" *ngFor="let file of memoFiles;let fi=index">
+                            <ion-icon class="news-addmemo-file-ico" name="document"></ion-icon>
+                            <div class="news-addmemo-file-name">{{file.name}}</div>
+                            <ion-icon (click)="removeMemoFile(fi)" class="news-addmemo-removefile-ico namrico" name="close-circle"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="news-addmemo-addbtn-outter-wrapper">
+                        <div (click)="addFiles()" class="news-addmemo-no-add files ion-activatable ripple-parent">
+                            <ion-icon class="sheriff-ico news-addmemo-na-ico" name="add-circle-outline"></ion-icon>
+                            <div class="news-addmemo-nar-text">Add</div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </div>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="sheriff-row news-addmemo-addurl-row">
+            <ion-col size="1" class="sheriff-col news-addmemo-addurl-col addmemo-label-col">
+                <div [ngStyle]="{'color':memoUrls.length>0?'var(--ion-color-primary)':'#646464'}" class="news-addmemo-memodata-label">Url:</div>
+            </ion-col>
+            <ion-col size="11" class="sheriff-col news-addmemo-addurl-col url-col">
+                <div class="news-addmemo-list-outter-wrapper">
+                    <div *ngIf="memoUrls.length>0" class="news-addmemo-memodata-urls-wrapper">
+                        <div class="news-addmemo-url" *ngFor="let url of memoUrls;let ui=index">
+                            <ion-icon class="news-addmemo-url-ico" name="link"></ion-icon>
+                            <div class="news-addmemo-url-name">{{url.name}}</div>
+                            <ion-icon (click)="removeMemoUrl(ui)" class="news-addmemo-removeurl-ico namrico" name="close-circle"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="news-addmemo-addbtn-outter-wrapper">
+                        <div (click)="addUrls()" class="news-addmemo-no-add urls ion-activatable ripple-parent">
+                            <ion-icon class="sheriff-ico news-addmemo-na-ico" name="add-circle-outline"></ion-icon>
+                            <div class="news-addmemo-nar-text">Add</div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </div>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="sheriff-row news-addmemo-reqconf-row">
+            <ion-col size="1" class="sheriff-col news-addmemo-reqconf-col box-col">
+                <ion-checkbox (ionChange)="reqConfChange()" [checked]="memoReqConf" [mode]="'ios'" class="sheriff-checkbox newmemo-reqconf-checkbox"></ion-checkbox>
+            </ion-col>
+            <ion-col size="11" class="sheriff-col news-addmemo-reqconf-col label-col">
+                <div *ngIf="!memoReqConf" [ngStyle]="{'color':'#646464'}" class="news-addmemo-requireconf-label">Require Confirmation</div>
+                <div *ngIf="memoReqConf" [ngStyle]="{'color':'var(--ion-color-primary)'}" class="news-addmemo-requireconf-label">Confirmation Required</div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div class="news-addmemo-gradient-div-line top"></div>
+
+    <ion-grid class="sheriff-grid news-addmemo-messagebox-grid">
+        <ion-row class="sheriff-row news-addmemo-messagetitle-row">
+            <ion-col class="sheriff-col news-addmemo-messagetitle-col">
+                <ion-input class="sheriff-input news-addmemo-titleinput" #newMemoTitle [clearInput]="true" [clearOnEdit]="false" [mode]="'md'" [placeholder]="'Subject/Title?'" [value]="''" (ionBlur)="updateMemoTitle(newMemoTitle.value.toString())"></ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row class="sheriff-row news-addmemo-messagebox-row">
+            <ion-col size="12" class="sheriff-col news-addmemo-messagebox-col">
+                <div [ngModel] #newMemoBoxWrap [ngStyle]="{'min-height':fitH}" class="nadtbwrap">
+                    <ion-textarea #newMemoBox [autoGrow]="true" [autofocus]="false" [autocapitalize]="false" [clearOnEdit]="false" [cols]="12" [debounce]="0" [disabled]="false" [maxlength]="2000" [mode]="'md'" [placeholder]="'Your Post Content...'" [rows]="6" [value]="''"
+                        (ionInput)="memoBoxEvent('input',newMemoBox.value.toString())" (ionFocus)="memoBoxEvent('focus',newMemoBox.value.toString())" (ionBlur)="memoBoxEvent('input',newMemoBox.value.toString())" class="sheriff-textarea news-addmemo-messagebox"></ion-textarea>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div class="news-addmemo-gradient-div-line bottom"></div>
+
+    <ion-grid class="sheriff-grid news-addmemo-typedata-grid">
+        <ion-row class="sheriff-row news-addmemo-messagebox-info-topper-row">
+            <ion-col size="1" class="sheriff-col news-addmemo-messagebox-info-topper-col status-ico-col">
+                <ion-icon *ngIf="mbStatus.type==='icon'" class="addmemo-messagebox-status-ico {{mbStatus.ico}}" name="{{mbStatus.name}}"></ion-icon>
+                <ion-spinner *ngIf="mbStatus.type==='spinner'" class="addmemo-messagebox-status-ico {{mbStatus.ico}}" name="{{mbStatus.name}}"></ion-spinner>
+            </ion-col>
+            <ion-col size="9" class="sheriff-col news-addmemo-messagebox-info-topper-col status-text-col">
+                <div class="addmemo-messagebox-text-wrapper">{{mbStatus.text}}</div>
+            </ion-col>
+            <ion-col size="2" class="sheriff-col sheriff-col news-addmemo-messagebox-info-topper-col charcount-col">
+                <div *ngIf="mbFocus" [ngStyle]="{'color':mbCount===2000?'var(--ion-color-danger)':'#565656'}" class="addmemo-messagebox-charcount-wrapper">{{2000-mbCount}}</div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

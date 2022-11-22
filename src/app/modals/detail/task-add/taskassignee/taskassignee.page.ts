@@ -1,0 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { ModalController, NavParams } from '@ionic/angular';
+import { NGXLogger } from 'ngx-logger';
+//////////////////////////////////////////////////////////////////////////////////////
+@Component({selector:'app-taskassignee',templateUrl:'./taskassignee.page.html',styleUrls:['./taskassignee.page.scss']})
+//////////////////////////////////////////////////////////////////////////////////////
+export class TaskAssigneePage implements OnInit {
+//////////////////////////////////////////////////////////////////////////////////////
+  assModalId:any;
+  modalAssList:any[]=[];
+//////////////////////////////////////////////////////////////////////////////////////
+  constructor(
+    private logger: NGXLogger,
+    private modalCtrl: ModalController,
+    private navP: NavParams,
+    ) { }
+//////////////////////////////////////////////////////////////////////////////////////
+  ngOnInit() { this.logger.info('[Modal|TaskAssignee|OnInit] ()...');
+    this.initRecipientsData();
+  }
+//////////////////////////////////////////////////////////////////////////////////////
+  async initRecipientsData() { this.logger.info('[Modal|TaskAssignee|initRecipientsData] ()...');
+    const modalEl=await this.modalCtrl.getTop();this.assModalId=modalEl.id;
+    const modalAssList:any[]=this.navP.get('assList');
+    this.modalAssList=modalAssList;
+  }
+//////////////////////////////////////////////////////////////////////////////////////
+  assSelChange(assIndex:number) { this.logger.info('[Modal|TaskAssignee|assSelChange] ('+assIndex+')...');
+    const newSelAssObj:any=this.modalAssList[assIndex];this.logger.info('[Modal|TaskAssignee|assSelChange] (New Selection): '+newSelAssObj.DisplayName+' (EmpId '+newSelAssObj.EmpId+')');
+    this.modalCtrl.dismiss(newSelAssObj,'changed',this.assModalId);
+  }
+//////////////////////////////////////////////////////////////////////////////////////
+  assSelCancel() { this.logger.info('[Modal|TaskAssignee|assSelCancel] ()...');
+    this.modalCtrl.dismiss(null,'cancel',this.assModalId);
+  }
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+}

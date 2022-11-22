@@ -1,0 +1,255 @@
+<ion-app>
+    <ion-menu side="start" content-id="main-content" swipeGesture="true" type="reveal" (ionWillOpen)="mainMenu('willopen')" (ionDidOpen)="mainMenu('opened')" (ionWillClose)="mainMenu('willclose')" (ionDidClose)="mainMenu('closed')">
+        <ion-content id="app-page-ion-content" class="sheriff-content">
+            <div class="sheriff-mainmenu-main-wrapper">
+                <div id="sheriff-mainmenu-header-wrapper">
+                    main menu
+                </div>
+                <ion-grid class="sheriff-grid sheriff-mainmenu-topper-grid1 person">
+                    <ion-row class="sheriff-row sheriff-mainmenu-topper-row row1">
+                        <ion-col size="3" class="sherrif-col sheriff-mainmenu-col meavatar-col">
+                            <div id="sheriff-mainmenu-personavatar-wrapper">
+                                <img id="tempmeava" style="display: flex;align-content: center;" src="{{meAva}}">
+                            </div>
+                        </ion-col>
+                        <ion-col size="9" class="sherrif-col sheriff-mainmenu-col medetails-col">
+                            <div id="sheriff-mainmenu-topper-person-outter-wrapper">
+                                <div class="sheriff-mainmenu medetails-line name">{{meName}}</div>
+                                <div class="sheriff-mainmenu medetails-line email">{{meEmail}}</div>
+                                <div class="sheriff-mainmenu medetails-line phone">{{mePhone}}</div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="sheriff-row sheriff-mainmenu-topper-row row2">
+                        <ion-chip class="sheriff-chip mainmenu wp">
+                            <ion-avatar class="sheriff-avatar mainmenu wp">
+                                <img id="mainmenu-workavatar" style="display: flex;align-content: center;" src="{{workAva}}">
+                            </ion-avatar>
+                            <ion-label class="sheriff-label mainmenu wp">{{workCode}}</ion-label>
+                        </ion-chip>
+                    </ion-row>
+                </ion-grid>
+                <ion-grid class="sheriff-grid sheriff-menu-grid pagelinks-grid">
+                    <ion-row class="sheriff-row sheriff-menu-row tab-pagelinks-row">
+                        <ion-col class="sheriff-col sheriff-menu-col tab-pagelinks-col">
+                            <ion-menu-toggle>
+                                <div *ngIf="!shouldSaveShield" id="mainmenu-tabs" class="ion-activatable ripple-parent sheriff-mainmenu-topitem datatabs" routerLink="/tabs" routerDirection="forward">
+                                    <div id="sheriff-mainmenu-topitem-label-datatabs" class="sheriff-mainmenu-topitem-label datatabs">
+                                        <ion-icon class="sheriff-mainmenu-linkico datatabs" name="list"></ion-icon>records
+                                    </div>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                                <div *ngIf="shouldSaveShield" (click)="promptShouldSave('/tabs')" id="mainmenu-tabs" class="ion-activatable ripple-parent sheriff-mainmenu-topitem datatabs">
+                                  <div id="sheriff-mainmenu-topitem-label-datatabs" class="sheriff-mainmenu-topitem-label datatabs">
+                                      <ion-icon class="sheriff-mainmenu-linkico datatabs" name="list"></ion-icon>records
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                            </ion-menu-toggle>
+                            <ion-menu-toggle>
+                              <div *ngIf="!shouldSaveShield" id="mainmenu-pay" class="ion-activatable ripple-parent sheriff-mainmenu-topitem pay" routerLink="/pay" routerDirection="forward">
+                                  <div id="sheriff-mainmenu-topitem-label-pay" class="sheriff-mainmenu-topitem-label pay">
+                                      <ion-icon class="sheriff-mainmenu-linkico pay" name="logo-usd"></ion-icon>payments
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                              <div *ngIf="shouldSaveShield" (click)="promptShouldSave('/pay')" id="mainmenu-pay" class="ion-activatable ripple-parent sheriff-mainmenu-topitem pay">
+                                <div id="sheriff-mainmenu-topitem-label-pay" class="sheriff-mainmenu-topitem-label pay">
+                                    <ion-icon class="sheriff-mainmenu-linkico pay" name="logo-usd"></ion-icon>payments
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                            </ion-menu-toggle>
+                            <ion-menu-toggle>
+                              <div *ngIf="!shouldSaveShield" id="mainmenu-people" class="ion-activatable ripple-parent sheriff-mainmenu-topitem people" routerLink="/people" routerDirection="forward">
+                                  <div id="sheriff-mainmenu-topitem-label-people" class="sheriff-mainmenu-topitem-label people">
+                                      <ion-icon class="sheriff-mainmenu-linkico people" name="people"></ion-icon>people
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                              <div *ngIf="shouldSaveShield" (click)="promptShouldSave('/people')" id="mainmenu-people" class="ion-activatable ripple-parent sheriff-mainmenu-topitem people">
+                                <div id="sheriff-mainmenu-topitem-label-people" class="sheriff-mainmenu-topitem-label people">
+                                    <ion-icon class="sheriff-mainmenu-linkico people" name="people"></ion-icon>people
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                            </ion-menu-toggle>
+                            <ion-menu-toggle>
+                                <div *ngIf="!shouldSaveShield" id="mainmenu-profile" class="ion-activatable ripple-parent sheriff-mainmenu-topitem profile" routerLink="/profile" routerDirection="forward">
+                                    <div id="sheriff-mainmenu-topitem-label-settings" class="sheriff-mainmenu-topitem-label profile">
+                                        <ion-icon class="sheriff-mainmenu-linkico profile" name="person"></ion-icon>profile
+                                    </div>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                                <div *ngIf="shouldSaveShield" (click)="promptShouldSave('/profile')" id="mainmenu-profile" class="ion-activatable ripple-parent sheriff-mainmenu-topitem profile">
+                                  <div id="sheriff-mainmenu-topitem-label-settings" class="sheriff-mainmenu-topitem-label profile">
+                                      <ion-icon class="sheriff-mainmenu-linkico profile" name="person"></ion-icon>profile
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                            </ion-menu-toggle>
+                            <ion-menu-toggle>
+                              <div *ngIf="!shouldSaveShield" id="mainmenu-serverlog" class="ion-activatable ripple-parent sheriff-mainmenu-topitem serverlog" routerLink="/serverlog" routerDirection="forward">
+                                  <div id="sheriff-mainmenu-topitem-label-serverlog" class="sheriff-mainmenu-topitem-label serverlog">
+                                      <ion-icon class="sheriff-mainmenu-linkico serverlog" name="list"></ion-icon>server log
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                              <div *ngIf="shouldSaveShield" (click)="promptShouldSave('/serverlog')" id="mainmenu-serverlog" class="ion-activatable ripple-parent sheriff-mainmenu-topitem serverlog">
+                                <div id="sheriff-mainmenu-topitem-label-serverlog" class="sheriff-mainmenu-topitem-label serverlog">
+                                    <ion-icon class="sheriff-mainmenu-linkico serverlog" name="list"></ion-icon>serverlog
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                            </div>
+                            </ion-menu-toggle>
+                            <ion-menu-toggle>
+                              <div *ngIf="!shouldSaveShield" id="mainmenu-snoop" class="ion-activatable ripple-parent sheriff-mainmenu-topitem snoop" routerLink="/snoop" routerDirection="forward">
+                                  <div id="sheriff-mainmenu-topitem-label-snoop" class="sheriff-mainmenu-topitem-label snoop">
+                                      <ion-icon class="sheriff-mainmenu-linkico snoop" name="ear"></ion-icon>snoop data
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                              <div *ngIf="shouldSaveShield" (click)="promptShouldSave('/snoop')" id="mainmenu-snoop" class="ion-activatable ripple-parent sheriff-mainmenu-topitem snoop">
+                                <div id="sheriff-mainmenu-topitem-label-snoop" class="sheriff-mainmenu-topitem-label snoop">
+                                    <ion-icon class="sheriff-mainmenu-linkico snoop" name="list"></ion-icon>snoop data
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                            </div>
+                            </ion-menu-toggle>
+                            <ion-menu-toggle>
+                                <div *ngIf="!shouldSaveShield" id="mainmenu-settings" class="ion-activatable ripple-parent sheriff-mainmenu-topitem settings" routerLink="/settings" routerDirection="forward">
+                                    <div id="sheriff-mainmenu-topitem-label-settings" class="sheriff-mainmenu-topitem-label settings">
+                                        <ion-icon class="sheriff-mainmenu-linkico settings" name="settings"></ion-icon>settings
+                                    </div>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                                <div *ngIf="shouldSaveShield" (click)="promptShouldSave('/settings')" id="mainmenu-settings" class="ion-activatable ripple-parent sheriff-mainmenu-topitem settings">
+                                  <div id="sheriff-mainmenu-topitem-label-settings" class="sheriff-mainmenu-topitem-label settings">
+                                      <ion-icon class="sheriff-mainmenu-linkico settings" name="settings"></ion-icon>settings
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                              </div>
+                            </ion-menu-toggle>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
+                <ion-grid class="sheriff-grid sheriff-mainmenu-grid sheriff-mainmenu-logoutexitbtn-grid">
+                    <ion-row class="sheriff-row sheriff-menu-row auth-logout-quitlinks-row">
+                        <ion-col class="sheriff-col sheriff-menu-col auth-logout-quitlinks-col">
+                            <div class="sheriff-menu-bottom-btns-wrapper">
+                                <ion-grid class="sheriff-grid sheriff-menu-bottom-btns-grid">
+                                    <ion-row class="sheriff-row sheriff-menu-bottom-row">
+                                        <ion-col class="sheriff-col sheriff-menu-bottom-col logout-col">
+                                            <ion-button (click)="onLogout()" id="sheriff-menu-bottom-logoutbtn" class="sheriff-menu-bottom-btn" fill="solid" size="small">Logout</ion-button>
+                                        </ion-col>
+                                        <ion-col size="6" class="sheriff-col sheriff-menu-bottom-col exit-col">
+                                            <ion-button (click)="onExit(null)" id="sheriff-menu-bottom-switchbtn" class="sheriff-menu-bottom-btn" fill="outline" color="medium" size="small">Exit App</ion-button> 
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row sheriff-mainmenu-topper-row row3">
+                                        <ion-col size="10" class="sheriff-col sheriff-mainmenu-col tokens-col">
+                                            <div class="headerimgdiv deputy"><div class="sheriff-menu-token-image-wrapper deputy"><img class="sheriff-menu-token-image deputy" src="../assets/img/sheriff-deputy-logoname-white-small.png"></div></div>
+                                            <div><span [ngClass]="{'menu-token-refresh-btn-stage-inprog-ico':deputyRefresh==='inprog','menu-token-refresh-btn-stage-fail-ico':deputyRefresh==='fail','menu-token-refresh-btn-stage-success-ico':deputyRefresh==='success'}" style="font-weight:500;color:#ff9800">T: </span>{{access_token}}</div>
+                                            <div><span [ngClass]="{'menu-token-refresh-btn-stage-inprog-ico':deputyRefresh==='inprog','menu-token-refresh-btn-stage-fail-ico':deputyRefresh==='fail','menu-token-refresh-btn-stage-success-ico':deputyRefresh==='success'}" style="font-weight:500;color:#ff9800">R: </span>{{refresh_token}}</div>
+                                            <div><span [ngClass]="{'menu-token-refresh-btn-stage-inprog-ico':deputyRefresh==='inprog','menu-token-refresh-btn-stage-fail-ico':deputyRefresh==='fail','menu-token-refresh-btn-stage-success-ico':deputyRefresh==='success'}" style="font-weight:500;color:#ff9800">E: </span>{{expires_time}}</div>
+                                        </ion-col>
+                                        <ion-col size="2" class="sheriff-col sheriff-mainmenu-col tokens-col refreshbtn-col">
+                                            <ion-button [disabled]="deputyRefresh!==null" [ngClass]="{'menu-token-refresh-btn-stage-inprog':deputyRefresh==='inprog','menu-token-refresh-btn-stage-fail':deputyRefresh==='fail','menu-token-refresh-btn-stage-success':deputyRefresh==='success'}" id="localrefreshbtn" (click)="menuDeputyRefresh()" class="sheriff-btn menu-refresh-btn">
+                                                <ion-icon *ngIf="deputyRefresh===null" class="sheriff-btn-ico menu-refresh-btn-ico" name="refresh"></ion-icon>
+                                                <ion-icon *ngIf="deputyRefresh==='inprog'" class="sheriff-btn-ico menu-refresh-btn-ico menu-token-refresh-btn-stage-inprog-ico" name="ellipsis-horizontal"></ion-icon>
+                                                <ion-icon *ngIf="deputyRefresh==='success'" class="sheriff-btn-ico menu-refresh-btn-ico menu-token-refresh-btn-stage-success-ico" name="checkmark"></ion-icon>
+                                                <ion-icon *ngIf="deputyRefresh==='fail'" class="sheriff-btn-ico menu-refresh-btn-ico menu-token-refresh-btn-stage-fail-ico" name="alert"></ion-icon>
+                                            </ion-button>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row sheriff-mainmenu-topper-row row4">
+                                      <ion-col size="10" class="sheriff-col sheriff-mainmenu-col tokens-col">
+                                        <div class="headerimgdiv sserver"><div class="sheriff-menu-token-image-wrapper sheriffserver"><img class="sheriff-menu-token-imagesheriff-server" src="../assets/img/slogo-w.png"><span class="sheriff-menu-token-title-server-txt">server</span></div></div>
+                                        <div><span [ngClass]="{'menu-token-refresh-btn-stage-inprog-ico':sserverRefresh==='inprog','menu-token-refresh-btn-stage-fail-ico':sserverRefresh==='fail','menu-token-refresh-btn-stage-success-ico':sserverRefresh==='success'}" style="font-weight:500;color:#ff9800">M: </span>{{fb_login_method}}</div>
+                                        <div><span [ngClass]="{'menu-token-refresh-btn-stage-inprog-ico':sserverRefresh==='inprog','menu-token-refresh-btn-stage-fail-ico':sserverRefresh==='fail','menu-token-refresh-btn-stage-success-ico':sserverRefresh==='success'}" style="font-weight:500;color:#ff9800">T: </span>{{fct_token}}</div>
+                                        <div><span [ngClass]="{'menu-token-refresh-btn-stage-inprog-ico':sserverRefresh==='inprog','menu-token-refresh-btn-stage-fail-ico':sserverRefresh==='fail','menu-token-refresh-btn-stage-success-ico':sserverRefresh==='success'}" style="font-weight:500;color:#ff9800">L: </span>{{fe_token}}</div>
+                                        <div><span [ngClass]="{'menu-token-refresh-btn-stage-inprog-ico':sserverRefresh==='inprog','menu-token-refresh-btn-stage-fail-ico':sserverRefresh==='fail','menu-token-refresh-btn-stage-success-ico':sserverRefresh==='success'}" style="font-weight:500;color:#ff9800">E: </span>{{fct_expires}}</div>
+                                      </ion-col>
+                                      <ion-col size="2" class="sheriff-col sheriff-mainmenu-col tokens-col refreshbtn-col">
+                                          <ion-button [disabled]="sserverRefresh!==null" [ngClass]="{'menu-token-refresh-btn-stage-inprog':sserverRefresh==='inprog','menu-token-refresh-btn-stage-fail':sserverRefresh==='fail','menu-token-refresh-btn-stage-success':sserverRefresh==='success'}" id="localrefreshbtn" (click)="FCTFns('refresh')" class="sheriff-btn menu-refresh-btn">
+                                            <ion-icon *ngIf="sserverRefresh===null" class="sheriff-btn-ico menu-refresh-btn-ico" name="refresh"></ion-icon>
+                                            <ion-icon *ngIf="sserverRefresh==='inprog'" class="sheriff-btn-ico menu-refresh-btn-ico menu-token-refresh-btn-stage-inprog-ico" name="ellipsis-horizontal"></ion-icon>
+                                            <ion-icon *ngIf="sserverRefresh==='success'" class="sheriff-btn-ico menu-refresh-btn-ico menu-token-refresh-btn-stage-success-ico" name="checkmark"></ion-icon>
+                                            <ion-icon *ngIf="sserverRefresh==='fail'" class="sheriff-btn-ico menu-refresh-btn-ico menu-token-refresh-btn-stage-fail-ico" name="alert"></ion-icon>
+                                          </ion-button>
+                                      </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
+                <div id="zer0nebanner"><img id="zer0nemenubanner" src="../../../assets/img/zer0netidybinary.png"></div>
+
+            </div>
+
+        </ion-content>
+
+    </ion-menu>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+
+    <div id="sheriff-custom-splash-wrapper">
+        <div id="sheriff-custom-splash-titletexttop-wrapper" class="splashelegroup1">
+            SHERIFF
+        </div>
+        <div id="sheriff-custom-splash-logo-wrapper">
+            <ion-grid class="sheriff-grid custom-splash-grid">
+                <ion-row class="sheriff-row custom-splash-row toptextrow">
+                    <ion-col class="sheriff-col custom-splash-col toptextcol">
+                        <div class="sheriff-cutom-splash-text-wrapper texttop animate__animated animate__slideInLeft animate__faster">
+                            Introducing <span class="sheriff-sansman-bold-italic custom-splash-top">SHERIFF</span><span class="sheriff-splash-dotdotdot">,</span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row custom-splash-row middlelogorow">
+                    <ion-col class="sheriff-col custom-splash-col middlelogocol">
+                        <div class="progress-horizontal top">
+                            <div class="bar-horizontal top"></div>
+                        </div>
+                        <div class="progress-horizontal bottom">
+                            <div class="bar-horizontal bottom"></div>
+                        </div>
+                        <img class="animate__animated animate__headShake animate__infinite" src="../assets/img/slogo-w.png" id="sheriff-custom-splash-logo-img">
+                    </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row custom-splash-row bottomtextrow">
+                    <ion-col class="sheriff-col custom-splash-col bottomtextcol">
+                        <div class="sheriff-cutom-splash-text-wrapper textbottom animate__animated animate__slideInRight animate__faster">
+                            <span class="sheriff-splash-dotdotdot">...</span><span class="sheriff-sansman-bold-italic custom-splash-bottom">DEPUTY</span>'s <span class="splash-text-superior">superior</span>.
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <div id="sheriff-custom-splash-zer0ne-wrapper" class="splashelegroup1">
+            <img src="../assets/img/zer0netidybinarywhite.png" id="sheriff-custom-splash-zer0ne-img">
+        </div>
+    </div>
+    <div *ngIf="doShowIAPBubble" class="sheriff-iapnotif-bubble-outter-wrapper animte__animated animate__slideInDown">
+      <div class="sheriff-iapnotif-bubble-inner-wrapper">
+        <ion-grid class="sheriff-grid iapnotif-bubble-grid">
+          <ion-row class="sheriff-row iapnotif-bubble-row title-row">
+            <ion-col class="sheriff-col iapnotif-bubble-col title-col">
+              <div class="sheriff-iapnotif-bubble-title-wrapper">
+                <ion-icon class="sheriff-iapnotif-bubble-title-icon workevent" name={{iapBubbleData.ico}}></ion-icon>
+                <div class="sheriff-iapnotif-bubble-title-txt workevent"><span class="iapnotif-mtitle">{{iapBubbleData.mTitle}}</span><span class="iapnotif-title-slash">|</span><span class="iapnotif-stitle">{{iapBubbleData.sTitle}}</span></div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="sheriff-row iapnotif-bubble-row bodylines-row">
+            <ion-col class="sheriff-col iapnotif-bubble-col bodylines-col">
+              <div *ngFor="let line of iapBubbleData.bodyLines;index as i" class="sheriff-iapnotif-bubble-bodyline line{{i}}">{{line}}</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+</ion-app>

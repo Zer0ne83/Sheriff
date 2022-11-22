@@ -1,0 +1,399 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row">
+                        <ion-col class="sheriff-col sheriff-page-header-col left-col profile">
+                            <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar profile">
+                                <div class="sheriff-title-leftanimbar-inner profile"></div>
+                            </div>
+                            <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                                <div class="sheriff-page-title sheriff-heading-sansman hcl-title profile">
+                                    <div class="sheriff-title tight-wrap profile">Profile</div>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                            <div class="sheriff-page-header-logo-wrapper">
+                                <div class="sheriff-page-header-logo-inner-wrapper">
+                                    <div class="sheriff-page-header-logo-highlight-layer hcl-ring profile"></div>
+                                    <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle profile hcl-progcirc profile">
+                                        <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                            [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                    </div>
+                                    <div id="logo-top-patchcover-outter" class="logo-top-patchcover outter hcl-opatch profile">
+                                        <div id="logo-top-patchcover-inner" class="logo-top-patchcover inner hcl-ipatch profile"></div>
+                                    </div>
+                                    <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star profile">
+                                    <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo profile">
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                            <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                                <div (click)="doSaveProfile(null)" class="sheriff-page-savebtn-outter-wrapper profile ion-activatable ripple-parent">
+                                  <div class="shouldsave-indic-wrapper">
+                                      <ion-icon *ngIf="shouldSave" class="shouldsave-indic-ico animate__animated animate__fadeIn" name="ellipse"></ion-icon>
+                                  </div>
+                                  <div [class.halfbrightness]="!shouldSave" class="sheriff-addtsheet-header-btn-wrapper save-btn">
+                                      <ion-icon class="sheriff-addtsheet-header-ico save-btn-ico" name="save"></ion-icon>
+                                  </div>
+                                  <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                                <div class="sheriff-page-backbtn-wrapper profile">
+                                    <ion-back-button [disabled]="shouldSave" icon="chevron-back-outline" class="sheriff-backbtn profile" defaultHref="/tabs"></ion-back-button>
+                                    <div *ngIf="shouldSave" (click)="promptSaveProfile()" class="sheriff-header-shouldsave-shield backshield"></div>
+                                </div>
+                                <div class="sheriff-menu-button-wrapper">
+                                    <ion-menu-button class="sheriff-menu-button profile" autoHide="false">
+                                        <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                    </ion-menu-button>
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [ngStyle]="{'top':kbAdjust}" class="sheriff-content tab-content profile">
+    <!-- PAGE REFRESHER -->
+    <ion-refresher class="sheriff-refresher page profile" slot="fixed" (ionRefresh)="doProfileRefresh($event)">
+        <div class="sheriff-refresher-noise-wrapper">
+            <ion-refresher-content class="sheriff-refresher-content-class" pullingIcon="arrow-down-circle" refreshingSpinner="dots"></ion-refresher-content>
+        </div>
+    </ion-refresher>
+    <!-- PAGE-CONTENT -->
+    <!-- CONTENT HEADING -->
+    <div class="sheriff-tabcontent-mainheading-wrapper profile">
+        <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid profile">
+            <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 profile">
+                <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 profile">
+                </ion-col>
+                <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 profile">
+                  <img class="sheriff-reflect-title" src="../../assets/img/sheriff-reflecttitle-profile.png">
+                </ion-col>
+                <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 profile">
+                  <div class="psection-complete-wrapper all">
+                    <div class="pcomplete-all-title-div">complete</div>
+                    <div class="pcomplete-all values-div">
+                      <span class="pseccomp-val all">{{pComplete.all.v}}</span><span class="pseccomp-sep">/</span><span class="pseccomp-ttl all">{{pComplete.all.t}}</span><span class="pseccomp-sep">-</span><span [ngStyle]="{'color':pComplete.all.v===pComplete.all.t?'var(--ion-color-success-68)':'#848484'}" class="pseccomp-perc all">{{pComplete.all.p}}%</span>
+                    </div>
+                  </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <!-- CONTENT WRAPPER -->
+    <div class="sheriff-page-content-outter-wrapper profile-page">
+        <ion-grid class="sheriff-grid profile-info-form main-grid">
+          <ion-row class="sheriff-row profile-info-form main-row photo-row heading-row">
+            <ion-col class="sheriff-col profile-info-form main-col photo-col heading-col">
+              <div class="profile-main-section-header-gradient"></div>
+              <div class="profile-main-title-text photo">
+                PHOTO
+                <div class="psection-complete-wrapper photo">
+                  <span class="pseccomp-val photo">{{pComplete.photo.v}}</span><span class="pseccomp-sep">/</span><span class="pseccomp-ttl photo">{{pComplete.photo.t}}</span><span class="pseccomp-sep">-</span><span [ngStyle]="{'color':pComplete.photo.v===pComplete.photo.t?'var(--ion-color-success-68)':'#848484'}" class="pseccomp-perc photo">{{pComplete.photo.p}}%</span>
+                </div>
+              </div>
+              <div class="profile-main-section-header-gradient"></div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="sheriff-row profile-info-form main-row photo-row fields-row">
+            <ion-col size="12" class="sheriff-col">
+              <ion-grid class="sheriff-grid profile-form-grid photo-grid">
+                <ion-row class="sheriff-row profile-form-row photo-row">
+                  <ion-col size="2" class="sheriff-col profile-form-col photo-col ico-col">
+                    <ion-icon name="image" [ngStyle]="{'color':pFieldFocus==='photo'?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico photo-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col size="3" class="sheriff-col profile-form-col photo-col input-col image">
+                    <div [ngStyle]="{'border-color':profileData.photo.hasChanged?'var(--ion-color-success-78)':'#212121'}" class="profile-photo-outter-wrapper">
+                      <img src={{profileData.photo.value.nativeUri}} class="profile-photo-img-avatar">
+                    </div>
+                  </ion-col>
+                  <ion-col class="sheriff-col profile-form-col photo-col input-col info">
+                    <ion-grid class="sheriff-grid profile-photo-info-grid">
+                      <ion-row class="sheriff-row profile-photo-info-row">
+                        <ion-col class="sheriff-col profile-photo-info-col">
+                          <ion-icon name="cloud-upload-outline" class="pphoto-info-ico setdate"></ion-icon>
+                          <span class="pphoto-info-val setdate">{{profileData.photo.value.setDate}}</span>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row class="sheriff-row profile-photo-info-row">
+                        <ion-col class="sheriff-col profile-photo-info-col">
+                          <ion-icon name="person-outline" class="pphoto-info-ico setby"></ion-icon>
+                          <img *ngIf="profileData.photo.value.setBy===null" src="../../assets/img/sheriff-deputy-logoname-white-small.png" class="profile-photo-setby-small">
+                          <span *ngIf="profileData.photo.value.setBy!==null" class="pphoto-info-val setby">{{profileData.photo.value.setBy}}</span>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row *ngIf="profileData.photo.value.dims!=='NK'" class="sheriff-row profile-photo-info-row">
+                        <ion-col class="sheriff-col profile-photo-info-col">
+                          <ion-icon name="expand-outline" class="pphoto-info-ico dims"></ion-icon>
+                          <span class="pphoto-info-val dims">{{profileData.photo.value.dims}}</span><span *ngIf="profileData.photo.value.dims!=='-'" class="photo-size-px-suffix">px</span>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row class="sheriff-row profile-photo-info-row">
+                        <ion-col class="sheriff-col profile-photo-info-col">
+                          <ion-icon name="document-outline" class="pphoto-info-ico size"></ion-icon>
+                          <span class="pphoto-info-val size">{{profileData.photo.value.size.s}}</span><span class="pphoto-info-val size suffix">{{profileData.photo.value.size.b}}</span>
+                          <span *ngIf="profileData.photo.value.type!=='-'" class="pphoto-info-val type">{{profileData.photo.value.type}}</span>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-col>
+                  <ion-col class="sheriff-col profile-form-col photo-col button-col">
+                    <ion-grid class="sheriff-grid profile-photo-btn-grid">
+                      <ion-row class="sheriff-row profile-photo-btn-row change-row">
+                        <ion-col class="sheriff-col profile-photo-btn-col change-col camera-col">
+                          <ion-button (click)="doTakePhoto()" class="sheriff-btn profile-photo-camera-btn">
+                            <ion-icon name="add" class="sheriff-btn-ico profile-photo-btn-ico add"></ion-icon>
+                            <ion-icon name="camera" class="sheriff-btn-ico profile-photo-btn-ico camera"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                        <ion-col class="sheriff-col profile-photo-btn-col change-col file-col">
+                          <ion-button (click)="doSelectPhoto()" class="sheriff-btn profile-photo-file-btn">
+                            <ion-icon name="add" class="sheriff-btn-ico profile-photo-btn-ico add"></ion-icon>
+                            <ion-icon name="folder" class="sheriff-btn-ico profile-photo-btn-ico select"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row class="sheriff-row profile-photo-btn-row delete-row">
+                        <ion-col class="sheriff-col profile-photo-btn-col change-col delete-col">
+                          <ion-button [disabled]="" (click)="doDeletePhoto()" class="sheriff-btn profile-photo-delete-btn">
+                            <ion-icon name="trash" class="sheriff-btn-ico profile-photo-btn-ico delete"></ion-icon>
+                            <div class="sheriff-btn-txt take-photo-txt">remove photo</div>
+                          </ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+          </ion-row>
+          <!-- GENERAL ----------------------------------------------------------------------------------------->
+          <ion-row class="sheriff-row profile-info-form main-row general-row heading-row">
+            <ion-col class="sheriff-col profile-info-form main-col general-col heading-col">
+              <div class="profile-main-section-header-gradient"></div>
+              <div class="profile-main-title-text general">
+                GENERAL
+                <div class="psection-complete-wrapper general">
+                  <span class="pseccomp-val general">{{pComplete.general.v}}</span><span class="pseccomp-sep">/</span><span class="pseccomp-ttl general">{{pComplete.general.t}}</span><span class="pseccomp-sep">-</span><span [ngStyle]="{'color':pComplete.general.v===pComplete.general.t?'var(--ion-color-success-68)':'#848484'}" class="pseccomp-perc general">{{pComplete.general.p}}%</span>
+                </div>
+              </div>
+              <div class="profile-main-section-header-gradient"></div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="sheriff-row profile-info-form main-row general-row fields-row">
+            <ion-col size="12" class="sheriff-col">
+              <ion-grid class="sheriff-grid profile-form-grid general-grid">
+                <ion-row class="sheriff-row profile-form-row general-row names-row">
+                  <ion-col size="2" class="sheriff-col profile-form-col general-col names-col ico-col">
+                    <ion-icon name="person" [ngStyle]="{'color':pFieldFocus==='fname'||pFieldFocus==='lname'||pFieldFocus==='dname'||pFieldFocus==='dob'?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico general-ico names-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col general-col names-col input-col">
+                    <div class="profile-names-input-wrapper first-name">
+                      <ion-item class="sheriff-profile-input-item name-input-item first-name">
+                        <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.fname.hasChanged}" class="sheriff-profile-input-item-label first-name">First Name</ion-label>
+                        <ion-input id="fname-input-id" #pDGfname [value]="profileData.fname.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('fname')" (ionBlur)="onInputBlur('fname',pDGfname.value)" class="sheriff-profile-input first-name"></ion-input>
+                      </ion-item>
+                    </div>
+                  </ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col general-col names-col input-col">
+                    <div class="profile-names-input-wrapper last-name">
+                      <ion-item class="sheriff-profile-input-item name-input-item last-name">
+                        <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.lname.hasChanged}" class="sheriff-profile-input-item-label last-name">Last Name</ion-label>
+                        <ion-input id="lname-input-id" #pDGlname [value]="profileData.lname.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('lname')" (ionBlur)="onInputBlur('lname',pDGlname.value)" class="sheriff-profile-input last-name"></ion-input>
+                      </ion-item>
+                    </div>
+                  </ion-col>
+                  <ion-col size="2" class="sheriff-col"></ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col general-col names-col input-col">
+                    <div class="profile-names-input-wrapper display-name">
+                      <ion-item class="sheriff-profile-input-item name-input-item display-name">
+                        <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.dname.hasChanged}" class="sheriff-profile-input-item-label display-name">Display Name</ion-label>
+                        <ion-input id="dname-input-id" #pDGdname [value]="profileData.dname.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('dname')" (ionBlur)="onInputBlur('dname',pDGdname.value)" class="sheriff-profile-input display-name"></ion-input>
+                      </ion-item>
+                    </div>
+                  </ion-col>
+                  <ion-col (click)="openDOBDatePicker()" size="5" class="sheriff-col profile-form-col general-col dob-col input-col">
+                    <ion-item class="sheriff-profile-input-item dob-input-item">
+                      <ion-label position="stacked" class="sheriff-profile-input-item-label dob"><span [ngClass]="{'pfield-changed':profileData.dob.hasChanged}" [ngStyle]="{'color':dobDPOpen?'var(--ion-color-primary)':'#848484'}" class="profile-label-dob">DOB</span><ion-icon *ngIf="pIsLocked" class="profile-label-lockitem locked dob" name="lock-closed"></ion-icon><ion-icon *ngIf="!pIsLocked" class="profile-label-lockitem unlocked dob" name="lock-open"></ion-icon><ion-spinner [duration]="350" *ngIf="tryingUnlock" class="profile-label-lockitem-spinner dob" name="dots"></ion-spinner></ion-label>
+                      <ion-input id="dob-input-id" [ngStyle]="{'--show-full-highlight':dobDPOpen===true?'1':'0'}" [readonly]="true" [value]="profileData.dob.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" class="sheriff-profile-input dob"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row profile-form-row general-row email-row">
+                  <ion-col size="2" class="sheriff-col profile-form-col general-col email-col ico-col">
+                    <ion-icon name="mail" [ngStyle]="{'color':pFieldFocus==='email'?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico general-ico email-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col size="10" class="sheriff-col profile-form-col general-col email-col input-col">
+                    <ion-item class="sheriff-profile-input-item email-input-item">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.email.hasChanged}" class="sheriff-profile-input-item-label email">Email</ion-label>
+                      <ion-input id="email-input-id" #pDGemail [value]="profileData.email.value" [inputmode]="'email'" [pattern]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('email')" (ionBlur)="onInputBlur('email',pDGemail.value)" class="sheriff-profile-input email"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row profile-form-row general-row phone-row">
+                  <ion-col size="2" class="sheriff-col profile-form-col general-col phone-col ico-col">
+                    <ion-icon name="phone-portrait" [ngStyle]="{'color':pFieldFocus==='phone'?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico general-ico phone-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col size="10" class="sheriff-col profile-form-col general-col phone-col input-col">
+                    <ion-item class="sheriff-profile-input-item phone-input-item">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.phone.hasChanged}" class="sheriff-profile-input-item-label phone">Phone</ion-label>
+                      <ion-input id="phone-input-id" #pDGphone [value]="profileData.phone.value" [inputmode]="'tel'" [pattern]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('phone')" (ionBlur)="onInputBlur('phone',pDGphone.value)" class="sheriff-profile-input phone"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row profile-form-row general-row gender-row">
+                  <ion-col size="2" class="sheriff-col profile-form-col general-col gender-col ico-col">
+                    <ion-icon name="transgender" [ngStyle]="{'color':genProCustOpen.gender||genProCustOpen.pronoun||genProCustOpen.custompn?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico general-ico gender-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col class="sheriff-col profile-form-col general-col gender-col input-col">
+                    <ion-item class="sheriff-profile-input-item gender-input-item">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.gender.hasChanged}" class="sheriff-profile-input-item-label gender">Gender<ion-icon *ngIf="pIsLocked" class="profile-label-lockitem locked gender" name="lock-closed"></ion-icon><ion-icon *ngIf="!pIsLocked" class="profile-label-lockitem unlocked gender" name="lock-open"></ion-icon><ion-spinner [duration]="350" *ngIf="tryingUnlock" class="profile-label-lockitem-spinner gender" name="dots"></ion-spinner></ion-label>
+                      <ion-select id="gender-input-id" #pDGgender [value]="profileData.gender.value" [interfaceOptions]="genderPopOpts" [mode]="'md'" [interface]="'popover'" [selectedText]="profileData.gender.label" (ionChange)="changeGender(pDGgender.value)" (ionFocus)="onInputFocus('gender')" (ionCancel)="onSelectCancel('gender')" (ionBlur)="onInputBlur('gender',pDGgender.value)" [placeholder]="'Select'" class="sheriff-profile-input gender">
+                        <ion-select-option class="sheriff-profile-genderopt-class" *ngFor="let genOpt of profileData.gender.options" [value]="genOpt.value" [ngClass]="{'sheriff-profile-genopt-selected-class':pDGgender.value===genOpt.value}">{{genOpt.label}}</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col *ngIf="profileData.pronoun.value==='4'" class="profile-custom-pronoun-edit-btn-col">
+                    <ion-button (click)="editCustomPronoun(profileData.pronoun.options[4].label)" class="sheriff-btn profile-custom-pronoun-btn">
+                      <ion-icon class="sheriff-btn-ico profile-custom-pronoun-btn-ico" name="add"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                  <ion-col class="sheriff-col profile-form-col general-col pronoun-col input-col">
+                    <ion-item class="sheriff-profile-input-item pronoun-input-item">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.pronoun.hasChanged}" class="sheriff-profile-input-item-label pronoun">Pronouns<ion-icon *ngIf="pIsLocked" class="profile-label-lockitem locked pronoun" name="lock-closed"></ion-icon><ion-icon *ngIf="!pIsLocked" class="profile-label-lockitem unlocked pronoun" name="lock-open"></ion-icon><ion-spinner [duration]="350" *ngIf="tryingUnlock" class="profile-label-lockitem-spinner pronoun" name="dots"></ion-spinner></ion-label>
+                      <ion-select id="pronoun-input-id" #pDGpronoun [value]="profileData.pronoun.value" [interfaceOptions]="pronounPopOpts" [mode]="'md'" [interface]="'popover'" [selectedText]="profileData.pronoun.label" (ionChange)="changePronoun(pDGpronoun.value)" (ionFocus)="onInputFocus('pronoun')" (ionCancel)="onSelectCancel('pronoun')" (ionBlur)="onInputBlur('pronoun',pDGpronoun.value)" [placeholder]="'Select'" class="sheriff-profile-input pronoun">
+                        <ion-select-option class="sheriff-profile-pronounopt-class" *ngFor="let pnOpt of profileData.pronoun.options" [value]="pnOpt.value" [ngClass]="{'sheriff-profile-pronounopt-selected-class':pDGpronoun.value===pnOpt.value}">{{pnOpt.label}}</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row profile-form-row kiosk-row">
+                  <ion-col size="2" class="sheriff-col profile-form-col kiosk-col ico-col">
+                    <ion-icon name="keypad" [ngStyle]="{'color':pFieldFocus==='pin'?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico pin-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col size="10" class="sheriff-col profile-form-col general-col names-col input-col">
+                    <div class="profile-names-input-wrapper display-name">
+                      <ion-item class="sheriff-profile-input-item name-input-item display-name">
+                        <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.pin.hasChanged}" class="sheriff-profile-input-item-label pin">PIN<ion-icon *ngIf="pIsLocked" class="profile-label-lockitem locked pin" name="lock-closed"></ion-icon><ion-icon *ngIf="!pIsLocked" class="profile-label-lockitem unlocked pin" name="lock-open"></ion-icon><ion-spinner [duration]="350" *ngIf="tryingUnlock" class="profile-label-lockitem-spinner pin" name="dots"></ion-spinner></ion-label>
+                        <ion-input id="pin-input-id" #pDGpin [value]="profileData.pin.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" [min]="'4'" [max]="'4'" (ionFocus)="onInputFocus('pin')" (ionBlur)="onInputBlur('pin',pDGpin.value)" class="sheriff-profile-input pin"></ion-input>
+                      </ion-item>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+          </ion-row>
+          <!-- ADDRESS ----------------------------------------------------------------------------------------->
+          <ion-row class="sheriff-row profile-info-form main-row address-row heading-row">
+            <ion-col class="sheriff-col profile-info-form main-col address-col heading-col">
+              <div class="profile-main-section-header-gradient"></div>
+              <div class="profile-main-title-text address">
+                ADDRESS
+                <div class="psection-complete-wrapper address">
+                  <span class="pseccomp-val address">{{pComplete.address.v}}</span><span class="pseccomp-sep">/</span><span class="pseccomp-ttl address">{{pComplete.address.t}}</span><span class="pseccomp-sep">-</span><span [ngStyle]="{'color':pComplete.address.v===pComplete.address.t?'var(--ion-color-success-68)':'#848484'}" class="pseccomp-perc address">{{pComplete.address.p}}%</span>
+                </div>
+              </div>
+              <div class="profile-main-section-header-gradient"></div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="sheriff-row profile-info-form main-row address-row fields-row">
+            <ion-col size="12" class="sheriff-col">
+              <ion-grid class="sheriff-grid profile-form-grid address-grid">
+                <ion-row class="sheriff-row profile-form-row address-row1">
+                  <ion-col size="2" class="sheriff-col profile-form-col address-col name-col ico-col">
+                    <ion-icon name="location" [ngStyle]="{'color':pFieldFocus==='street'||pFieldFocus==='city'||pFieldFocus==='state'||sModalIsOpen||pFieldFocus==='pcode'||pFieldFocus==='country'||cModalIsOpen?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico address-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col size="10" class="sheriff-col profile-form-col address-col street-col input-col">
+                    <ion-item class="sheriff-profile-input-item address-input-item address-street">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.street.hasChanged}" class="sheriff-profile-input-item-label address-street">Street</ion-label>
+                      <ion-input id="street-input-id" #pDAstreet [value]="profileData.street.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('street')" (ionBlur)="onInputBlur('street',pDAstreet.value)" class="sheriff-profile-input address-street"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row profile-form-row address-row2">
+                  <ion-col size="2" class="sheriff-col"></ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col address-col city-col input-col">
+                    <ion-item class="sheriff-profile-input-item address-input-item address-city">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.city.hasChanged}" class="sheriff-profile-input-item-label address-city">City</ion-label>
+                      <ion-input id="city-input-id" #pDAcity [value]="profileData.city.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('city')" (ionBlur)="onInputBlur('city',pDAcity.value)" class="sheriff-profile-input address-city"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col address-col pcode-col input-col">
+                    <ion-item class="sheriff-profile-input-item address-input-item address-pcode">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.pcode.hasChanged}" class="sheriff-profile-input-item-label address-pcode">Postcode</ion-label>
+                      <ion-input id="pcode-input-id" #pDApcode [value]="profileData.pcode.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('pcode')" (ionBlur)="onInputBlur('pcode',pDApcode.value)" class="sheriff-profile-input address-pcode"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row profile-form-row address-row3">
+                  <ion-col size="2" class="sheriff-col"></ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col address-col state-col input-col">
+                    <div (click)="changeState(profileData.state.value)" class="ion-activatable ripple-parent">
+                      <ion-item [ngClass]="{'item-has-focus':sModalIsOpen}" class="sheriff-profile-input-item address-input-item address-state">
+                        <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.state.hasChanged}" class="sheriff-profile-input-item-label address-state">State</ion-label>
+                        <ion-select [disabled]="true" class="sheriff-profile-input address-state-select" [mode]="'md'" [placeholder]="'Select'" [value]="profileData.state.value" [selectedText]="profileData.state.label"></ion-select>
+                      </ion-item>
+                      <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                  </ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col address-col country-col input-col">
+                    <div (click)="changeCountry(profileData.country.value)" class="ion-activatable ripple-parent">
+                      <ion-item [ngClass]="{'item-has-focus':cModalIsOpen}" class="sheriff-profile-input-item address-input-item address-country">
+                        <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.country.hasChanged}" class="sheriff-profile-input-item-label address-country">Country</ion-label>
+                        <ion-select [disabled]="true" class="sheriff-profile-input address-country-select" [mode]="'md'" [placeholder]="'Select'" [value]="profileData.country.value" [selectedText]="profileData.country.label"></ion-select>
+                      </ion-item>
+                      <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+          </ion-row>
+          <!-- EMERGENCY ----------------------------------------------------------------------------------------->
+          <ion-row class="sheriff-row profile-info-form main-row emergency-row heading-row">
+            <ion-col class="sheriff-col profile-info-form main-col emergency-col heading-col">
+              <div class="profile-main-section-header-gradient"></div>
+              <div class="profile-main-title-text emergency">
+                EMERGENCY
+                <div class="psection-complete-wrapper emergency">
+                  <span class="pseccomp-val emergency">{{pComplete.emergency.v}}</span><span class="pseccomp-sep">/</span><span class="pseccomp-ttl emergency">{{pComplete.emergency.t}}</span><span class="pseccomp-sep">-</span><span [ngStyle]="{'color':pComplete.emergency.v===pComplete.emergency.t?'var(--ion-color-success-68)':'#848484'}" class="pseccomp-perc emergency">{{pComplete.emergency.p}}%</span>
+                </div>
+              </div>
+              <div class="profile-main-section-header-gradient"></div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="sheriff-row profile-info-form main-row emergency-row fields-row">
+            <ion-col size="12" class="sheriff-col">
+              <ion-grid class="sheriff-grid profile-form-grid emergency-grid"> 
+                <ion-row class="sheriff-row profile-form-row emergency-row name-row">
+                  <ion-col size="2" class="sheriff-col profile-form-col emergency-col name-col ico-col">
+                    <ion-icon name="medkit" [ngStyle]="{'color':pFieldFocus==='ename'||pFieldFocus==='ephone'?'var(--ion-color-primary)':'#848484'}" class="sheriff-profile-form-ico emergency-ico name-ico"></ion-icon>
+                  </ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col emergency-col name-col input-col">
+                    <ion-item class="sheriff-profile-input-item name-input-item display-name">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.ename.hasChanged}" class="sheriff-profile-input-item-label emergency-name">Name</ion-label>
+                      <ion-input id="ename-input-id" #pDEname [value]="profileData.ename.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('ename')" (ionBlur)="onInputBlur('ename',pDEname.value)" class="sheriff-profile-input emergency-name"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="5" class="sheriff-col profile-form-col emergency-col phone-col input-col">
+                    <ion-item class="sheriff-profile-input-item emergency-phone-input-item">
+                      <ion-label position="stacked" [ngClass]="{'pfield-changed':profileData.ephone.hasChanged}" class="sheriff-profile-input-item-label emergency-phone">Phone</ion-label>
+                      <ion-input id="ephone-input-id" #pDEphone [value]="profileData.ephone.value" [inputmode]="'text'" [mode]="'md'" [type]="'text'" (ionFocus)="onInputFocus('ephone')" (ionBlur)="onInputBlur('ephone',pDEphone.value)" class="sheriff-profile-input emergency-phone"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </div>
+    <!-- END OF PAGE-CONTENT -->
+</ion-content>

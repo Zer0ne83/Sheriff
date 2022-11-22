@@ -1,0 +1,134 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+  <ion-toolbar class="sheriff-toolbar">
+      <div class="sheriff-header-background-wrapper">
+          <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+          <div class="sheriff-header-background-inner-wrapper">
+              <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                  <ion-row class="sheriff-row sheriff-page-header-row">
+                      <ion-col class="sheriff-col sheriff-page-header-col left-col pay">
+                          <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar pay">
+                              <div class="sheriff-title-leftanimbar-inner pay"></div>
+                          </div>
+                          <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                              <div class="sheriff-page-title sheriff-heading-sansman hcl-title pay">
+                                  <div class="sheriff-title tight-wrap pay">Payment</div>
+                              </div>
+                          </div>
+                      </ion-col>
+                      <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                          <div class="sheriff-page-header-logo-wrapper">
+                              <div class="sheriff-page-header-logo-inner-wrapper">
+                                  <div class="sheriff-page-header-logo-highlight-layer hcl-ring pay"></div>
+                                  <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle pay hcl-progcirc pay">
+                                      <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                          [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                  </div>
+                                  <div id="logo-top-patchcover-outter" class="logo-top-patchcover outter hcl-opatch pay">
+                                      <div id="logo-top-patchcover-inner" class="logo-top-patchcover inner hcl-ipatch pay"></div>
+                                  </div>
+                                  <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star pay">
+                                  <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo pay">
+                              </div>
+                          </div>
+                      </ion-col>
+                      <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                          <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                              <div class="sheriff-page-backbtn-wrapper payment">
+                                  <ion-back-button icon="chevron-back-outline" class="sheriff-backbtn pay" defaultHref="/tabs"></ion-back-button>
+                              </div>
+                              <div class="sheriff-menu-button-wrapper">
+                                  <ion-menu-button class="sheriff-menu-button pay" autoHide="false">
+                                      <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                  </ion-menu-button>
+                              </div>
+                          </div>
+                      </ion-col>
+                  </ion-row>
+              </ion-grid>
+          </div>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheriff-content tab-content pay">
+  <!-- PAGE REFRESHER -->
+  <ion-refresher class="sheriff-refresher page pay" slot="fixed" (ionRefresh)="doPaymentRefresh($event)">
+      <div class="sheriff-refresher-noise-wrapper">
+          <ion-refresher-content class="sheriff-refresher-content-class" pullingIcon="arrow-down-circle" refreshingSpinner="dots"></ion-refresher-content>
+      </div>
+  </ion-refresher>
+  <!-- PAGE-CONTENT -->
+  <!-- CONTENT HEADING -->
+  <div class="sheriff-tabcontent-mainheading-wrapper pay">
+      <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid pay">
+          <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 pay">
+              <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 pay">
+              </ion-col>
+              <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 pay">
+                <img class="sheriff-reflect-title" src="../../assets/img/sheriff-reflecttitle-payment.png">
+              </ion-col>
+              <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 pay">
+               
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+  </div>
+  <!-- CONTENT WRAPPER -->
+  <div class="sheriff-payment-page main-page-outter-wrapper">
+    <ion-grid *ngIf="payPeriod!==null" class="sheriff-grid sheriff-payment-grid payperiod-grid">
+      <ion-row class="sheriff-row sheriff-payment-row payperiod-row">
+          <ion-col size="6" class="sheriff-col sheriff-payment-col payperiod-col label">
+            Pay Period:
+          </ion-col>
+          <ion-col size="6" class="sheriff-col sheriff-payment-col payperiod-col data">
+            {{payPeriod.Name}}
+          </ion-col>
+      </ion-row>
+      <ion-row class="sheriff-row sheriff-payment-row payperiod-row">
+        <ion-col size="6" class="sheriff-col sheriff-payment-col payperiod-col label">
+          Active?
+        </ion-col>
+        <ion-col size="6" class="sheriff-col sheriff-payment-col payperiod-col data">
+          {{payPeriod.Active.toString()}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid *ngIf="empPayCycle.length>0" class="sheriff-grid sheriff-payment-grid emppaycycle-grid">
+      <ion-row class="sheriff-row sheriff-payment-row emppaycycle-row">
+          <ion-col size="12" class="sheriff-col sheriff-payment-col emppaycycle-col label">
+            <ion-grid class="sheriff-grid empcycle-label-grid">
+              <ion-row class="sheriff-row empcycle-label-row">
+                <ion-col size="2" class="sheriff-col">Id</ion-col>
+                <ion-col size="3" class="sheriff-col">Date</ion-col>
+                <ion-col size="2" class="sheriff-col">Shifts</ion-col>
+                <ion-col size="3" class="sheriff-col">Time</ion-col>
+                <ion-col size="2" class="sheriff-col">Paid</ion-col>
+              </ion-row>
+            </ion-grid>
+            <ion-list>
+              <ion-item *ngFor="let epcItem of empPayCycle; index as epcI">
+                <ion-grid class="sheriff-grid">
+                  <ion-row class="sheriff-row">
+                    <ion-col size="2" class="sheriff-col">{{epcItem.Id}}</ion-col>
+                    <ion-col size="3" class="sheriff-col">{{epcItem.Modified.split('T')[0]}}</ion-col>
+                    <ion-col size="2" class="sheriff-col">{{epcItem.Timesheets}}</ion-col>
+                    <ion-col size="3" class="sheriff-col">{{epcItem.TimeTotal}}</ion-col>
+                    <ion-col size="2" class="sheriff-col">{{epcItem.Paid}}</ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+      </ion-row>
+      <ion-row class="sheriff-row sheriff-payment-row payperiod-row">
+        <ion-col size="6" class="sheriff-col sheriff-payment-col payperiod-col label">
+          Active?
+        </ion-col>
+        <ion-col size="6" class="sheriff-col sheriff-payment-col payperiod-col data">
+          {{payPeriod.Active.toString()}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <!-- END OF PAGE-CONTENT -->
+</ion-content>

@@ -1,0 +1,67 @@
+<div class="ion-page sheriff-component-modal sheriff-daterange-modal outter-wrapper">
+    <ion-grid class="sheriff-grid dr-modal-grid">
+        <ion-row class="sheriff-row dr-modal-row label-row">
+            <ion-col class="sheriff-col">
+                <div class="dr-startend-label-wrapper start">start date</div>
+                <div *ngIf="!sDIsToday" (click)="useTodayDate('sDate')" class="dr-usetoday-btn start ion-activatable ripple-parent">
+                    today
+                    <img class="dr-fillinputtoday-ico" src="../../../assets/img/sheriff-fillinput-ico.png">
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+                <div *ngIf="sDIsToday" class="dr-dateistoday-label start">today</div>
+            </ion-col>
+            <ion-col class="sheriff-col">
+                <div class="dr-startend-label-wrapper end">end date</div>
+                <div *ngIf="!eDIsToday" (click)="useTodayDate('eDate')" class="dr-usetoday-btn end ion-activatable ripple-parent">
+                    today
+                    <img class="dr-fillinputtoday-ico" src="../../../assets/img/sheriff-fillinput-ico.png">
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+                <div *ngIf="eDIsToday" class="dr-dateistoday-label end">today</div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="sheriff-row dr-modal-row input-row">
+            <ion-col class="sheriff-col dr-col start-input-col">
+                <img src="../../../assets/img/sheriff-datefrom-ico.png" class="dr-ico datefrom">
+                <div (click)="openDateRange('start','open','sDateIn','sDate',drStart.value)" class="dr-inputico-wrapper start ion-activatable ripple-parent">
+                    <ion-datetime ngModel #drStart value={{sDate}} displayFormat="D MMM YYYY" class="sheriff-input summary-list-date-input startdate" mode="md" readonly="true"></ion-datetime>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+            </ion-col>
+            <ion-col class="sheriff-col dr-col end-input-col">
+                <img src="../../../assets/img/sheriff-dateto-ico.png" class="dr-ico dateto">
+                <div (click)="openDateRange('end','open','eDateIn','eDate',drEnd.value)" class="dr-inputico-wrapper end ion-activatable ripple-parent">
+                    <ion-datetime ngModel #drEnd value={{eDate}} displayFormat="D MMM YYYY" class="sheriff-input summary-list-date-input enddate" mode="md" readonly="true"></ion-datetime>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="sheriff-row">
+            <ion-col size="6" class="sheriff-col range-days-col">
+                <div class="dr-rangedays-outter-wrapper">
+                    <div class="dr-rangedays-inner-wrapper">
+                        <div class="dr-rangedays-isvalid-wrapper">
+                            <span class="isvalidrange-label">Date Range:</span><span *ngIf="drIsValid" class="isvalidrangeval valid">VALID</span><span *ngIf="!drIsValid" class="isvalidrangeval invalid">INVALID</span>
+                        </div>
+                        <div class="dr-rangedays-text-wrapper">
+                            <span *ngIf="drIsValid" class="dr-rangedays-text range-dayno">{{rangeDur}}</span>
+                            <span *ngIf="!drIsValid" class="dr-rangedays-text rangeerror">{{rangeError}}</span>
+                        </div>
+                    </div>
+                </div>
+            </ion-col>
+            <ion-col size="2" class="sheriff-col done-btn-col">
+                <ion-button (click)="cancelDateRange()" class="sheriff-btn dr-modal-button cancel">
+                    <ion-icon class="sheriff-ico daterange-btn-ico cancel-ico" name="close"></ion-icon>
+                </ion-button>
+            </ion-col>
+            <ion-col size="4" class="sheriff-col done-btn-col">
+                <ion-button (click)="drModalAction('done')" class="sheriff-btn dr-modal-button done" [ngStyle]="{'border-color':drIsValid?'#2dd36fad':'#e0ac08ad'}">
+                    <ion-icon *ngIf="drIsValid" name="checkmark"></ion-icon>
+                    <div *ngIf="drIsValid" class="dr-update-done-txt">update</div>
+                    <div *ngIf="!drIsValid" class="dr-update-done-txt error">fix range</div>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>

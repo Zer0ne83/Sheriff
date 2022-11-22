@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "806779609016",
+    "project_id": "sherifffb-90311",
+    "storage_bucket": "sherifffb-90311.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806779609016:android:cb5b9134b3b8a47b20f94d",
+        "android_client_info": {
+          "package_name": "dev.zer0ne.sheriff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806779609016-haj716q28v6s6gnt0dv275ej5tenoh01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7Se0R6It-AvRDsGU6CStmFnaPag9I4FY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117477416202308597904",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

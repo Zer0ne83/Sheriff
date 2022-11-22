@@ -1,0 +1,22 @@
+<div class="detail-edit-main-wrapper">
+    <ion-grid class="sheriff-grid detail-edit-popover">
+        <ion-row class="sheriff-row detail-edit-row save-row ion-activatable ripple-parent">
+            <ion-col class="sheriff-col detail-edit-col save-label-col">
+                <div (click)="closePopover('save')" class="detail-edit-item update">
+                    <ion-icon class="detail-pop-ico save-ico" name="save-outline"></ion-icon>
+                    <div class="detail-edit-menu-item-label update">Update</div>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="sheriff-row sheriff-detail-edit-row discard-row ion-activatable ripple-parent">
+            <ion-col class="sheriff-col detail-edit-col discard-label-col">
+                <div (click)="closePopover('discard')" class="detail-edit-item discard">
+                    <ion-icon class="detail-pop-ico discard-ico" name="trash-outline"></ion-icon>
+                    <div class="detail-edit-menu-item-label discard">Discard</div>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>

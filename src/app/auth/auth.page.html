@@ -1,0 +1,198 @@
+<div class="sheriff-custom-firstload-outter-wrapper">
+  <div class="sheriff-custom-firstload-txt top">starting</div>
+  <div class="sheriff-custom-firstload-inner-wrapper">
+    <img class="sheriff-custom-firstload-img fl-bigs fload-s-anim" src="../assets/img/slogo-g.png">
+    <img class="sheriff-custom-firstload-img fl-star fload-star-anim" src="../assets/img/loadingstar.png">
+  </div>
+  <div class="sheriff-custom-firstload-txt bottom">sheriff</div>
+</div>
+<ion-content id="auth-page-ion-content" class="sheriff-content login-page-content">
+
+    <div id="sheriff-auth-page-main-wrapper" class="sheriff-page-wrapper login-page">
+        <div id="sheriff-authpage-bg-wrapper" class="sheriff-authpage-bg-wrapper">
+            <div id="sheriff-authpage-bg-layer1"></div>
+            <div id="sheriff-authpage-title-wrapper">
+                <div id="sheriff-authpage-sunincons-wrapper">
+                    <ion-grid class="sheriff-grid sheriff-auth-sunicon-grid">
+                        <ion-row class="sheriff-row sheriff-auth-row sheriff-auth-sunicons-row iconsrow">
+                            <ion-col class="sheriff-col sheriff-auth-col sheriff-auth-sunicon-col connect"><img src="../../assets/img/sheriff-sunicon-connect.png" class="sheriff-sunicon-ico connect"></ion-col>
+                            <ion-col class="sheriff-col sheriff-auth-col sheriff-auth-sunicon-col authenticate"><img src="../../assets/img/sheriff-sunicon-authenticate.png" class="sheriff-sunicon-ico authenticate"></ion-col>
+                            <ion-col class="sheriff-col sheriff-auth-col sheriff-auth-sunicon-col tokens"><img src="../../assets/img/sheriff-sunicon-tokens.png" class="sheriff-sunicon-ico tokens"></ion-col>
+                            <ion-col class="sheriff-col sheriff-auth-col sheriff-auth-sunicon-col completed"><img src="../../assets/img/sheriff-sunicon-completed.png" class="sheriff-sunicon-ico completed"></ion-col>
+                        </ion-row>
+                        <ion-row class="sheriff-row sheriff-auth-sunicon-sep-row">
+                            <ion-col class="sheriff-col sheriff-auth-col sep-col"></ion-col>
+                        </ion-row>
+                        <ion-row class="sheriff-row sheriff-auth-row sheriff-auth-sunicons-row textrow">
+                            <ion-col class="sheriff-col sheriff-auth-col sheriff-auth-sunicons-text-top-col">
+                                <div class="blacktextfill standard-filled" id="sheriff-authpage-loadprogtext">
+                                    sheriff
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+                <div id="sheriff-authpage-title-txt"></div>
+            </div>
+            <div id="sheriff-authpage-bg-sunlayer" class="sheriff-authpage-bg-sunlayer"></div>
+            <div id="sheriff-authpage-bg-layer2"></div>
+        </div>
+        <!-- AUTH ACTIONS MAIN WRAPPER -->
+        <div id="sheriff-auth-mainactions-bottom-wrapper">
+            <!-- OFFLINE INFO/ACTION GRID -->
+            <div *ngIf="!hasConnection" id="sheriff-auth-offline-wrapperid" class="sheriff-auth-offline-wrapper">
+                <ion-grid class="sheriff-grid sheriff-auth-grid sheriff-offline-grid">
+                    <ion-row class="sheriff-row sheriff-auth-row sheriff-offline-row heading-row1">
+                        <ion-col size="3" class="sheriff-col sheriff-auth-col sheriff-offline-col heading-col1">
+                            <div id="sheriff-auth-offline-heading-wrapperid" class="sheriff-auth-offline-heading-wrapper">
+                                <img class="sheriff-auth-offline-heading-ico" src="../../assets/img/sheriff-auth-offline-bigico.png">
+                                <div id="sheriff-auth-offline-offlinetext" class="sheriff-auth-offline-offlinetext">offline</div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-auth-col sheriff-offline-col infotext-col1">
+                            <div id="sheriff-auth-offline-info-wrapperid" class="sheriff-auth-offline-info-wrapper">
+                                <div *ngIf="!hasConnection && !gotSavedDLData" class="sheriff-auth-offline-infotext nodataquitonly">
+                                    <div class="sheriff-auth-offline-infotext linerdiv l1">
+                                        no data connection
+                                    </div>
+                                    <div class="sheriff-auth-offline-infotext linerdiv">
+                                        Sheriff cannot be used in <span class="auth-olmodespan">offline mode</span> because no saved data was found.
+                                    </div>
+                                    <div class="sheriff-auth-offline-infotext linerdiv">
+                                        This App automatically saves and updates your data so that it <span class="italexpress">can</span> be used offline so it is most likely that:
+                                        <ul class="sheriff-auth-offline-info-list">
+                                            <li class="sheriff-auth-offline-info-list-item">you are using this App for the first time</li>
+                                            <li class="sheriff-auth-offline-info-list-item">you recently un/re-installed Sheriff</li>
+                                            <li class="sheriff-auth-offline-info-list-item">your device denied this App storage permissions</li>
+                                            <li class="sheriff-auth-offline-info-list-item">you recently cleared/deleted this App's storage/cache</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div *ngIf="!hasConnection && gotSavedDLData" class="sheriff-auth-offline-infotext gotdatacanenter">
+                                    <div class="sheriff-auth-offline-infotext linerdiv l1">
+                                        no data connection
+                                    </div>
+                                    <div class="sheriff-auth-offline-infotext linerdiv">
+                                        Sheriff can used in <span class="auth-olmodespan">offline mode</span> but it is <span class="stressimportant">important</span> that you understand that you will be looking at <span class="italexpress">outdated information</span>                                        and unable to refresh, change, post or send any data to Deputy servers.
+                                    </div>
+                                    <div class="sheriff-auth-offline-infotext linerdiv">
+                                        If you understand and accept those limitations, hit that <span class="lilbtntxt enter">enter app</span> button, otherwise, the <span class="lilbtntxt exit">exit app</span> button is for you.
+                                    </div>
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="sheriff-row sheriff-auth-row sheriff-offline-row btns-row2">
+                        <ion-col class="sheriff-col sheriff-auth-col sheriff-offline-col exitbtn-col1">
+                            <ion-button (click)="offlineExitEnterApp('exit')" id="sheriff-auth-loginbox-exitapp">
+                                <ion-icon id="sheriff-auth-loginbox-exitapp-ico" name="log-out"></ion-icon>
+                                <div id="sheriff-auth-offline-exitapp-btn-text">Exit App</div>
+                            </ion-button>
+                        </ion-col>
+                        <ion-col *ngIf="!(!hasConnection && !gotSavedDLData)" class="sheriff-col sheriff-auth-col sheriff-offline-col enterbtn-col2">
+                            <ion-button (click)="offlineExitEnterApp('enter')" id="sheriff-auth-loginbox-enterapp">
+                                <ion-icon id="sheriff-auth-loginbox-enterapp-ico" name="log-in"></ion-icon>
+                                <div id="sheriff-auth-offline-enterapp-btn-text">Enter App</div>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <!-- APP/DEPUTY LOGIN ACTION GRID -->
+            <div *ngIf="hasConnection" id="sheriff-auth-loginbox-wrapperid" class="sheriff-auth-loginbox-wrapper">
+                <ion-grid class="sheriff-grid sheriff-auth-loginbox-grid">
+                    <ion-row class="sheriff-row sheriff-auth-loginbox-row heading-row">
+                        <ion-col class="sheriff-col sheriff-auth-loginbox-col heading-col">
+                            <div class="sheriff-auth-loginbox-heading-text">
+                                <div *ngIf="!signingIn" id="sheriff-auth-loginbox-signin-text" class="loginbox-heading-class" (click)="owenDev()">One-time Sign In</div>
+                                <div *ngIf="signingIn && connectStage !== 'completed' && connectStage !== 'failed' && !frSetup" id="sheriff-auth-loginbox-signingin-text" class="loginbox-heading-class">Signing In</div>
+                                <div *ngIf="signingIn && connectStage === 'completed' && !frSetup" id="sheriff-auth-loginbox-signin-complete-text" class="loginbox-heading-class">Completed</div>
+                                <div *ngIf="signingIn && connectStage === 'failed'" id="sheriff-auth-loginbox-signin-failed-text" class="loginbox-heading-class">Failed</div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="!signingIn" class="sheriff-row sheriff-auth-loginbox-row username-row">
+                        <ion-col size="12" class="sheriff-col sheriff-auth-loginbox-col username-input-col">
+                            <div class="sheriff-col sheriff-auth-loginbox-col username-leftindic-col">
+                                <ion-icon class="sheriff-auth-loginbox-input-ico user left sheriff-auth-login-username-ico" name="mail"></ion-icon>
+                            </div>
+                            <ion-input ngModel #loginInputUser (ionChange)="loginBoxInput('sheriff-auth-login-username', 'change')" disabled="false" required="true" clear-input="true" autocomplete="off" autocorrect="off" autofocus="false" value id='sheriff-auth-login-username' class='sheriff-auth-login-input user'
+                                (ionInput)="loginBoxInput('.sheriff-auth-loginbox-input-ico.user', 'input')" (ionFocus)="loginBoxInput('sheriff-auth-login-username', 'focus')" (ionBlur)="loginBoxInput('sheriff-auth-login-username', 'blur')" pattern="email"
+                                mode="md" inputmode="email" placeholder='Your Deputy Email' type="email"></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="!signingIn" class="sheriff-row sheriff-auth-loginbox-row password-row">
+                        <ion-col size="12" class="sheriff-col sheriff-auth-loginbox-col password-input-col">
+                            <div class="sheriff-col sheriff-auth-loginbox-col password-leftindic-col">
+                                <ion-icon class="sheriff-auth-loginbox-input-ico pass left sheriff-auth-login-password-ico" name="medical"></ion-icon>
+                            </div>
+                            <ion-input ngModel #loginInputPass (ionChange)="loginBoxInput('sheriff-auth-login-password', 'change')" disabled="true" required="true" clear-input="true" autocomplete="off" autocorrect="off" autofocus="false" value id='sheriff-auth-login-password' class='sheriff-auth-login-input pass'
+                                (ionInput)="loginBoxInput('.sheriff-auth-loginbox-input-ico.pass', 'input')" (ionFocus)="loginBoxInput('sheriff-auth-login-password', 'focus')" (ionBlur)="loginBoxInput('sheriff-auth-login-password', 'blur')" mode="md" inputmode="password"
+                                placeholder='Your Deputy Password' type="password"></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="signingIn" class="sheriff-row sheriff-auth-loginbox-row signingin-row">
+                        <ion-col size="12" class="sheriff-col sheriff-auth-loginbox-col signingin-col">
+                            <div *ngIf="!frSetup" id="sheriff-auth-loginbox-signingin-progress-icon-wrapper">
+                                <img *ngIf="connectStage === 'connect'" src="../../assets/img/sheriffauth-1-connect.png" class="sheriff-auth-loginbox-signingin-progress-ico connect">
+                                <img *ngIf="connectStage === 'authenticate'" src="../../assets/img/sheriffauth-2-authenticate.png" class="sheriff-auth-loginbox-signingin-progress-ico authenticate">
+                                <img *ngIf="connectStage === 'tokens'" src="../../assets/img/sheriffauth-3-tokens.png" class="sheriff-auth-loginbox-signingin-progress-ico tokens">
+                            </div>
+                            <div *ngIf="connectStage === 'completed' && !frSetup" class="animate__animated animate__zoomIn animate__faster" id="sheriff-auth-loginbox-signingin-completed-icon-wrapper">
+                                <img src="../../assets/img/sheriffauth-5-completed.png" class="sheriff-auth-loginbox-signingin-completed-ico">
+                            </div>
+                            <div *ngIf="connectStage === 'failed' && !frSetup" class="animate__animated animate__flash animate__slower animate__infinite" id="sheriff-auth-loginbox-signingin-failed-icon-wrapper">
+                                <img src="../../assets/img/sheriff-auth-error-bigico.png" class="sheriff-auth-loginbox-signingin-failed-ico">
+                            </div>
+                            <div id="sheriff-auth-loginbox-signingin-shield-overlay-wrapper"></div>
+                            <div id="sheriff-auth-loginbox-signingin-shield-darkbacker"></div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="signingIn" class="sheriff-row sheriff-auth-loginbox-row signingin-statustext-row">
+                        <ion-col size="12" class="sheriff-col sheriff-auth-loginbox-col signingin-statustext-col">
+                            <div *ngIf="connectStage !== 'completed' && connectStage !== 'failed' && !frSetup" class="sheriff-auth-signingin-progress-stageno-text-wrapper">
+                                <span class="stageno-text connect" *ngIf="connectStage === 'connect'">1</span>
+                                <span class="stageno-text authenticate" *ngIf="connectStage === 'authenticate'">2</span>
+                                <span class="stageno-text tokens" *ngIf="connectStage === 'tokens'">3</span>
+                                <span class="lilvertdiv">|</span>3
+                                <span class="lilhorodiv">-</span>
+                            </div>
+                            <div *ngIf="connectStage === 'connect'" class="sheriff-auth-signingin-progress-text connect">Connecting...</div>
+                            <div *ngIf="connectStage === 'authenticate'" class="sheriff-auth-signingin-progress-text authenticate">Authenticating...</div>
+                            <div *ngIf="connectStage === 'tokens'" class="sheriff-auth-signingin-progress-text tokens">Obtaining Token...</div>
+                            <div *ngIf="connectStage === 'completed'" class="animate__animated animate__flipInX sheriff-auth-signingin-progress-text completed">Saddle-up, pilgram.</div>
+                            <div *ngIf="connectStage === 'failed'" class="animate__animated animate__flipInX sheriff-auth-signingin-progress-text failed">Login Failed!</div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="!signingIn" class="sheriff-row sheriff-auth-loginbox-row logincancelbtn-row">
+                        <ion-col size="12" class="sheriff-col sheriff-auth-loginbox-col login-btn-col">
+                            <div *ngIf="authLoginBtn.disabled" id="sheriff-auth-loginbox-helpertext-wrapper">
+                                <div id="sheriff-auth-loginbox-helper-text">
+                                    <div class="animate__animated animate__fadeIn" id="sheriff-auth-loginbox-helper-initial">Sign in with your <img src="../../assets/img/sheriff-deputy-logoname-white-small.png" class="lildeputylogoname"> email/password</div>
+                                </div>
+                            </div>
+                            <ion-button #authLoginBtn disabled="true" (click)="loginBoxSignIn()" id="sheriff-auth-loginbox-loginbtn" class="animate__animated animate__flipInX sheriff-auth-login-button loginbtn">
+                                <ion-icon class="sheriff-ico sheriff-auth-logincancel-btn-ico login" name="log-in"></ion-icon>
+                                <div class="sheriff-btn-label sheriff-auth-logincancel-btn-label login animate__animated animate__fadeIn">Save & Sign In</div>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <!-- DEPUTY API AUTH PROGRESS GRID -->
+            <div *ngIf="signingIn" id="sheriff-auth-dpauthinprogress-wrapperid" class="sheriff-auth-dpauthinprogress-wrapper">
+                <ion-grid class="sheriff-grid sheriff-auth-dpauthinprogress-grid">
+                    <ion-row class="sheriff-row sheriff-auth-dpauthinprogress-row row1">
+                        <ion-col class="sheriff-col sheriff-auth-dpauthinprogress-col col1">
+                            <div class="sheriff-auth-dpauthinprogress-bar-wrapper">
+                                <ion-progress-bar id="sheriff-auth-dpauthinprogress-bar" value="{{ dpAuthPBarPerc }}"></ion-progress-bar>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <!-- END AUTH ACTIONS WRAPPER -->
+        </div>
+    </div>
+
+</ion-content>

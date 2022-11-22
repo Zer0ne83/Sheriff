@@ -1,0 +1,266 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid detailmodalheader-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row detailmodalheader-row">
+                        <ion-col (click)="closeHistory()" class="sheriff-col detail-header-col close-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-detail-header-btn-wrapper close-btn">
+                                <ion-icon class="sheriff-detail-header-ico close-btn-ico" name="arrow-back"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col class="sheriff-col detail-header-col title-col">
+                            <div class="sheriff-detail-header title-wrapper history">
+                                <span class="tsdetail-title-prefix history">History</span>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="tsheet-detail-content tsheet-detail-historymodal">
+
+    <div class="tsheet-detail-bground-wrapper"></div>
+
+    <div *ngIf="noHistory" class="tsheet-detail-history nohistory-wrapper">
+        <div class="tsheet-detail-history no-history-txt">No History Found</div>
+    </div>
+
+    <div class="tsheet-detail-main-wrapper">
+        <!-- ROSTER SECTION -->
+        <ion-grid class="tsheet-detail-history-item-grid roster-grid">
+            <ion-row class="sheriff-row tsheet-detail-history-row roster-row">
+                <ion-col size="2" class="sheriff-col tsheet-detail-history-col roster-icon-col history-2-icon-col">
+                    <ion-icon class="tsheet-history-main-ico rospub-ico" name="star"></ion-icon>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col tsheet-detail-history-col roster-value-col whowhat">
+                    <div class="ts-history-value history-header-value roster publishernk">Roster Published</div>
+                    <div *ngIf="rosPubDate!==null" class="ts-history-value history-header-subvalue roster-date">{{rosPubDate}}</div>
+                    <div *ngIf="rosPubDate===null" class="ts-history-value history-header-subvalue roster-date nk">-</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <!-- DATE SECTION -->
+        <ion-grid class="tsheet-detail-history-item-grid date-grid">
+            <ion-row class="sheriff-row tsheet-detail-history-row date-row">
+                <ion-col size="2" class="sheriff-col tsheet-detail-history-col date-icon-col history-2-icon-col">
+                    <ion-icon class="tsheet-history-main-ico date-ico" name="calendar"></ion-icon>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col tsheet-detail-history-col date-value-col">
+                    <div class="ts-history-value history-header-value roster shift">Shift Time Entries</div>
+                    <div class="ts-history-value date-value">{{this.ts.nDate}}</div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-detail-history-row timeentries-row">
+                <ion-col class="sheriff-col tsheet-detail-history-col timeentries-col">
+                    <!-- SYSTEM SECTION -->
+                    <ion-grid class="tsheet-detail-history-item-grid system-grid">
+                        <!-- Heading -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-header-row system">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-header-col system-icon-col history-2-icon-col">
+                                <ion-icon class="tsheet-history-main-ico system-ico" name="business"></ion-icon>
+                            </ion-col>
+                            <ion-col size="8" class="sheriff-col tsheet-detail-history-col history-header-col system-value-col">
+                                <div class="ts-history-value history-header-value system">System</div>
+                                <div class="ts-history-value history-header-subvalue system">Timesheet Updated</div>
+                            </ion-col>
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-header-col system-timeval-col">
+                                <div class="ts-history-value history-header-timevalue system">{{sLastUpdate}}</div>
+                            </ion-col>
+                        </ion-row>
+                        <!-- Shift End Time -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-event-row">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-event-col timeicon-col">
+                                <ion-icon class="tsheet-history-time-ico system" name="time"></ion-icon>
+                            </ion-col>
+                            <ion-col size="10" class="sheriff-col tsheet-detail-history-col history-event-col system-value-col">
+                                <ion-grid class="sheriff-grid ts-history-event-detail-grid">
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-name-row">
+                                        <ion-col size="12" class="sheriff-col ts-history-event-detail-col event-name-col">
+                                            End Time
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-rawtime-row">
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-rawtime-col">
+                                            {{sETimeRaw}}
+                                        </ion-col>
+                                        <ion-col size="1" class="sheriff-col ts-history-event-detail-col event-arrowico-col">
+                                            <ion-icon class="tsheet-history-arrow-ico" name="arrow-forward"></ion-icon>
+                                        </ion-col>
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-roundtime-col">
+                                            {{sETimeRound}}
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                        <!-- Shift Start Time -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-event-row">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-event-col timeicon-col">
+                                <ion-icon class="tsheet-history-time-ico system" name="time"></ion-icon>
+                            </ion-col>
+                            <ion-col size="10" class="sheriff-col tsheet-detail-history-col history-event-col system-value-col">
+                                <ion-grid class="sheriff-grid ts-history-event-detail-grid">
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-name-row">
+                                        <ion-col size="12" class="sheriff-col ts-history-event-detail-col event-name-col">
+                                            Start Time
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-rawtime-row">
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-rawtime-col">
+                                            {{sSTimeRaw}}
+                                        </ion-col>
+                                        <ion-col size="1" class="sheriff-col ts-history-event-detail-col event-arrowico-col">
+                                            <ion-icon class="tsheet-history-arrow-ico" name="arrow-forward"></ion-icon>
+                                        </ion-col>
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-roundtime-col">
+                                            {{sSTimeRound}}
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                        <!-- Total Time -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-event-row">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-event-col timeicon-col">
+                                <ion-icon class="tsheet-history-equals-ico system" name="reorder-two"></ion-icon>
+                            </ion-col>
+                            <ion-col size="10" class="sheriff-col tsheet-detail-history-col history-event-col system-value-col">
+                                <ion-grid class="sheriff-grid ts-history-event-detail-grid">
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-name-row">
+                                        <ion-col size="12" class="sheriff-col ts-history-event-detail-col event-name-col">
+                                            Total Time
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-rawtime-row">
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-rawtime-col">
+                                            <span class="tsheet-detail-tt-value sysraw">
+                                              <span *ngIf="sTTRaw.hours>0" class="tsheet-history-tt-value hrs">{{sTTRaw.hours}}<span class="tt-suffix hrs">hrs</span></span>
+                                            <span *ngIf="sTTRaw.minutes>0" class="tsheet-history-tt-value mins">{{sTTRaw.minutes}}<span class="tt-suffix mins">mins</span></span>
+                                            </span>
+                                        </ion-col>
+                                        <ion-col size="1" class="sheriff-col ts-history-event-detail-col event-arrowico-col">
+                                            <ion-icon class="tsheet-history-arrow-ico" name="arrow-forward"></ion-icon>
+                                        </ion-col>
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-roundtime-col">
+                                            <span class="tsheet-detail-tt-value sysround">
+                                            <span *ngIf="sTTRound.hours>0" class="tsheet-history-tt-value hrs">{{sTTRound.hours}}<span class="tt-suffix hrs">hrs</span></span>
+                                            <span *ngIf="sTTRound.minutes>0" class="tsheet-history-tt-value mins">{{sTTRound.minutes}}<span class="tt-suffix mins">mins</span></span>
+                                            </span>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <!-- USER SECTION -->
+                    <ion-grid class="tsheet-detail-history-item-grid user-grid">
+                        <!-- Heading -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-header-row user">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-header-col user-icon-col history-2-icon-col">
+                                <img class="sheriff-detail-heading-avatar tsheet-heading-avatar history-ava" src="{{meAvatar}}">
+                            </ion-col>
+                            <ion-col size="8" class="sheriff-col tsheet-detail-history-col history-header-col user-value-col">
+                                <div class="ts-history-value history-header-value user">{{myDisplayName}}</div>
+                                <div class="ts-history-value history-header-subvalue user">Timesheet Updated</div>
+                            </ion-col>
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-header-col user-timeval-col">
+                                <div class="ts-history-value history-header-timevalue user">{{uLastUpdate}}</div>
+                            </ion-col>
+                        </ion-row>
+                        <!-- Shift End Time -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-event-row">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-event-col timeicon-col">
+                                <ion-icon class="tsheet-history-time-ico user" name="time"></ion-icon>
+                            </ion-col>
+                            <ion-col size="10" class="sheriff-col tsheet-detail-history-col history-event-col user-value-col">
+                                <ion-grid class="sheriff-grid ts-history-event-detail-grid">
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-name-row">
+                                        <ion-col size="12" class="sheriff-col ts-history-event-detail-col event-name-col">
+                                            End Time
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-rawtime-row">
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-rawtime-col">
+                                            {{uETimeRaw}}
+                                        </ion-col>
+                                        <ion-col size="1" class="sheriff-col ts-history-event-detail-col event-arrowico-col">
+                                            <ion-icon class="tsheet-history-arrow-ico" name="arrow-forward"></ion-icon>
+                                        </ion-col>
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-roundtime-col">
+                                            {{uETimeRound}}
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                        <!-- Shift Start Time -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-event-row">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-event-col timeicon-col">
+                                <ion-icon class="tsheet-history-time-ico user" name="time"></ion-icon>
+                            </ion-col>
+                            <ion-col size="10" class="sheriff-col tsheet-detail-history-col history-event-col user-value-col">
+                                <ion-grid class="sheriff-grid ts-history-event-detail-grid">
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-name-row">
+                                        <ion-col size="12" class="sheriff-col ts-history-event-detail-col event-name-col">
+                                            Start Time
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-rawtime-row">
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-rawtime-col">
+                                            {{uSTimeRaw}}
+                                        </ion-col>
+                                        <ion-col size="1" class="sheriff-col ts-history-event-detail-col event-arrowico-col">
+                                            <ion-icon class="tsheet-history-arrow-ico" name="arrow-forward"></ion-icon>
+                                        </ion-col>
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-roundtime-col">
+                                            {{uSTimeRound}}
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                        <!-- Total Time -->
+                        <ion-row class="sheriff-row tsheet-detail-history-row history-event-row">
+                            <ion-col size="2" class="sheriff-col tsheet-detail-history-col history-event-col timeicon-col">
+                                <ion-icon class="tsheet-history-equals-ico user" name="reorder-two"></ion-icon>
+                            </ion-col>
+                            <ion-col size="10" class="sheriff-col tsheet-detail-history-col history-event-col user-value-col">
+                                <ion-grid class="sheriff-grid ts-history-event-detail-grid">
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-name-row">
+                                        <ion-col size="12" class="sheriff-col ts-history-event-detail-col event-name-col">
+                                            Total Time
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row ts-history-event-detail-row event-rawtime-row">
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-rawtime-col">
+                                            <span class="tsheet-detail-tt-value userraw">
+                                              <span *ngIf="uTTRaw.hours>0" class="tsheet-history-tt-value hrs">{{uTTRaw.hours}}<span class="tt-suffix hrs">hrs</span></span>
+                                            <span *ngIf="uTTRaw.minutes>0" class="tsheet-history-tt-value mins">{{uTTRaw.minutes}}<span class="tt-suffix mins">mins</span></span>
+                                            </span>
+                                        </ion-col>
+                                        <ion-col size="1" class="sheriff-col ts-history-event-detail-col event-arrowico-col">
+                                            <ion-icon class="tsheet-history-arrow-ico" name="arrow-forward"></ion-icon>
+                                        </ion-col>
+                                        <ion-col class="sheriff-col ts-history-event-detail-col event-roundtime-col">
+                                            <span class="tsheet-detail-tt-value userround">
+                                              <span *ngIf="uTTRound.hours>0" class="tsheet-history-tt-value hrs">{{uTTRound.hours}}<span class="tt-suffix hrs">hrs</span></span>
+                                            <span *ngIf="uTTRound.minutes>0" class="tsheet-history-tt-value mins">{{uTTRound.minutes}}<span class="tt-suffix mins">mins</span></span>
+                                            </span>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+
+</ion-content>

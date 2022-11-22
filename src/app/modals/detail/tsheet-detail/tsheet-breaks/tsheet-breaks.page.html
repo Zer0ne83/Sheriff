@@ -1,0 +1,250 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid detailmodalheader-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row detailmodalheader-row">
+                        <ion-col (click)="closeBreaks()" class="sheriff-col detail-header-col close-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-detail-header-btn-wrapper close-btn">
+                                <ion-icon class="sheriff-detail-header-ico close-btn-ico" name="arrow-back"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col class="sheriff-col detail-header-col title-col">
+                            <div class="sheriff-detail-header title-wrapper breaks">
+                                <span class="tsdetail-title-prefix breaks">Breaks</span>
+                                <span class="tsdetail-title-breaks-count title-bc-ani">({{breaks.length}})</span>
+                                <span class="tsdetail-title-breaks-ttime">
+                                  <span class="tsdetail-title-breaks-ttime scolon">:</span>
+                                <span class="tsdetail-title-breaks-ttime value title-bc-ani">
+                                    <span *ngIf="totalTime.hours>0" class="breaks-tt-wrapper hours">
+                                        <span class="breaks-tt-hours-val">{{totalTime.hours}}</span>
+                                <span class="breaks-tt-hours-suffix">hrs</span>
+                                </span>
+                                <span class="breaks-tt-wrapper minutes">
+                                        <span class="breaks-tt-minutes-val">{{totalTime.minutes}}</span>
+                                <span class="breaks-tt-minutes-suffix">mins</span>
+                                </span>
+                                </span>
+                                </span>
+                            </div>
+                        </ion-col>
+                        <ion-col (click)="saveBreaks(false)" class="sheriff-col detail-header-col share-btn-col ion-activatable ripple-parent">
+                            <div class="shouldsave-indic-wrapper">
+                                <ion-icon *ngIf="shouldSave" class="shouldsave-indic-ico animate__animated animate__fadeIn" name="ellipse"></ion-icon>
+                            </div>
+                            <div class="sheriff-detail-header-btn-wrapper share-btn">
+                                <ion-icon class="sheriff-detail-header-ico save-btn-ico" name="save"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="tsheet-detail-content tsheet-detail-breaksmodal">
+
+    <div class="tsheet-detail-bground-wrapper"></div>
+    <div *ngIf="breaks.length===0&&newBreaks.length===0" class="tsheet-detail-breaks nobreaks-wrapper">
+        <div *ngIf="mode==='details'" class="tsheet-detail-breaks no-breaks-txt">
+            No Breaks Found
+        </div>
+        <div *ngIf="mode==='addtsheet'" class="tsheet-detail-breaks no-breaks-txt">
+            Add New Breaks
+        </div>
+    </div>
+
+    <div *ngIf="breaks.length>0||newBreaks.length>0" class="tsheet-detail-added-breaks-main-wrapper">
+        <ion-grid *ngFor="let break of breaks; let i = index" [class.halfbrightness]="newBreakActive" class="tsheet-detail-breaks-item-grid taken-grid {{mode}} break{{i}}">
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-title-row">
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-title-col">
+                    <div class="break-item-title">
+                        <span class="break-item-title name-value save-data">{{break.typeName}}</span>
+                        <span *ngIf="break.type==='Paid'||break.type==='Unpaid'" class="break-item-title type-value save-data">({{break.type}})</span>
+                    </div>
+                </ion-col>
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-status-col">
+                    <div *ngIf="break.status==='taken'" class="break-item-status taken save-data">Taken</div>
+                    <div *ngIf="break.status==='nottaken'" class="break-item-status nottaken save-data">Not Taken</div>
+                    <div *ngIf="break.status==='mandatory'" class="break-item-status auto save-data">Mandatory</div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-duration-row">
+                <ion-col size="12" class="sheriff-col tsheet-breaks-col taken-detail-col break-duration-col">
+                    <div class="tsheet-breaks-subtitle-div breaktime">
+                        Duration
+                    </div>
+                    <div class="tsheet-breaks-val break-duration save-data isnew">
+                        <span class="tsheets-breaks-val save-data duration-value new-break calcdur">
+                        <span *ngIf="break.duration.hours>0" class="newbreak calcdur hours-wrap">
+                          <span class="newbreak calcdur val-span hours-val">{{break.duration.hours}}</span>
+                        <span class="newbreak calcdur suf-span hours-suffix">hrs</span>
+                        </span>
+                        <span class="newbreak calcdur minutes-wrap">
+                          <span class="newbreak calcdur val-span minutes-val">{{break.duration.minutes}}</span>
+                        <span class="newbreak calcdur suf-span minutes-suffix">mins</span>
+                        </span>
+                        </span>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-startend-row">
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-startend-col start-col">
+                    <div class="tsheet-breaks-subtitle-div break-startend-sub start-sub">
+                        Start Time
+                    </div>
+                    <div class="tsheet-breaks-data-div break-startend-data start-data tsheet-breaks-val save-data">
+                        {{break.startNice}}
+                    </div>
+                </ion-col>
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-startend-col end-col">
+                    <div class="tsheet-breaks-subtitle-div break-startend-sub end-sub">
+                        End Time
+                    </div>
+                    <div class="tsheet-breaks-data-div break-startend-data end-data tsheet-breaks-val save-data">
+                        {{break.endNice}}
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-type-list-row">
+                <ion-col size="12" class="sheriff-col tsheet-breaks-col taken-detail-col break-breaktype-col breaktype-col">
+                    <div class="tsheet-breaks-subtitle-div break-breaktype-sub">
+                        Type
+                    </div>
+                    <div class="tsheet-breaks-data-div breaks-type-list-wrapper">
+                        <div *ngIf="break.breakType==='R'" class="tsheet-detail-breaks break-type-item rest-break">
+                            <span class="tsheet-detail-breaks break-type-item-label rest-break-label">
+                              <ion-icon class="tsheet-detail-breaks break-type-item-ico" name="radio-button-on"></ion-icon>
+                              <span class="tsheet-detail-breaks break-type-item-label-txt rest-break">Rest Break</span>
+                            <span *ngIf="break.type==='Paid'||break.type==='Unpaid'" class="paidtypecode">({{break.type}})</span>
+                            </span>
+                        </div>
+                        <div *ngIf="break.breakType==='M'" class="tsheet-detail-breaks break-type-item meal-break">
+                            <span class="tsheet-detail-breaks break-type-item-label meal-break-label">
+                              <ion-icon class="tsheet-detail-breaks break-type-item-ico" name="radio-button-on"></ion-icon>
+                              <span class="tsheet-detail-breaks break-type-item-label-txt meal-break">Meal Break</span>
+                            <span *ngIf="break.type==='Paid'||break.type==='Unpaid'" class="paidtypecode">({{break.type}})</span>
+                            </span>
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+        </ion-grid>
+
+        <ion-grid *ngFor="let newBreak of newBreaks; let i = index" class="tsheet-detail-breaks-item-grid new-break-grid {{mode}} break{{i}}">
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-title-row new-break-row">
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-title-col new-break-col">
+                    <div class="break-item-title">
+                        <span class="break-item-title name-value save-data new-break">{{newBreak.typeName}}</span>
+                    </div>
+                </ion-col>
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-status-col new-break">
+                    <div *ngIf="newBreak.status==='taken'" class="break-item-status taken save-data new-break">Taken</div>
+                    <div *ngIf="newBreak.status==='nottaken'" class="break-item-status nottaken save-data new-break">Not Taken</div>
+                    <div *ngIf="newBreak.status==='mandatory'" class="break-item-status auto save-data new-break">Mandatory</div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-duration-row new-break">
+                <ion-col size="12" class="sheriff-col tsheet-breaks-col taken-detail-col break-duration-col new-break">
+                    <div class="tsheet-breaks-subtitle-div breaktime">
+                        Duration
+                    </div>
+                    <div class="tsheet-breaks-val break-duration save-data">
+                        <span *ngIf="newBreak.duration==='-'" class="tsheets-breaks-val save-data duration-value new-break defaultdur">{{newBreak.duration}}</span>
+                        <span *ngIf="newBreak.duration!=='-'" class="tsheets-breaks-val save-data duration-value new-break calcdur">
+                          <span *ngIf="newBreak.duration.hours>0" class="newbreak calcdur hours-wrap">
+                            <span class="newbreak calcdur val-span hours-val">{{newBreak.duration.hours}}</span>
+                        <span class="newbreak calcdur suf-span hours-suffix">hrs</span>
+                        </span>
+                        <span class="newbreak calcdur minutes-wrap">
+                            <span class="newbreak calcdur val-span minutes-val">{{newBreak.duration.minutes}}</span>
+                        <span class="newbreak calcdur suf-span minutes-suffix">mins</span>
+                        </span>
+                        </span>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-startend-row">
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-startend-col start-col">
+                    <div class="tsheet-breaks-subtitle-div break-startend-sub start-sub">
+                        Start Time
+                    </div>
+                    <div *ngIf="newBreak.startNice==='Select Time'" (click)="openTimeSelect(newBreak.index,'start')" class="tsheet-breaks-data-div break-startend-data start-data tsheet-breaks-val save-data new-break selecttime ion-activatable ripple-parent">
+                        <img src="../../../../../assets/img/sheriff-touch-ico.png" class="tsheet-details-breaks-newbreak-tapico start"> {{newBreak.startNice}}
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                    <div *ngIf="newBreak.startNice!=='Select Time'" (click)="openTimeSelect(newBreak.index,'start')" class="tsheet-breaks-data-div break-startend-data start-data tsheet-breaks-val save-data new-break ion-activatable ripple-parent">
+                        {{newBreak.startNice}}
+                        <ion-icon *ngIf="newBInputErr==='start'" class="newbreak-inputerr-ico start" name="alert-circle-outline"></ion-icon>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                </ion-col>
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col taken-detail-col break-startend-col end-col">
+                    <div class="tsheet-breaks-subtitle-div break-startend-sub end-sub">
+                        End Time
+                    </div>
+                    <div *ngIf="newBreak.endNice==='Select Time'" (click)="openTimeSelect(newBreak.index,'end')" class="tsheet-breaks-data-div break-startend-data end-data tsheet-breaks-val save-data new-break selecttime ion-activatable ripple-parent">
+                        <img src="../../../../../assets/img/sheriff-touch-ico.png" class="tsheet-details-breaks-newbreak-tapico end"> {{newBreak.endNice}}
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                    <div *ngIf="newBreak.endNice!=='Select Time'" (click)="openTimeSelect(newBreak.index,'end')" class="tsheet-breaks-data-div break-startend-data end-data tsheet-breaks-val save-data new-break ion-activatable ripple-parent">
+                        {{newBreak.endNice}}
+                        <ion-icon *ngIf="newBInputErr==='end'" class="newbreak-inputerr-ico end" name="alert-circle-outline"></ion-icon>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-breaks-row taken-detail-row break-startend-row">
+                <ion-col size="12" class="sheriff-col tsheet-breaks-col taken-detail-col break-breaktype-col breaktype-col">
+                    <div class="tsheet-breaks-subtitle-div break-breaktype-sub">
+                        Type
+                    </div>
+                    <div class="tsheet-breaks-data-div breaks-type-list-wrapper">
+                        <ion-radio-group ngModal #breakTypeRG (ionChange)="selectBreakType(newBreak.index,breakTypeRG.value)" allowEmptySelection="false" name="breakNameTypeVal" value={{newBreak.breakType}} class="sheriff-radio-group tsheet-detail-breaks break-type-radio-group-{{newBreak.index}}">
+                            <ion-item button="true" (click)="breakTypeBtn(newBreak.index,'R')" class="tsheet-detail-breaks break-type-radio-item rest-break">
+                                <ion-label class="tsheet-detail-breaks break-type-radio-item-label rest-break-label">Rest Break</ion-label>
+                                <ion-radio disabled="false" value="R" class="tsheet-detail-breaks break-type-radio rest-break-radio"></ion-radio>
+                            </ion-item>
+                            <ion-item button="true" (click)="breakTypeBtn(newBreak.index,'M')" class="tsheet-detail-breaks break-type-radio-item meal-break">
+                                <ion-label class="tsheet-detail-breaks break-type-radio-item-label meal-break-label">Meal Break</ion-label>
+                                <ion-radio disabled="false" value="M" class="tsheet-detail-breaks break-type-radio meal-break-radio"></ion-radio>
+                            </ion-item>
+                        </ion-radio-group>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row tsheet-breaks-row newbreak-row delete-newbreak-row">
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col newbreak-col delete-newbreak-col filler-col">
+                    <div *ngIf="newBInputErr==='start'||newBInputErr==='end'" class="tsheet-breaks-error-msg-wrapper">
+                        <ion-icon class="break-error-ico" name="warning"></ion-icon>
+                        <div class="break-err-txt">
+                            <span *ngIf="newBInputErr==='start'" class="startafterend">Start Time<ion-icon name="chevron-forward-outline"></ion-icon>End</span>
+                            <span *ngIf="newBInputErr==='end'" class="endbeforestart">End Time<ion-icon name="chevron-back-outline"></ion-icon>Start</span>
+                        </div>
+                    </div>
+                </ion-col>
+                <ion-col size="6" class="sheriff-col tsheet-breaks-col newbreak-col delete-newbreak-col btns-col">
+                    <ion-button (click)="deleteNewBreak(newBreak.index)" class="newbreak-btn delete-newbreak-btn">
+                        <div class="new-break-btn-txt delete-txt">Delete</div>
+                    </ion-button>
+                    <ion-button disabled="true" (click)="addBreak(newBreak.index)" class="newbreak-btn save-newbreak-btn">
+                        <div class="new-break-btn-txt save-txt">Add</div>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </div>
+
+    <ion-fab (click)="newBreak()" *ngIf="ts.nTimeApproved!==true" class="sheriff-fab addbreak-fab" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button class="sheriff-fab-button addtsheet-fab-btn">
+            <img class="sheriff-fab-btn-img addbreak-fab-btn-img" src="../../../assets/img/sheriff-fab-addtsheetbreak-ico.png">
+        </ion-fab-button>
+    </ion-fab>
+
+</ion-content>

@@ -1,0 +1,230 @@
+<div class="sheriff-scroll-miniheader"></div>
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row">
+                        <ion-col class="sheriff-col sheriff-page-header-col left-col tabrosters">
+                            <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar tabrosters">
+                                <div class="sheriff-title-leftanimbar-inner tabrosters"></div>
+                            </div>
+                            <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                                <div class="sheriff-page-title sheriff-heading-sansman hcl-title tabrosters">
+                                    <div class="sheriff-title tight-wrap tabrosters">Rosters</div>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                            <div class="sheriff-page-header-logo-wrapper">
+                                <div class="sheriff-page-header-logo-inner-wrapper">
+                                    <div class="sheriff-page-header-logo-highlight-layer hcl-ring tabrosters"></div>
+                                    <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle tabrosters hcl-progcirc tabrosters">
+                                        <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                            [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                    </div>
+                                    <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star tabrosters">
+                                    <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo tabrosters">
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                            <ion-grid class="sheriff-grid tab-header-action-btn-grid rosters">
+                                <ion-row class="sheriff-row tab-header-action-btn-row rosters">
+                                    <ion-col class="sheriff-col tab-header-action-btn-col rosters today-btn-col">
+                                        <ion-button (click)="rosCalGoToday()" [disabled]="rCalProps.rCalIsToday" class="sheriff-trans-btn tab-header-action-btn rosters today-btn">
+                                            <ion-icon *ngIf="!rCalProps.rCalIsToday" class="sheriff-trans-btn-ico header-opt-btn-ico today-btn-ico" name="today"></ion-icon>
+                                            <ion-icon *ngIf="rCalProps.rCalIsToday" class="sheriff-trans-btn-ico header-opt-btn-ico today-btn-ico disable" name="today-outline"></ion-icon>
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col class="sheriff-col tab-header-action-btn-col rosters view-btn-col">
+                                        <ion-button (click)="rosCalChangeViewMode()" class="sheriff-trans-btn tab-header-action-btn rosters view-btn">
+                                            <img *ngIf="rCalProps.rCalView==='day'" class="rcal-viewmode-ico isday" src="../../../assets/img/sheriff-roscal-dayview-ico.png">
+                                            <img *ngIf="rCalProps.rCalView==='week'" class="rcal-viewmode-ico isweek" src="../../../assets/img/sheriff-roscal-weekview-ico.png">
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col class="sheriff-col tab-header-action-btn-col rosters main-menu-btn-col">
+                                        <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                                            <div class="sheriff-menu-button-wrapper">
+                                                <ion-menu-button class="sheriff-menu-button tabtasks" autoHide="false">
+                                                    <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                                </ion-menu-button>
+                                            </div>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+<!-- MAIN ION CONTENT >>> START -->
+<ion-content class="sherrif-content tab-content rosters" [scrollEvents]="true">
+    <!-- PAGE REFRESHER -->
+    <ion-refresher slot="fixed" #rostersRefresher class="sheriff-refresher tabs rosters" (ionRefresh)="doRefresh($event)" disabled="{{preventRefreshPull}}">
+        <div class="sheriff-refresher-noise-wrapper">
+            <ion-refresher-content class="sheriff-refresher-content-class" pullingIcon="arrow-down-circle" refreshingSpinner="dots"></ion-refresher-content>
+        </div>
+    </ion-refresher>
+    <!-- PAGE HEADING -->
+    <div class="sheriff-tabcontent-mainheading-wrapper rosters">
+        <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid rosters">
+            <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 rosters">
+                <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 rosters backarrow-col">
+                    <ion-button class="roscal-navarrow-clear-btn-wrapper back" (click)="rosCalDoLastView()">
+                        <ion-icon class="roscal-navarrow-ico back-ico" name="arrow-back"></ion-icon>
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 rosters">
+                    <img class="sheriff-reflect-title" src="../../assets/img/sheriff-reflecttitle-rosters.png">
+                </ion-col>
+                <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 rosters nextarrow-col">
+                    <ion-button class="roscal-navarrow-clear-btn-wrapper next" (click)="rosCalDoNextView()">
+                        <ion-icon class="roscal-navarrow-ico next-ico" name="arrow-forward"></ion-icon>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <!-- CALENDAR VIEW NAV-BAR STARTS >>> -->
+    <div class="sheriff-tabrosters-component-wrapper calendar-navbar-component-wrapper">
+        <ion-grid class="sheriff-grid cal-navbar-grid">
+            <ion-row size="12" class="sheriff-row cal-navbar-row navbar-gradborder-row top">
+                <ion-col class="sheriff-col cal-navbar-col navbar-gradborder-col top"></ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row cal-navbar-row navbar-maincontent-row">
+                <ion-col size="1" (click)="openRosCalNativeSearch()" class="sheriff-col tabros-fn-col datepick-btn">
+                    <div class="tabros-fn-btn-wrapper datepick ion-activatable ripple-parent">
+                        <ion-icon name="calendar" class="tabros-fn-btn-ico date"></ion-icon>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                </ion-col>
+                <ion-col size="3" (click)="openRosCalNativeSearch()" class="sheriff-col tabros-fn-col datepick ion-activatable ripple-parent">
+                    <div class="roscal-select-littlelabel date">Date:</div>
+                    <div [ngStyle]="{'color':rCalProps.rCalIsToday?'var(--ion-color-success)':'#848484'}" class="navbar-dateval-wrapper">{{rCalProps.rCalCurrentDateShort}}</div>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+                <ion-col size="4" class="sheriff-col tabros-fn-col daterange">
+                    <div *ngIf="swiperChanging" class="sheriff-rosters-calslider-loading-spinner-wrapper">
+                        <ion-spinner class="roscal-slider-loading-spinner" duration="500" name="dots"></ion-spinner>
+                    </div>
+                    <div *ngIf="!swiperChanging" class="cal-navbar-titletxt-wrapper">{{rCalProps.rCalViewTitle}}</div>
+                </ion-col>
+
+                <ion-col size="3" (click)="openWorkSelectASheet()" class="sheriff-col tabros-fn-col work ion-activatable ripple-parent">
+                    <div class="roscal-select-littlelabel work">Work:</div>
+                    <div *ngIf="currentWork!==null" [ngStyle]="{'color':currentWork===myWorkArr[0]?workColor:'var(--ion-color-primary-78)','filter':currentWork===myWorkArr[0]&&incBright?'brightness(2.5)':'brightness(1)'}" class="navbar-workval-wrapper">{{currentWork.Code}}</div>
+                    <ion-ripple-effect></ion-ripple-effect>
+                </ion-col>
+                <ion-col size="1" (click)="openWorkSelectASheet()" class="sheriff-col tabros-fn-col workpick-btn">
+                    <div class="tabros-fn-btn-wrapper workpick ion-activatable ripple-parent">
+                        <ion-icon name="briefcase" class="tabros-fn-btn-ico work"></ion-icon>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row size="12" class="sheriff-row cal-navbar-row navbar-gradborder-row bottom">
+                <ion-col class="sheriff-col cal-navbar-col navbar-gradborder-col bottom"></ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <!-- CALENDAR VIEW NAV-BAR ENDS ENDS <<< -->
+    <!-- SECTION #2 (BOTTOM) CALENDAR EVENTS MAIN WRAPPER STARTS >>> -->
+    <ion-content [scrollEvents]="false" (ionScroll)="onRosCalEventsContentScroll($event)" class="sheriff-content tab-content roscal-eventscontent" #rosCalEventsContent (ionScrollStart)="disableRefresher(true)" (ionScrollEnd)="disableRefresher(false)">
+        <!-- CALENDAR EVENTS CONTENT STARTS >>> -->
+        <div [ngClass]="{'rcalfadein':rCalIsReady}" class="rcalcomponent-outter-wrapper-class">
+            <calendar #rCalComponent [sliderOptions]="rCalProps.rCalSliderOpts" [dateFormatter]="rCalProps.rCalDateFormatter" [startingDayWeek]="1" [startHour]="rCalProps.rCalStartHr" [endHour]="rCalProps.rCalEndHr" [eventSource]="rCalProps.rCalEventSource" [calendarMode]="rCalProps.rCalView"
+                [currentDate]="rCalProps.rCalCurrentDate" [lockSwipes]="rCalProps.rCalLockSwipes" [lockSwipeToPrev]="rCalProps.rCalLockSwipesToPrev" [scrollToHour]="rCalProps.rCalScrollToHour" [step]="rCalProps.rCalStep" (onCurrentDateChanged)="onRosCalCurrentDateChanged($event)"
+                (onEventSelected)="onRosCalEventSelected($event)" [allDayLabel]="rCalProps.rCalAllDayLabel" [noEventsLabel]="rCalProps.rCalNoEventsLabel" (onRangeChanged)="onRosCalRangeChanged($event)" (onTitleChanged)="onRosCalViewTitleChanged($event)" (onTimeSelected)="onRosCalTimeSelected($event)"
+                (onDayHeaderSelected)="onRosCalDayHeaderSelected($event)">
+            </calendar>
+            <div *ngIf="this.rCalProps.rCalSelectedEvent.title!==null" class="roscal-eventdetail-main-outter-wrapper">
+                <ion-grid class="sheriff-grid roscal-eventdetail-grid">
+                    <ion-row class="sheriff-row roscal-eventdetail-row title">
+                        <ion-col size="9" class="sheriff-col roscal-eventdetail-col title">
+                            <div class="roscal-eventdetail-div title">
+                                {{this.rCalProps.rCalSelectedEvent.title}}
+                            </div>
+                        </ion-col>
+                        <ion-col size="3" class="sheriff-col roscal-eventdetail-col close">
+                            <div (click)="closeEventDetail()" class="roscal-eventdetail-div closebtn ion-activatable ripple-parent">
+                                <div class="roscal-eventdetail-closebtn-wrapper">
+                                    <ion-icon name="close" class="roscal-eventdetail-closebtn-ico"></ion-icon>
+                                    <div class="roscal-eventdetail-closebtn-txt">Close</div>
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="sheriff-row roscal-eventdetail-row date">
+                        <ion-col size="12" class="sheriff-col roscal-eventdetail-col date">
+                            <div class="roscal-eventdetail-div date">
+                                <ion-icon class="roscal-ed-ico date" name="calendar"></ion-icon>
+                                <span class="rc-edeets-time-label start">Date:</span>
+                                <span class="rc-edeets-time-value start">{{this.rCalProps.rCalSelectedEventNice.niceDate}}</span>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="!this.rCalProps.rCalSelectedEvent.allDay" class="sheriff-row roscal-eventdetail-row times">
+                        <ion-col size="4" class="sheriff-col roscal-eventdetail-col times start">
+                            <div class="roscal-eventdetail-div start">
+                                <ion-icon class="roscal-ed-ico start" name="stopwatch"></ion-icon>
+                                <span class="rc-edeets-time-label start">Start:</span>
+                                <span class="rc-edeets-time-value start">{{this.rCalProps.rCalSelectedEventNice.niceStart}}</span>
+                            </div>
+                        </ion-col>
+                        <ion-col size="4" class="sheriff-col roscal-eventdetail-col times end">
+                            <div class="roscal-eventdetail-div end">
+                                <ion-icon class="roscal-ed-ico end" name="timer"></ion-icon>
+                                <span class="rc-edeets-time-label start">End:</span>
+                                <span class="rc-edeets-time-value start">{{this.rCalProps.rCalSelectedEventNice.niceEnd}}</span>
+                            </div>
+                        </ion-col>
+                        <ion-col size="4" class="sheriff-col roscal-eventdetail-col times dur">
+                            <div class="roscal-eventdetail-div dur">
+                                <ion-icon class="roscal-ed-ico end" name="hourglass"></ion-icon>
+                                <span class="rc-edeets-time-label dur">Total:</span>
+                                <span *ngIf="this.rCalProps.rCalSelectedEventNice.niceDur.hours>0" class="rc-edeets-time-value dur hrs">{{this.rCalProps.rCalSelectedEventNice.niceDur.hours}}<span class="rc-ed-suffix h">h</span></span>
+                                <span *ngIf="this.rCalProps.rCalSelectedEventNice.niceDur.minutes>0" class="rc-edeets-time-value dur mins">{{this.rCalProps.rCalSelectedEventNice.niceDur.minutes}}<span class="rc-ed-suffix m">m</span></span>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="this.rCalProps.rCalSelectedEvent.allDay" class="sheriff-row roscal-eventdetail-row times allday">
+                        <ion-col size="12" class="sheriff-col roscal-eventdetail-col times allday">
+                            <div class="roscal-eventdetail-div-title allday">
+                                <span class="rc-edeets-time-value allday">All Day</span>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+        <div *ngIf="noWeekRosItems" [ngStyle]="{'left':wvTimeColW>0?wvTimeColW+'px':'0'}" class="roscal-norostersfound-wrapper week">
+            <div class="roscal-norostersfound-txtico-wrapper week">
+                <ion-icon name="warning" class="roscal-norostersfound warning-ico week"></ion-icon>
+                <div class="roscal-norostersfound-txt week">No Rosters <span *ngIf="this.rCalProps.rCalView==='week'">This Week</span></div>
+            </div>
+        </div>
+        <div *ngIf="noRosItems" [ngStyle]="{'left':wvTimeColW>0?wvTimeColW+'px':'0'}" class="roscal-norostersfound-wrapper">
+            <div class="roscal-norostersfound-txtico-wrapper">
+                <ion-icon name="warning" class="roscal-norostersfound warning-ico"></ion-icon>
+                <div class="roscal-norostersfound-txt">No Rosters <span *ngIf="this.rCalProps.rCalView==='week'">Found</span></div>
+            </div>
+        </div>
+        <!-- CALENDAR EVENTS CONTENT ENDS <<< -->
+    </ion-content>
+    <!-- SECTION #2 (BOTTOM) MAIN WRAPPER ENDS <<< -->
+</ion-content>
+<!-- MAIN ION-CONTENT >>> ENDS -->
+<!-- FAB BUTTON >>> START -->
+<ion-fab class="sheriff-fader-fab tabrosters" vertical="bottom" horizontal="end" slot="fixed">
+    <div class="sheriff-fade-nav-btn-wrapper tabrosters ion-activatable ripple-parent">
+        <img class="sheriff-fade-nav-btn-img" src="../../../assets/img/sheriff-fadenavbtn.png">
+        <ion-ripple-effect></ion-ripple-effect>
+    </div>
+</ion-fab>
+<!-- FAB BUTTON <<< ENDS -->

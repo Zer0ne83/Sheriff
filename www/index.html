@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        const WebSocketProxy = new Proxy(window.WebSocket, {
+          construct: function(target, args) {    
+            const instance = new target(...args);
+            const openHandler = (event) => {    
+              console.log('[SSD] Setting isLiveReload as true');
+              if(window.SSD){window.SSD.isLiveReload=true}
+              else{window.SSD={isLiveReload:true}}
+              instance.removeEventListener('open', openHandler);
+            };
+            instance.addEventListener('open', openHandler);
+            return instance;
+          }
+        });
+        window.WebSocket = WebSocketProxy;
+    </script>
+    <meta charset="utf-8"/>
+    <title>Sheriff</title>
+    <base href="/"/>
+    <meta name="color-scheme" content="light dark"/>
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <link rel="icon" type="image/png" href="assets/icon/favicon.png"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="google-signin-client_id" content="1004268441237-nbfb123pp6llgk65m25funte3545acrv.apps.googleusercontent.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head>
+
+
+<body class="sheriff-dark mat-typography">
+    <app-root></app-root>
+<script src="runtime-es2015.js" type="module"></script><script src="runtime-es5.js" nomodule defer></script><script src="polyfills-es5.js" nomodule defer></script><script src="polyfills-es2015.js" type="module"></script><script src="vendor-es2015.js" type="module"></script><script src="vendor-es5.js" nomodule defer></script><script src="main-es2015.js" type="module"></script><script src="main-es5.js" nomodule defer></script></body>
+
+</html>

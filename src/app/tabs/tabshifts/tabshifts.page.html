@@ -1,0 +1,901 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row">
+                        <ion-col class="sheriff-col sheriff-page-header-col left-col tabshifts">
+                            <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar tabshifts">
+                                <div class="sheriff-title-leftanimbar-inner tabshifts"></div>
+                            </div>
+                            <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                                <div class="sheriff-page-title sheriff-heading-sansman hcl-title tabshifts">
+                                    <div class="sheriff-title tight-wrap tabshifts">Shifts</div>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                            <div class="sheriff-page-header-logo-wrapper">
+                                <div (click)="replayLPN()" class="sheriff-page-header-logo-inner-wrapper">
+                                    <div class="sheriff-page-header-logo-highlight-layer hcl-ring tabshifts"></div>
+                                    <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle tabshifts hcl-progcirc tabshifts">
+                                        <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                            [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                    </div>
+                                    <div id="logo-top-patchcover-outter" class="logo-top-patchcover outter hcl-opatch tabshifts">
+                                        <div id="logo-top-patchcover-inner" class="logo-top-patchcover inner hcl-ipatch tabshifts"></div>
+                                    </div>
+                                    <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star tabshifts">
+                                    <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo tabshifts">
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                            <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                                <div class="sheriff-menu-button-wrapper">
+                                    <ion-menu-button class="sheriff-menu-button tabshifts" autoHide="false">
+                                        <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                    </ion-menu-button>
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+<!-- ION-CONTENT-MAIN -->
+<ion-content class="main-tabshifts-content-wrapper" [scrollEvents]="false">
+    <!-- PAGE REFRESHER -->
+    <ion-refresher #shiftsRefresher class="sheriff-refresher tabs shifts" slot="fixed" (ionRefresh)="doRefresh($event)" disabled="{{preventRefreshPull}}">
+        <div class="sheriff-refresher-noise-wrapper">
+            <ion-refresher-content class="sheriff-refresher-content-class" pullingIcon="arrow-down-circle" refreshingSpinner="dots"></ion-refresher-content>
+        </div>
+    </ion-refresher>
+    <!-- TOP SECTION WRAPPER -->
+    <div class="sheriff-tabshifts-mainpage-section-wrapper top-section">
+        <!-- PAGE HEADING -->
+        <div slot="fixed" class="sheriff-tabcontent-mainheading-wrapper shifts">
+            <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid shifts">
+                <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 shifts">
+                    <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 shifts"></ion-col>
+                    <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 shifts">
+                        <img class="sheriff-reflect-title" src="../../assets/img/sheriff-reflecttitle-shifts.png">
+                    </ion-col>
+                    <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 sheets"></ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <!-- SHIFT THIS WEEK TOP BAR -->
+        <div slot="fixed" class="sheriff-thisweek-statsbar-main-wrapper">
+            <ion-grid class="sheriff-grid thisweek-statsbar-grid">
+                <ion-row class="sheriff-row thisweek-statsbar-row heading-row">
+                    <ion-col class="sheriff-col thisweek-statsbar-col heading-col">
+                        <div class="thisweek-statsbar-heading-wrapper">
+                            this week
+                            <span *ngIf="showIncome&&sSRosterIncome>0" class="thisweek-head-income-wrap">
+                              <span class="thisweek-head-income-hyphen">-</span><span class="thisweek-head-income-dollar">$</span><span *ngIf="!hasXtraShifts" class="thisweek-head-income-value">{{sSRosterIncome}}</span><span *ngIf="hasXtraShifts" class="thisweek-head-income-value">{{sSRosterIncome+xtraIncomeTotal}}<span class="thisweek-head-income-rosplusxtra-breakdown wrapper"><span class="thisweek-head-income-rosplusxtra-breakdown brack">(</span><span class="thisweek-head-income-rosplusxtra-breakdown ros">{{sSRosterIncome}}</span><span class="thisweek-head-income-rosplusxtra-breakdown plus">+</span><span class="thisweek-head-income-rosplusxtra-breakdown xtra">{{xtraIncomeTotal}}</span><span class="thisweek-head-income-rosplusxtra-breakdown brack">)</span></span>
+                              </span>
+                            </span>
+                        </div>
+                        <div class="thisweek-statsbar-heading-divider"></div>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="hasLoaded" class="sheriff-row thisweek-statsbar-row data-row">
+                    <ion-col size="3" class="sheriff-col thisweek-statsbar-col data-col shifts">
+                        <div class="thisweek-statsbar-data-div shifts">
+                            <ion-icon class="tw-sb-ico shifts" name="calendar-outline"></ion-icon>
+                            <div *ngIf="hasLoaded" class="tw-sb-vals-outter-wrapper values shifts">
+                                <span class="tw-sb-completed shifts">{{sSDoneShifts}}</span>
+                                <span class="tw-sb-valslash">/</span>
+                                <span class="tw-sb-rostered shifts">{{sSTotalItems}}</span>
+                            </div>
+                            <div *ngIf="hasLoaded" class="tw-sb-vals-outter-wrapper perform shifts">
+                                <span *ngIf="sSShiftPerformVal>0" class="tw-sb-perform-span plus"><ion-icon class="tt-pm-ico p" name="caret-up-outline"></ion-icon></span>
+                                <span *ngIf="sSShiftPerformVal<0" class="tw-sb-perform-span minus"><ion-icon class="tt-pm-ico m" name="caret-down-outline"></ion-icon></span>
+                                <span *ngIf="sSShiftPerformVal===0" class="tw-sb-perform-span equals"><ion-icon class="tt-pm-ico e" name="reorder-two-outline"></ion-icon></span>
+                                <span *ngIf="sSShiftPerformVal!==0" [ngClass]="{'perform-val-up':sSShiftPerformVal>0,'perform-val-down':sSShiftPerformVal<0}" class="tw-sb-perform-span value shifts">{{sSShiftPerformVal}}</span>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col class="sheriff-col thisweek-statsbar-col data-col hours">
+                        <div class="thisweek-statsbar-data-div hours">
+                            <ion-icon class="tw-sb-ico hours" name="time-outline"></ion-icon>
+                            <div class="tw-sb-vals-outter-wrapper values hours">
+                                <span class="tw-sb-completed hours">{{sSDoneHrs}}</span>
+                                <span class="tw-sb-valslash">/</span>
+                                <span class="tw-sb-rostered hours">{{sSRosterHrs}}</span>
+                            </div>
+                            <div class="tw-sb-vals-outter-wrapper perform hours">
+                                <span *ngIf="sSHrsPerformVal>0" class="tw-sb-perform-span plus"><ion-icon class="tt-pm-ico p" name="caret-up-outline"></ion-icon></span>
+                                <span *ngIf="sSHrsPerformVal<0" class="tw-sb-perform-span minus"><ion-icon class="tt-pm-ico m" name="caret-down-outline"></ion-icon></span>
+                                <span *ngIf="sSHrsPerformVal===0" class="tw-sb-perform-span equals"><ion-icon class="tt-pm-ico e" name="reorder-two-outline"></ion-icon></span>
+                                <span *ngIf="sSHrsPerformVal!==0" [ngClass]="{'perform-val-up':sSHrsPerformVal>0,'perform-val-down':sSHrsPerformVal<0}" class="tw-sb-perform-span value hours">{{sSHrsPerformVal}}</span>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col class="sheriff-col thisweek-statsbar-col data-col income">
+                        <div *ngIf="showIncome" class="thisweek-statsbar-data-div income">
+                            <ion-icon class="tw-sb-ico income" name="logo-usd"></ion-icon>
+                            <div class="tw-sb-vals-outter-wrapper values income">
+                                <span class="tw-sb-completed income">{{sSDoneIncome}}</span>
+                                <span class="tw-sb-valslash">/</span>
+                                <span class="tw-sb-rostered income">{{sSRosterIncome}}</span>
+                            </div>
+                            <div class="tw-sb-vals-outter-wrapper perform income">
+                                <span *ngIf="sSIncomePerformVal>0" class="tw-sb-perform-span plus"><ion-icon class="tt-pm-ico p" name="caret-up-outline"></ion-icon></span>
+                                <span *ngIf="sSIncomePerformVal<0" class="tw-sb-perform-span minus"><ion-icon class="tt-pm-ico m" name="caret-down-outline"></ion-icon></span>
+                                <span *ngIf="sSIncomePerformVal===0" class="tw-sb-perform-span equals"><ion-icon class="tt-pm-ico e" name="reorder-two-outline"></ion-icon></span>
+                                <span *ngIf="sSIncomePerformVal!==0" [ngClass]="{'perform-val-up':sSIncomePerformVal>0,'perform-val-down':sSIncomePerformVal<0}" class="tw-sb-perform-span value hours">{{sSIncomePerformVal}}</span>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <!-- CURRENT SHIFTS SLIDER CONTENT -->
+        <div slot="fixed" class="sheriff-currentshifts-slider-main-wrapper">
+            <ion-grid class="sheriff-grid shifts-grid currentshifts-slider-grid">
+                <ion-row class="sheriff-row shifts-row currentshifts-row main-row">
+                    <ion-col size="12" class="sheriff-col shifts-col currentshifts-col main-col">
+                        <div *ngIf="sSCurrentIndex!==null&&sSInitComplete&&hasLoaded&&sSTotalItems!==0&&!sSlider.isBeginningSlide&&!doneSIsShowing" class="currentshifts-div arrow-fade-div left-arrow-fade-div">
+                            <div class="sheriff-slider-nav-arrow-wrapper back-arrow-outter-wrapper shiftsslider">
+                                <div (click)="sSPrev()" class="sheriff-slider-nav-arrow-wrapper back-arrow-inner-wrapper shiftsslider ion-activatable ripple-parent">
+                                    <ion-icon class="sheriff-shiftsslider-nav-arrow-ico back" name="caret-back"></ion-icon>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ------------------------------ THIS WEEK SHIFT SLIDE ------------------------------------ -->
+                        <!-- SHOW HIDE SHIFT CONTROLS >>> START -->
+                        <div *ngIf="sSInitComplete&&sSlider.slidesControls[sSCurrentIndex].show" class="ss-control-hidecontrols-flipper-outter-wrapper">
+                            <div (click)="sSControl(sSlider.slidesItems[sSCurrentIndex].Id,'show')" class="ss-control-hidecontrols-flipper-inner-wrapper ion-activatable ripple-parent hide">
+                                <div class="ss-control-showctrl-toggle-wrapper hide">
+                                    <div class="ss-control-showhide-btn-wrapper">
+                                        <ion-icon class="ss-control-showhide-btn-ico hide" name="options"></ion-icon>
+                                        <div class="ss-control-showhide-btn-txt hide">hide</div>
+                                    </div>
+                                </div>
+                                <ion-ripple-effect></ion-ripple-effect>
+                            </div>
+                        </div>
+                        <!-- SHOW HIDE SHIFT CONTROLS <<< END -->
+                        <div [ngClass]="{'done-showing-hidden-slider':sSlider.slidesItems.length===0||doneSIsShowing}" class="sslider-currentshifts-hiddenslides-wrapper">
+                            <ion-slides #shiftsSlider (ionSlidesDidLoad)="sSDidLoad()" (ionSlideWillChange)="sSWillChange()" (ionSlideDidChange)="sSDidChange()" (ionSlideReachStart)="sSIsStart()" (ionSlideReachEnd)="sSIsEnd()" id="currentshifts-slides" class="sheriff-slides shifts-slides"
+                                [options]=sSOptions mode="md">
+                                <ion-slide *ngFor="let sItem of sSlider.slidesItems;let i=index" class="shifts-slide slideindex-{{i}} sliderosterid-{{sItem.Id}}">
+                                    <div class="sslider-currentshifts-outter-wrapper">
+                                        <div class="sslider-currentshifts-inner-wrapper">
+                                            <ion-grid class="sheriff-grid sheriff-roster-content-grid">
+                                                <!-- SLIDER CONTROLS ROW >>> START -->
+                                                <ion-row *ngIf="sSInitComplete===true" [ngClass]="{'ss-control-row-showing':sSCurrentIndex!==null&&sSlider.slidesControls[i].show}" class="sheriff-row sslider-shift-control-row">
+                                                    <ion-col [ngClass]="{'ss-control-showing-col1':sSlider.slidesControls[i].show}" size="3" class="sheriff-col sslider-shift-control-col alerts-col">
+                                                        <div *ngIf="sSlider.slidesControls.length>0&&sSlider.slidesControls[i].show" class="ss-control-row-container-wrap col1-wrap">
+                                                            <div *ngIf="sSlider.slidesControls[i].inProg&&!sSlider.slidesControls[i].isPaused" class="ss-control-text-data-wrapper">x%</div>
+                                                            <div *ngIf="sSlider.slidesControls[i].inProg&&sSlider.slidesControls[i].isPaused" class="ss-control-text-data-wrapper ispaused">
+                                                                <div class="ss-control-text-data paused-wrapper  animate__infinite animate__flash animDur-2500">
+                                                                    <ion-icon class="ss-controls-text-data paused-ico" name="pause"></ion-icon>
+                                                                    <div class="ss-controls-text-data paused-txt">paused</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ion-col>
+                                                    <ion-col size="6" class="sheriff-col sslider-shift-control-col progress-col">
+                                                        <div *ngIf="sSInitComplete&&!sSlider.slidesControls[sSCurrentIndex].show" (click)="sSControl(sSlider.slidesItems[sSCurrentIndex].Id,'show')" class="ss-control-showctrl-toggle-wrapper show">
+                                                            <div class="ss-control-showhide-btn-wrapper show ion-activatable ripple-parent">
+                                                                <ion-icon class="ss-control-showhide-btn-ico" name="options"></ion-icon>
+                                                                <div class="ss-control-showhide-btn-txt show">show</div>
+                                                                <ion-ripple-effect></ion-ripple-effect>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="sSlider.slidesControls.length>0&&sSlider.slidesControls[i].show" class="ss-control-row-container-wrap col2-wrap">
+                                                            <div class="ss-control-progressbar-wrapper">
+                                                                <ion-progress-bar *ngIf="sSlider.slidesControls[i].inProg" type={{sSlider.slidesControls[i].progType}} class="sheriff-progress-bar sslider-shift-progress sslider-progress-id-{{sItem.Id}}"></ion-progress-bar>
+                                                            </div>
+                                                        </div>
+                                                    </ion-col>
+                                                    <ion-col size="3" class="sheriff-col sslider-shift-control-col startstop-col start-col">
+                                                        <div *ngIf="sSlider.slidesControls.length>0&&sSlider.slidesControls[i].show" class="ss-control-row-container-wrap col3-wrap">
+                                                            <div class="ss-control-btns-wrapper">
+                                                                <ion-grid class="sheriff-grid ss-control-startstop-grid">
+                                                                    <ion-row class="sheriff-row ss-control-startstop-row">
+                                                                        <ion-col *ngIf="sSlider.slidesControls[i].inProg" size="6" class="sheriff-col ss-control-startstop-col">
+                                                                            <ion-button (click)="sSControl(sItem.Id,'start')" *ngIf="sSlider.slidesControls[i].inProg===false||sSlider.slidesControls[i].isPaused" class="sheriff-button ss-control-btn start-btn">
+                                                                                <ion-icon class="sheriff-ico ss-control-ico start-ico" name="play"></ion-icon>
+                                                                            </ion-button>
+                                                                            <ion-button (click)="sSControl(sItem.Id,'stop')" *ngIf="sSlider.slidesControls[i].inProg===true&&!sSlider.slidesControls[i].isPaused" class="sheriff-button ss-control-btn stop-btn">
+                                                                                <ion-icon class="sheriff-ico ss-control-ico stop-ico" name="stop"></ion-icon>
+                                                                            </ion-button>
+                                                                        </ion-col>
+
+                                                                        <ion-col size="12" *ngIf="!sSlider.slidesControls[i].inProg" class="sheriff-col ss-control-startstop-col">
+                                                                            <ion-button (click)="sSControl(sItem.Id,'start')" *ngIf="sSlider.slidesControls[i].inProg===false||sSlider.slidesControls[i].isPaused===true" class="sheriff-button ss-control-btn start-btn">
+                                                                                <ion-icon class="sheriff-ico ss-control-ico start-ico" name="play"></ion-icon>
+                                                                            </ion-button>
+                                                                        </ion-col>
+
+                                                                        <ion-col size="6" class="sheriff-col ss-control-startstop-col">
+                                                                            <ion-button (click)="sSControl(sItem.Id,'pause')" *ngIf="sSlider.slidesControls[i].inProg===true&&!sSlider.slidesControls[i].isPaused" class="sheriff-button ss-control-btn pause-btn">
+                                                                                <ion-icon class="sheriff-ico ss-control-ico pause-ico" name="pause"></ion-icon>
+                                                                            </ion-button>
+                                                                            <ion-button (click)="sSControl(sItem.Id,'stop')" *ngIf="sSlider.slidesControls[i].inProg===true&&sSlider.slidesControls[i].isPaused" class="sheriff-button ss-control-btn stop-btn">
+                                                                                <ion-icon class="sheriff-ico ss-control-ico stop-ico" name="stop"></ion-icon>
+                                                                            </ion-button>
+                                                                        </ion-col>
+                                                                    </ion-row>
+                                                                </ion-grid>
+                                                            </div>
+                                                        </div>
+                                                    </ion-col>
+                                                </ion-row>
+                                                <!-- SLIDER CONTROLS ROW <<< END -->
+                                                <ion-row class="sheriff-row sheriff-roster-content-row1">
+                                                    <ion-col size="2" class="sheriff-col sslider-shift-content-col-workico">
+                                                        <div class="sslider-shift-item-alert-indic-wrapper  animate__zoomIn animDur-250">
+                                                            <div class="sslider-shift-alerts-indic-inner-wrapper rid-{{sItem.Id}}">
+                                                                <ion-icon *ngIf="(alertMethods.phone===null||alertEvents.shift===null)||(alertMethods.phone===false||alertEvents.shift===false)" class="sslider-shift-alerts-indic notification-ico-off" name="notifications-off-outline"></ion-icon>
+                                                                <ion-icon *ngIf="alertMethods.phone===true&&alertEvents.shift===true" class="sslider-shift-alerts-indic notification-ico-on" name="notifications"></ion-icon>
+                                                                <ion-icon *ngIf="(alertMethods.calendar===null||alertEvents.shift===null)||(alertMethods.calendar===false||alertEvents.shift===false)" class="sslider-shift-alerts-indic calendar-ico-off" name="calendar-outline"></ion-icon>
+                                                                <ion-icon *ngIf="alertMethods.calendar===true&&alertEvents.shift===true" class="sslider-shift-alerts-indic calendar-ico-on" name="calendar"></ion-icon>
+                                                                <ion-icon *ngIf="(alertMethods.email===null||alertEvents.shift===null)||(alertMethods.email===false||alertEvents.shift===false)" class="sslider-shift-alerts-indic email-ico-off" name="mail-outline"></ion-icon>
+                                                                <ion-icon *ngIf="alertMethods.email===true&&alertEvents.shift===true" class="sslider-shift-alerts-indic email-ico-on" name="mail"></ion-icon>
+                                                            </div>
+                                                        </div>
+                                                        <div (click)="stopShowColleague()" class="ss-showing-colleague-wrapper" *ngIf="showingColleague">
+                                                            <img class="ss-showing-colleague-pic" src="{{viewColleague.Photo}}">
+                                                            <div class="ss-showing-colleague-fname">{{viewColleague.FirstName}}</div>
+                                                            <div class="ss-showing-colleague-lname">{{viewColleague.LastName}}</div>
+                                                        </div>
+                                                        <div *ngIf="!showingColleague" class="sslider-shift-item-workplacecode-wrapper">
+                                                            <div *ngIf="workAvatar!==null" class="sslider-shift-workplaceico gotavatar" [ngStyle]="{'background-image':'url('+workAvatar+')'}"></div>
+                                                            <div *ngIf="workAvatar===null" class="sslider-shift-workplaceico backupavatar" [ngStyle]="{'background-color':workColor}">
+                                                                <div class="shift-workplace-buavatar-singleinitial-label">{{sItem.nCompanyName.charAt(0)}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="!showingColleague" class="sslider-shift-item work-placearea-wrapper">
+                                                            <div class="sslider-shift-item work-wrapper place">
+                                                                <ion-icon class="sslider-shift-worklabel place" name="business"></ion-icon>
+                                                                <div class="sslider-shift-item-workplacename">{{sItem.nCompanyName.slice(0,3)}}</div>
+                                                            </div>
+                                                            <div class="sslider-shift-item work-wrapper area">
+                                                                <ion-icon class="sslider-shift-worklabel area" name="locate"></ion-icon>
+                                                                <div class="sslider-shift-item-workarea">{{sItem.nOpUnit.slice(0,3)}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </ion-col>
+                                                    <ion-col size="7" class="sheriff-col sheriff-roster-content-col-shiftdatetime">
+                                                        <div class="sheriff-roster-datetimeinfowrapper">
+                                                            <div class="sslider-shift-date">{{sItem.nDate}}</div>
+                                                            <div class="sslider-shift-startendtime">
+                                                                <ion-icon class="sslider-shift-setime-ico" name="time"></ion-icon>
+                                                                {{sItem.nStart}}
+                                                                <ion-icon class="sslider-shift-fromto-ico" name="chevron-forward"></ion-icon>
+                                                                {{sItem.nEnd}}
+                                                            </div>
+                                                            <div class="sslider-shift-ttandincome">
+                                                                <ion-icon class="sslider-shift-tt-ico" name="hourglass"></ion-icon>
+                                                                <span *ngIf="sItem.nTotalTime.hours>0" class="ss-ttdur-hv">{{sItem.nTotalTime.hours}}<span class="ss-ttdur-suffix hours">h</span></span>
+                                                                <span *ngIf="sItem.nTotalTime.minutes>0" class="ss-ttdur-mv">{{sItem.nTotalTime.minutes}}<span class="ss-ttdur-suffix mins">m</span></span>
+                                                                <span *ngIf="showIncome">
+                                                                <span class="sslider-shift-vertsep">|</span>
+                                                                <ion-icon class="sslider-shift-income-ico" name="logo-usd"></ion-icon><span class="sslider-shift-dollar-small">$</span>{{sItem.nIncome}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- IF MULTI PEER VIEW FALSE -->
+                                                        <div *ngIf="!apiPeerView" class="sslider-colleagues-outter-wrapper">
+                                                            <div *ngIf="this.sSColleagueDayIndex===i" class="sslider-colleagues-notpeerview-isshiftday-wrapper">
+                                                                <div class="sslider-colleagues-inner-wrapper same">
+                                                                    <ion-icon class="sslider-colleagues-ppl-icon" name="people"></ion-icon><span class="sslider-colleagues-txt with-txt">with:</span>
+                                                                    <span class="sslider-colleagues-grouptotalno same">(<span [ngClass]="{'sslider-group-count-has-members':sSColleagues.sameArea.length>0}" class="sslider-colleagues-groupnoval same">{{sSColleagues.sameArea.length}}</span>)</span>
+                                                                    <span *ngFor="let psa of sSColleagues.sameArea;let sapi = index" class="sslider-colleagues-area-person same" (click)="showColleague(psa)">
+                                                                    <span *ngIf="sapi===sSColleagues.sameArea.length-1&&sSColleagues.sameArea.length>1" class="ss-collcomma and">&</span>{{psa.FirstName}}
+                                                                    <span *ngIf="sapi!==sSColleagues.sameArea.length-1&&(sapi!==sSColleagues.sameArea.length-2&&sSColleagues.sameArea.length>1)" class="ss-collcomma">,</span>
+                                                                    </span>
+                                                                    <span *ngIf="sSColleagues.sameArea.length===0&&sSColleagues.otherArea.length!==0">-</span>
+                                                                    <span *ngIf="sSColleagues.sameArea.length===0&&sSColleagues.otherArea.length===0" class="sslider-colleagues-tba">TBA</span>
+                                                                </div>
+                                                                <div class="sslider-colleagues-inner-wrapper other">
+                                                                    <span class="sslider-colleagues-txt and-txt">and:</span><span class="sslider-colleagues-grouptotalno other">(<span [ngClass]="{'sslider-group-count-has-members':sSColleagues.otherArea.length>0}" class="sslider-colleagues-groupnoval other">{{sSColleagues.otherArea.length}}</span>)</span>
+                                                                    <span *ngFor="let poa of sSColleagues.otherArea;let oapi = index" class="sslider-colleagues-area-person other" (click)="showColleague(poa)">
+                                                                    <span *ngIf="oapi===sSColleagues.otherArea.length-1&&sSColleagues.otherArea.length>1" class="ss-collcomma and">&</span>{{poa.FirstName}}
+                                                                    <span *ngIf="oapi!==sSColleagues.otherArea.length-1&&(oapi!==sSColleagues.otherArea.length-2&&sSColleagues.otherArea.length>1)" class="ss-collcomma">,</span>
+                                                                    </span>
+                                                                    <span *ngIf="sSColleagues.sameArea.length!==0&&sSColleagues.otherArea.length===0">-</span>
+                                                                    <span *ngIf="sSColleagues.otherArea.length===0" class="sslider-colleagues-tba">TBA</span>
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="this.sSColleagueDayIndex!==i" class="sslider-colleagues-notpeerview-notshiftday-wrapper">
+                                                                <div class="sslider-colleagues-inner-wrapper same">
+                                                                    <ion-icon class="sslider-colleagues-ppl-icon" name="people"></ion-icon><span class="sslider-colleagues-txt with-txt">with:</span><span class="apirestrictedpinfo">NK</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- IF MULTI PEER VIEW TRUE -->
+                                                        <div *ngIf="sSMultiColleagues.length>0&&apiPeerView" class="sslider-colleagues-outter-wrapper">
+                                                            <div class="sslider-colleagues-inner-wrapper same">
+                                                                <ion-icon class="sslider-colleagues-ppl-icon" name="people"></ion-icon><span class="sslider-colleagues-txt with-txt">with:</span>
+                                                                <span class="sslider-colleagues-grouptotalno same">(<span [ngClass]="{'sslider-group-count-has-members':sSMultiColleagues[i].sameArea.length>0}" class="sslider-colleagues-groupnoval same">{{sSMultiColleagues[i].sameArea.length}}</span>)</span>
+                                                                <span *ngFor="let psa of sSMultiColleagues[i].sameArea;let sapi = index" class="sslider-colleagues-area-person same" (click)="showColleague(psa)">
+                                                                  <span *ngIf="sapi===sSMultiColleagues[i].sameArea.length-1&&sSMultiColleagues[i].sameArea.length>1" class="ss-collcomma and">&</span>{{psa.FirstName}}
+                                                                <span *ngIf="sapi!==sSMultiColleagues[i].sameArea.length-1&&(sapi!==sSMultiColleagues[i].sameArea.length-2&&sSMultiColleagues[i].sameArea.length>1)" class="ss-collcomma">,</span>
+                                                                </span>
+                                                                <span *ngIf="sSMultiColleagues[i].sameArea.length===0&&sSMultiColleagues[i].otherArea.length!==0">-</span>
+                                                                <span *ngIf="sSMultiColleagues[i].sameArea.length===0&&sSMultiColleagues[i].otherArea.length===0" class="sslider-colleagues-tba">TBA</span>
+                                                            </div>
+                                                            <div class="sslider-colleagues-inner-wrapper other">
+                                                                <span class="sslider-colleagues-txt and-txt">and:</span><span class="sslider-colleagues-grouptotalno other">(<span [ngClass]="{'sslider-group-count-has-members':sSMultiColleagues[i].otherArea.length>0}" class="sslider-colleagues-groupnoval other">{{sSMultiColleagues[i].otherArea.length}}</span>)</span>
+                                                                <span *ngFor="let poa of sSMultiColleagues[i].otherArea;let oapi = index" class="sslider-colleagues-area-person other" (click)="showColleague(poa)">
+                                                                <span *ngIf="oapi===sSMultiColleagues[i].otherArea.length-1&&sSMultiColleagues[i].otherArea.length>1" class="ss-collcomma and">&</span>{{poa.FirstName}}
+                                                                <span *ngIf="oapi!==sSMultiColleagues[i].otherArea.length-1&&(oapi!==sSMultiColleagues[i].otherArea.length-2&&sSMultiColleagues[i].otherArea.length>1)" class="ss-collcomma">,</span>
+                                                                </span>
+                                                                <span *ngIf="sSMultiColleagues[i].sameArea.length!==0&&sSMultiColleagues[i].otherArea.length===0">-</span>
+                                                                <span *ngIf="sSMultiColleagues[i].otherArea.length===0" class="sslider-colleagues-tba">TBA</span>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="sItem.ConfirmStatus>0" id="comment-{{sItem.Id}}" class="roster-shift-comment-wrapper">
+                                                            <div *ngIf="sItem.ConfirmStatus===1" class="roster-shift-comment-btn-wrapper">
+                                                                <ion-button id="commentbtn-{{sItem.Id}}" class="small sheriff-roster-comment-btn">
+                                                                    <ion-icon name="chatbox" id="commentico-{{sItem.Id}}" class="rosterdeetbuttonico rostercommentbuttonico"></ion-icon>
+                                                                    <div id="commenttxt-{{sItem.Id}}" class="readcommentbtntext">Confirm</div>
+                                                                </ion-button>
+                                                            </div>
+                                                            <div *ngIf="sItem.ConfirmStatus>1" class="roster-shift-comment-wrapper">
+                                                                <div *ngIf="sItem.ConfirmStatus===2" class="roster-confirm-status-txt done">Confirmed</div>
+                                                                <div *ngIf="sItem.ConfirmStatus===3" class="roster-confirm-status-txt declined">Declined</div>
+                                                            </div>
+                                                        </div>
+                                                    </ion-col>
+                                                    <ion-col size="3" class="sheriff-col sheriff-roster-content-col-deetsnactions">
+                                                        <ion-grid class="sheriff-grid ss-stats-grid">
+                                                            <ion-row class="sheriff-row ss-stats-row creator">
+                                                                <ion-col size="2" class="sheriff-col">
+                                                                    <img src="{{sItem.nCreatorAva}}" class="ss-stats-ico creator">
+                                                                </ion-col>
+                                                                <ion-col size="10" class="sheriff-col">
+                                                                    <div class="ss-stats-txt creator">{{sItem.sFName}}</div>
+                                                                </ion-col>
+                                                            </ion-row>
+                                                            <ion-row class="sheriff-row ss-stats-row rosterid">
+                                                                <ion-col size="2" class="sheriff-col">
+                                                                    <ion-icon class="ss-stats-ico rosterid" name="pricetag-outline"></ion-icon>
+                                                                </ion-col>
+                                                                <ion-col size="10" class="sheriff-col">
+                                                                    <div class="ss-stats-txt rosterid">#{{sItem.Id}}</div>
+                                                                </ion-col>
+                                                            </ion-row>
+                                                            <ion-row class="sheriff-row ss-stats-row created">
+                                                                <ion-col size="2" class="sheriff-col">
+                                                                    <ion-icon class="ss-stats-ico created" name="create-outline"></ion-icon>
+                                                                </ion-col>
+                                                                <ion-col size="10" class="sheriff-col">
+                                                                    <div class="ss-stats-txt created">{{sItem.sCreated}}</div>
+                                                                </ion-col>
+                                                            </ion-row>
+                                                            <ion-row class="sheriff-row ss-stats-row modified">
+                                                                <ion-col size="2" class="sheriff-col">
+                                                                    <ion-icon class="ss-stats-ico modified" name="hammer-outline"></ion-icon>
+                                                                </ion-col>
+                                                                <ion-col size="10" class="sheriff-col">
+                                                                    <div class="ss-stats-txt modified">{{sItem.sModified}}</div>
+                                                                </ion-col>
+                                                            </ion-row>
+                                                            <ion-row class="sheriff-row ss-stats-row swapdecline">
+                                                                <ion-col size="6" class="sheriff-col swap">
+                                                                    <ion-button id="swapbtn-{{sItem.Id}}" class="ss-swapdecline-btn swap">
+                                                                        <ion-icon class="ss-swapdecline-btn-ico swap" name="swap-horizontal-outline"></ion-icon>
+                                                                    </ion-button>
+                                                                </ion-col>
+                                                                <ion-col size="6" class="sheriff-col decline">
+                                                                    <ion-button id="swapbtn-{{sItem.Id}}" class="ss-swapdecline-btn decline">
+                                                                        <ion-icon class="ss-swapdecline-btn-ico decline" name="hand-right-outline"></ion-icon>
+                                                                    </ion-button>
+                                                                </ion-col>
+                                                            </ion-row>
+                                                        </ion-grid>
+                                                    </ion-col>
+                                                </ion-row>
+                                            </ion-grid>
+                                        </div>
+                                    </div>
+                                </ion-slide>
+                            </ion-slides>
+                        </div>
+                        <!-- ------------------------------ END WEEK SHIFT SLIDES ------------------------------------ -->
+                        <div *ngIf="hasLoaded&&sSTotalItems===0&&!doneSIsShowing" class="currentshifts-div nofutureitems-outter-wrapper">
+                            <div class="sheriff-shifts-noshifts-background-wrapper"></div>
+                            <div class="currentshifts-div nofutureitems-inner-wrapper">
+                                <div class="noshifts-bg-text">
+                                    <span *ngIf="!isRefreshing" class="nstxt">No Shifts</span>
+                                    <div *ngIf="isRefreshing" class="loadval-spin-wrap">
+                                        <ion-spinner duration="250" name="dots" class="sheriff-small-val-loading"></ion-spinner>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- START DISPLAY SINGLE DONE SHIFT ITEM -->
+                        <div *ngIf="doneSIsShowing" class="display-doneshift-outter-wrapper">
+                            <div class="display-doneshift-inner-wrapper">
+                                <ion-grid class="sheriff-grid sheriff-roster-content-grid doneshift-{{doneS.Id}}">
+                                    <ion-row class="sheriff-row sheriff-roster-content-row1">
+                                        <ion-col size="2" class="sheriff-col sheriff-roster-content-col-workico">
+                                            <div class="sheriff-roster-item-workplace-wrapper  animate__zoomIn animDur-250"></div>
+                                            <div class="sheriff-roster-item-workplacecode-wrapper">
+                                                <div *ngIf="workAvatar!==null" class="sheriff-roster-workplaceico gotavatar" [ngStyle]="{'background-image':'url('+workAvatar+')'}"></div>
+                                                <div *ngIf="workAvatar===null" class="sheriff-roster-workplaceico backupavatar" [ngStyle]="{'background-color':workColor}">
+                                                    <div class="shift-workplace-buavatar-singleinitial-label">{{doneS.nCompanyName.charAt(0)}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="sheriff-roster-item work-placearea-wrapper">
+                                                <div class="sheriff-roster-item work-wrapper place">
+                                                    <ion-icon class="sheriff-roster-worklabel place" name="business"></ion-icon>
+                                                    <div class="sheriff-roster-item-workplacename">{{doneS.nCompanyName.slice(0,3)}}</div>
+                                                </div>
+                                                <div class="sheriff-roster-item work-wrapper area">
+                                                    <ion-icon class="sheriff-roster-worklabel area" name="locate"></ion-icon>
+                                                    <div class="sheriff-roster-item-workarea">{{doneS.nOpUnit.slice(0,3)}}</div>
+                                                </div>
+                                            </div>
+                                        </ion-col>
+                                        <ion-col size="7" class="sheriff-col sheriff-roster-content-col-shiftdatetime">
+                                            <div class="sheriff-roster-datetimeinfowrapper">
+                                                <div class="doneshift-val date">{{doneS.nDate}}</div>
+                                                <div class="doneshift-wrapper times">
+                                                    <div *ngIf="doneSTSData" class="doneshift times rostered">
+                                                        <ion-icon class="doneshift-ico rostered times" name="time-outline"></ion-icon><span class="doneshift times-val start rostered" [ngClass]="{'doneshiftval-up':doneSTSData&&doneS.tsStart!==doneS.nStart&&doneSTSData.StartTime<doneS.StartTime,'doneshiftval-down':doneSTSData&&doneS.tsStart!==doneS.nStart&&doneSTSData.StartTime>doneS.StartTime,'doneshiftval-same':doneS.tsStart===doneS.nStart}">{{doneS.rosStart}}</span>
+                                                        <ion-icon class="doneshift-ico rostered fromto rostered" name="chevron-forward"></ion-icon><span class="doneshift times-val end rostered" [ngClass]="{'doneshiftval-up':doneSTSData&&doneS.tsEnd!==doneS.nEnd&&doneSTSData.EndTime>doneS.EndTime,'doneshiftval-down':doneSTSData&&doneS.tsEnd!==doneS.nEnd&&doneSTSData.EndTime<doneS.EndTime,'doneshiftval-same':doneSTSData&&doneS.tsEnd===doneS.nEnd}">{{doneS.rosEnd}}</span>
+                                                        <span *ngIf="doneSTSData" [ngClass]="{'doneshiftdur-up':(doneS.tsTotalTime.hours*60)+doneS.tsTotalTime.minutes>(doneS.nTotalTime.hours*60)+doneS.nTotalTime.minutes,'doneshiftdur-down':(doneS.tsTotalTime.hours*60)+doneS.tsTotalTime.minutes<(doneS.nTotalTime.hours*60)+doneS.nTotalTime.minutes,'doneshiftdur-same':(doneS.tsTotalTime.hours*60)+doneS.tsTotalTime.minutes===(doneS.nTotalTime.hours*60)+doneS.nTotalTime.minutes}">
+                                                          <ion-icon *ngIf="doneS.tsTTDiff.hours===0&&doneS.tsTTDiff.minutes===0" class="doneshift rostered hm-val same-ico" name="checkmark-done-outline"></ion-icon>
+                                                          <span class="doneshift rostered hm-val hours" *ngIf="doneS.tsTTDiff.hours!==0">{{doneS.tsTTDiff.hours}}<span class="doneshift-rostered-suffix hours">:</span></span>
+                                                        <span class="doneshift rostered hm-val minutes" *ngIf="doneS.tsTTDiff.minutes!==0">{{doneS.tsTTDiff.minutes}}<span *ngIf="doneS.tsTTDiff.minutes!==0&&doneS.tsTTDiff.hours===0" class="doneshift-ttdiff-mins-suffix">m</span></span>
+                                                        <span class="doneshift-actual-dur-income-vertsep">|</span><span class="doneshift-incomeperf-dollar-small">$</span>
+                                                        <span class="doneshift-actual-income-updown-val"><span *ngIf="doneS.tsIncomePerf<0" class="doneshift-actual-income-updown-val-bracks"><span>(</span></span>{{doneS.tsIncomePerf}}<span *ngIf="doneS.tsIncomePerf<0"
+                                                            class="doneshift-actual-income-updown-val-bracks"><span>)</span></span>
+                                                        </span>
+                                                        </span>
+                                                    </div>
+                                                    <!-- MISSING TIMESHEET TIMES - STARTS -->
+                                                    <div *ngIf="!doneSTSData" class="doneshift times rostered tsmissing">
+                                                        <ion-icon class="doneshift-ico rostered times tsmissing" name="time-outline"></ion-icon>
+                                                        <span class="doneshift times-val start rostered tsmissing">{{doneS.nStart}}</span>
+                                                        <ion-icon class="doneshift-ico rostered fromto rostered tsmissing" name="chevron-forward"></ion-icon>
+                                                        <span class="doneshift times-val end rostered tsmissing">{{doneS.nEnd}}</span>
+                                                    </div>
+                                                    <!-- MISSING TIMESHEET TIMES - ENDS -->
+                                                    <div *ngIf="doneSTSData" class="doneshift actual">
+                                                        <div class="doneshift-actual times-wrapper">
+                                                            <ion-icon class="doneshift-ico actual times" name="time"></ion-icon>{{doneS.tsStart}}
+                                                            <ion-icon class="doneshift-ico actual fromto" name="chevron-forward"></ion-icon>{{doneS.tsEnd}}
+                                                        </div>
+                                                        <div class="doneshift-actual duration-income">
+                                                            <ion-icon class="doneshift-ico actual hourglass" name="hourglass"></ion-icon>
+                                                            <span *ngIf="doneS.tsTotalTime.hours>0">{{doneS.tsTotalTime.hours}}<span class="doneshift-actual-suffix hours">h</span></span>
+                                                            <span *ngIf="doneS.tsTotalTime.minutes>0">{{doneS.tsTotalTime.minutes}}<span class="doneshift-actual-suffix minutes">m</span></span>
+                                                            <span class="doneshift-actual-dur-income-vertsep bigger">|</span>
+                                                            <ion-icon class="sslider-shift-income-ico actual" name="logo-usd"></ion-icon><span class="doneshift-actual-income-updown-val"><span class="doneshift-incomeperf-dollar-s">$</span>{{doneS.tsIncome}}</span>
+                                                            <span class="doneshift-actual-dur-income-vertsep bigger">|</span>
+                                                            <div class="doneshift-performance-arrow-wrapper">
+                                                                <ion-icon *ngIf="doneSTSData&&(doneS.tsTotalTime.hours*60)+doneS.tsTotalTime.minutes===(doneS.nTotalTime.hours*60)+doneS.nTotalTime.minutes" class="doneshift-ico rostered equals" name="reorder-two"></ion-icon>
+                                                                <ion-icon *ngIf="doneSTSData&&(doneS.tsTotalTime.hours*60)+doneS.tsTotalTime.minutes>(doneS.nTotalTime.hours*60)+doneS.nTotalTime.minutes" class="doneshift-ico rostered equalsup" style="color:var(--ion-color-success-68);vertical-align:text-top" name="caret-up"></ion-icon>
+                                                                <ion-icon *ngIf="doneSTSData&&(doneS.tsTotalTime.hours*60)+doneS.tsTotalTime.minutes<(doneS.nTotalTime.hours*60)+doneS.nTotalTime.minutes" class="doneshift-ico rostered equalsdown" style="color:var(--ion-color-danger-68);vertical-align:text-bottom" name="caret-down"></ion-icon>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- MISSING TIMESHEET TTINCOME - STARTS -->
+                                                    <div *ngIf="!doneSTSData" class="doneshift actual tsmissing">
+                                                        <div class="doneshift-actual times-wrapper tsmissing">
+                                                            <ion-icon class="doneshift-ico actual times tsmissing" name="time"></ion-icon><span class="doneshift missingts-actual-val">Unknown</span>
+                                                            <ion-icon class="doneshift-ico actual fromto tsmissing" name="chevron-forward"></ion-icon><span class="doneshift missingts-actual-val">Unknown</span>
+                                                        </div>
+                                                        <div class="doneshift-actual duration-income tsmissing">
+                                                            <ion-icon class="doneshift-ico actual hourglass tsmissing" name="hourglass"></ion-icon>
+                                                            <span class="done-shift tt-val hours tsmissing" *ngIf="doneS.nTotalTime.hours>0">{{doneS.nTotalTime.hours}}<span class="doneshift-actual-suffix hours">h</span></span>
+                                                            <span class="done-shift tt-val minutes tsmissing" *ngIf="doneS.nTotalTime.minutes>0">{{doneS.nTotalTime.minutes}}<span class="doneshift-actual-suffix minutes">m</span></span>
+                                                            <span class="doneshift-actual-dur-income-vertsep bigger tsmissing">|</span>
+                                                            <ion-icon class="doneshift-ico actual dollar tsmissing" name="logo-usd"></ion-icon><span class="doneshift-actual-income-updown-val"><span class="doneshift-incomeperf-dollar-s">$</span>{{doneS.nIncome}}</span>
+                                                            <span class="doneshift-actual-dur-income-vertsep bigger">|</span>
+                                                            <div class="doneshift-performance-arrow-wrapper">
+                                                                <ion-icon class="doneshift-ico rostered tsmissing qmark" style="color:var(--ion-color-danger-68);vertical-align:middle" name="warning"></ion-icon>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- MISSING TIMESHEET TTINCOME - ENDS -->
+                                                </div>
+                                            </div>
+                                            <div *ngIf="doneS.nCommCount>0&&doneSShowComments" class="doneshift-comment-outter-wrapper content-wrapper">
+                                                <div class="doneshift-type-wrapper" *ngIf="doneS.nConfirmComment">
+                                                    <ion-icon class="doneshift-comment-ico confirmcomment-ico" name="checkmark-done-circle"></ion-icon>
+                                                    <span class="doneshift comment-type-label confirmcomment-label">confirm:</span> {{doneS.nConfirmComment}}
+                                                </div>
+                                                <div class="doneshift-type-wrapper" *ngIf="doneS.nComment">
+                                                    <ion-icon class="doneshift-comment-ico comment-ico" name="chatbubbles"></ion-icon>
+                                                    <span class="doneshift comment-type-label comment-label">comment:</span> {{doneS.nComment}}
+                                                </div>
+                                            </div>
+                                            <div *ngIf="doneS.nWarnCount>0&&doneSShowWarnings" class="doneshift-warning-outter-wrapper content-wrapper">
+                                                <div class="doneshift-type-wrapper" *ngIf="doneS.nWarning">
+                                                    <ion-icon class="doneshift-warning-ico warning-ico" name="alert-circle"></ion-icon>
+                                                    <span class="doneshift warning-type-label warning-label">warning:</span> {{doneS.nWarning}}
+                                                </div>
+                                                <div class="doneshift-type-wrapper" *ngIf="doneS.nWarningOR">
+                                                    <ion-icon class="doneshift-warning-ico warningoverride-ico" name="skull"></ion-icon>
+                                                    <span class="doneshift warning-type-label warning-label">override:</span> {{doneS.nWarningOR}}
+                                                </div>
+                                            </div>
+                                        </ion-col>
+                                        <ion-col class="sheriff-col sheriff-roster-content-col-deetsnactions">
+                                            <ion-grid class="sheriff-grid ss-stats-grid">
+                                                <ion-row class="sheriff-row ss-stats-row creator">
+                                                    <ion-col size="2" class="sheriff-col">
+                                                        <img src="{{doneS.nCreatorAva}}" class="ss-stats-ico creator">
+                                                    </ion-col>
+                                                    <ion-col size="10" class="sheriff-col">
+                                                        <div class="ss-stats-txt creator">{{doneS.sFName}}</div>
+                                                    </ion-col>
+                                                </ion-row>
+                                                <ion-row class="sheriff-row ss-stats-row created">
+                                                    <ion-col size="2" class="sheriff-col">
+                                                        <ion-icon class="ss-stats-ico created" name="create-outline"></ion-icon>
+                                                    </ion-col>
+                                                    <ion-col size="10" class="sheriff-col">
+                                                        <div class="ss-stats-txt created">{{doneS.sCreated}}</div>
+                                                    </ion-col>
+                                                </ion-row>
+                                                <ion-row class="sheriff-row ss-stats-row modified">
+                                                    <ion-col size="2" class="sheriff-col">
+                                                        <ion-icon class="ss-stats-ico modified" name="hammer-outline"></ion-icon>
+                                                    </ion-col>
+                                                    <ion-col size="10" class="sheriff-col">
+                                                        <div class="ss-stats-txt modified">{{doneS.sModified}}</div>
+                                                    </ion-col>
+                                                </ion-row>
+                                                <ion-row class="sheriff-row ss-comments-row">
+                                                    <ion-col size="12" class="sheriff-col comments-col">
+                                                        <div *ngIf="doneS.nCommCount>0" class="doneshift-comment-outter-wrapper showhide-wrapper">
+                                                            <div (click)="doneShiftShowComments()" class="doneshift-comment-heading-topper ion-activatable ripple-parent">
+                                                                <ion-icon class="doneshift comment-heading-ico" name="chatbox"></ion-icon>
+                                                                <div class="doneshift-comment-heading-label">Comments</div>
+                                                                <div class="doneshift-comment-heading-count-val">{{doneS.nCommCount}}</div>
+                                                                <ion-ripple-effect></ion-ripple-effect>
+                                                            </div>
+                                                        </div>
+                                                    </ion-col>
+                                                </ion-row>
+                                                <ion-row class="sheriff-row ss-warnings-row">
+                                                    <ion-col size="12" class="sheriff-col warnings-col">
+                                                        <div *ngIf="doneS.nWarnCount>0" class="doneshift-warning-outter-wrapper showhide-wrapper">
+                                                            <div (click)="doneShiftShowWarnings()" class="doneshift-warning-heading-topper ion-activatable ripple-parent">
+                                                                <ion-icon class="doneshift warning-heading-ico" name="warning"></ion-icon>
+                                                                <div class="doneshift-warning-heading-label">Warnings</div>
+                                                                <div class="doneshift-warning-heading-count-val">{{doneS.nWarnCount}}</div>
+                                                                <ion-ripple-effect></ion-ripple-effect>
+                                                            </div>
+                                                        </div>
+                                                    </ion-col>
+                                                </ion-row>
+                                            </ion-grid>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                            <div *ngIf="doneS.MatchedByTimesheet===0" class="done-shift-missing-ribbon"><span>MISSING</span></div>
+                            <div *ngIf="doneS.MatchedByTimesheet>0" class="done-shift-completed-ribbon"><span>COMPLETED</span></div>
+                            <div class="display-doneshift-box-shadow"></div>
+                        </div>
+                        <!-- END DISPLAY SINGLE DONE SHIFT ITEM -->
+                        <div *ngIf="hasLoaded&&sSTotalItems!==0&&!sSlider.isEndSlide&&!doneSIsShowing" [ngClass]="{'ss-nav-arrow-to-bottom':sSInitComplete===true&&sSCurrentIndex!==null&&sSlider.slidesControls[sSCurrentIndex].show}" class="currentshifts-div arrow-fade-div right-arrow-fade-div">
+                            <div class="sheriff-slider-nav-arrow-wrapper forward-arrow-outter-wrapper shiftsslider">
+                                <div (click)="sSNext()" class="sheriff-slider-nav-arrow-wrapper forward-arrow-inner-wrapper shiftsslider ion-activatable ripple-parent">
+                                    <ion-icon class="sheriff-shiftsslider-nav-arrow-ico forward" name="caret-forward"></ion-icon>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <!-- PENDING SHIFTS SLIDER PAGINATION -->
+        <div *ngIf="hasLoaded&&myWeekPagReady" class="shiftslider-pagination-grid-outter-wrapper">
+            <ion-grid class="sheriff-grid shiftslider-pagination-grid">
+                <ion-row class="sheriff-row shiftslider-pagination-row">
+                    <ion-col size="7" class="sheriff-col shiftslider-pagination-col bullets-col">
+                        <ion-grid class="sheriff-grid daybullets-grid">
+                            <ion-row *ngIf="!hasLoaded" class="sheriff-row daybullets-row notloaded-row">
+                                <ion-col size="12" class="sheriff-col day-bullets-col not-loaded-col">
+                                    <div class="value-is-loading-wrapper">
+                                        <ion-spinner duration="250" class="sheriff-spinner v-is-loading-spinner"></ion-spinner>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="sheriff-row daybullets-row">
+                                <ion-col *ngFor="let sSDay of sSWeek;let i = index" [ngClass]="{'gotshift-col':sSDay.isshift===true,'noshift-col':sSDay.isshift===false}" class="sheriff-col daybullets-col {{sSDay.sn}}-col animDel-{{i}}00 animDur-250  animate__fadeIn animate__fast">
+                                    <div (click)="sSGotoShift(sSDay.isshift,sSDay.si)" class="daybullets-touch-wrapper {{sSDay.sn}} ion-activatable ripple-parent">
+                                        <div [ngClass]="{'ss-label-active':sSDay.si===sSCurrentIndex&&!doneSIsShowing,'ss-label-istoday':sSDay.tonow==='T'&&sSDay.si!==sSCurrentIndex,'ss-label-nots':sSDay.tonow==='B'&&sSDay.nots&&sSDay.si!==sSCurrentIndex}" class="dayb-div wdayname-label-txt {{sSDay.sn}}">{{sSDay.ln.substring(0,3)}}</div>
+                                        <div [ngClass]="{'ss-bullet-active':sSDay.si===sSCurrentIndex&&!doneSIsShowing,'ss-bullet-notactive':sSDay.si!==sSCurrentIndex}" class="dayb-div daycal-wrapper {{sSDay.sn}} is{{sSDay.tonow}}">
+                                            <div *ngIf="sSDay.si!==sSCurrentIndex||(sSDay.si===sSCurrentIndex&&doneSIsShowing)" class="dayb-div wdatetxt {{sSDay.sn}}">
+                                                <span *ngIf="!(sSDay.tonow==='B'&&sSDay.isshift)&&!isRefreshing" [ngClass]="{'ss-label-active':!doneSIsShowing&&sSDay.si===sSCurrentIndex,'ss-label-istodaydate':sSDay.tonow==='T'&&sSDay.si!==sSCurrentIndex}" class="dayb-span wdatetxt">{{sSDay.day}}</span>
+                                                <span *ngIf="sSDay.tonow==='B'&&sSDay.isshift&&!isRefreshing" class="dayb-span wdatetxt">
+                                                  <ion-icon *ngIf="!sSDay.nots&&!sSDay.xtra" class="dayb-done-checkmark-ico" name="checkmark-outline"></ion-icon>
+                                                  <ion-icon *ngIf="sSDay.nots&&!sSDay.xtra" class="dayb-done-alert-ico" name="alert-outline"></ion-icon>
+                                                  <ion-icon *ngIf="sSDay.xtra&&!sSDay.nots" class="dayb-done-xtra-ico" name="add-outline"></ion-icon>
+                                                </span>
+                                                <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                            </div>
+                                            <div *ngIf="sSDay.si===sSCurrentIndex&&!doneSIsShowing" class="dayb-div wdatetxt {{sSDay.sn}}">
+                                                <div class="sheriff-uparrow-anim-wrapper shifts-pagination">
+                                                    <div id="sheriffarrowAnim">
+                                                        <div class="sheriffarrowSliding">
+                                                            <div class="sheriffarrow sa1"></div>
+                                                        </div>
+                                                        <div class="sheriffarrowSliding sheriffdelay1">
+                                                            <div class="sheriffarrow sa2"></div>
+                                                        </div>
+                                                        <div class="sheriffarrowSliding sheriffdelay2">
+                                                            <div class="sheriffarrow sa3"></div>
+                                                        </div>
+                                                        <div class="sheriffarrowSliding sheriffdelay3">
+                                                            <div class="sheriffarrow sa4"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col shiftslider-pagination-col fraction-col animDel-700 animDur-250  animate__fadeIn animate__fast">
+                        <div class="ss-pag-frac-outter-wrapper">
+                            <div *ngIf="!doneSIsShowing" class="ss-pag-frac-inner-wrapper">
+                                <div *ngIf="hasLoaded&&sSTotalItems>0&&!isRefreshing" [ngClass]="{'ssfrac-last':sSCurrent===sSTotalItems,'ssfrac-first':sSCurrent===1,'ssfrac-std':sSCurrent!==sSTotalItems&&sSCurrent!==1}" class="ss-pag-frac-val current">
+                                    <span *ngIf="!isRefreshing">{{sSCurrent}}</span>
+                                    <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                </div>
+                                <div *ngIf="!(sSTotalItems>0)&&!isRefreshing" class="ss-pag-frac-val no-shifts">
+                                    <span *ngIf="!isRefreshing">-</span>
+                                    <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                </div>
+                                <div class="ss-pag-frac-slash"></div>
+                                <div class="ss-pag-frac-val total">
+                                    <span *ngIf="!isRefreshing">{{sSTotalItems}}</span>
+                                    <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="4" class="sheriff-col shiftslider-pagination-col info-col animDel-800 animDur-250  animate__flipInX">
+                        <div class="ss-pag-info-outter-wrapper">
+                            <div class="ss-pag-info-cdown-div title-wrapper">
+                                <span *ngIf="!doneSIsShowing&&sSTotalItems!==0">SHIFT STARTS:</span>
+                                <span *ngIf="doneSIsShowing&&doneSTSData">SHIFT ENDED:</span>
+                                <div *ngIf="!doneSIsShowing&&sSTotalItems===0" class="no-upcoming-timer">-</div>
+                                <div *ngIf="doneSIsShowing&&!doneSTSData" class="no-timesheet-timer">no timesheet</div>
+                            </div>
+                            <div *ngIf="doneSIsShowing&&!doneSTSData" class="ss-cdown-shiftended-value-notimesheet-wrapper">not known</div>
+                            <div *ngIf="doneSIsShowing&&doneSTSData" class="ss-cdown-shiftended-value-wrapper">
+                                <!-- YEARS -->
+                                <span *ngIf="doneSAgoTime.years>0" class="doneshiftago-val-wrapper years"><span class="doneshiftago-value years">{{doneSAgoTime.years}}</span><span class="doneshiftago-suffix years long">year<span *ngIf="doneSAgoTime.years>1">s</span></span>
+                                </span>
+                                <!-- MONTHS -->
+                                <span *ngIf="doneSAgoTime.months>0" class="doneshiftago-val-wrapper months"><span class="doneshiftago-value months">{{doneSAgoTime.months}}</span><span class="doneshiftago-suffix months long">month<span *ngIf="doneSAgoTime.months>1">s</span></span>
+                                </span>
+                                <!-- WEEKS -->
+                                <span *ngIf="doneSAgoTime.weeks>0&&doneSAgoTime.months===0&&doneSAgoTime.years===0" class="doneshiftago-val-wrapper weeks"><span class="doneshiftago-value weeks">{{doneSAgoTime.weeks}}</span><span class="doneshiftago-suffix weeks long">week<span *ngIf="doneSAgoTime.weeks>1">s</span></span>
+                                </span>
+                                <!-- DAYS -->
+                                <span *ngIf="doneSAgoTime.days>0&&doneSAgoTime.weeks===0&&doneSAgoTime.months===0&&doneSAgoTime.years===0" class="doneshiftago-val-wrapper days"><span class="doneshiftago-value days">{{doneSAgoTime.days}}</span><span class="doneshiftago-suffix days long">day<span *ngIf="doneSAgoTime.days>1">s</span></span>
+                                </span>
+                                <!-- HOURS -->
+                                <span *ngIf="doneSAgoTime.hours>0&&doneSAgoTime.days===0&&doneSAgoTime.weeks===0&&doneSAgoTime.months===0&&doneSAgoTime.years===0" class="doneshiftago-val-wrapper hours"><span class="doneshiftago-value hours">{{doneSAgoTime.hours}}</span>
+                                <span class="doneshiftago-suffix hours long">hr<span *ngIf="doneSAgoTime.hours>1">s</span></span>
+                                </span>
+                                <!-- MINUTES -->
+                                <span *ngIf="doneSAgoTime.minutes>0&&doneSAgoTime.hours===0&&doneSAgoTime.days===0&&doneSAgoTime.weeks===0&&doneSAgoTime.months===0&&doneSAgoTime.years===0" class="doneshiftago-val-wrapper minutes"><span class="doneshiftago-value minutes">{{doneSAgoTime.minutes}}</span>
+                                <span class="doneshiftago-suffix minutes long">min<span *ngIf="doneSAgoTime.minutes>1">s</span></span>
+                                </span>
+                                <!-- AGO TXT -->
+                                <span class="doneshiftago ago-suffix-txt">ago</span>
+                            </div>
+                            <div *ngIf="CDReady&&!doneSIsShowing" class="ss-pag-info-cdown-div values-wrapper  animate__flipInX animate__fast">
+                                <!-- DAYS -->
+                                <span *ngIf="sSCD.d>0" class="sscd-int-wrapper days"><span class="sscd-val days">{{sSCD.d}}</span><span class="sscd-colon">d</span></span>
+                                <!-- HOURS -->
+                                <span *ngIf="sSCD.h>0" class="sscd-int-wrapper hours"><span class="sscd-val hours">{{sSCD.h}}</span><span class="sscd-colon">h</span></span>
+                                <!-- MINS -->
+                                <span *ngIf="sSCD.m>0" class="sscd-int-wrapper mins">
+                                  <span [ngStyle]="{'color':sSCD.d<1&&sSCD.h<1?'var(--ion-color-danger)':'#eee'}" class="sscd-val mins"><span [ngStyle]="{'color':sSCD.d<1&&sSCD.h<1?'var(--ion-color-danger)':'#eee'}" *ngIf="sSCD.m<10&&CDReady">0</span>{{sSCD.m}}</span>
+                                <span [ngStyle]="{'color':sSCD.d<1&&sSCD.h<1?'var(--ion-color-danger)':'#aaa'}" class="sscd-colon">m</span>
+                                </span>
+                                <!-- SECONDS -->
+                                <span *ngIf="sSCD.d===0&&sSCD.h===0" [ngStyle]="{'color':sSCD.h<=1?'var(--ion-color-danger)':'#eee'}" class="sscd-val secs">
+                                  <span [ngStyle]="{'color':sSCD.h<=1?'var(--ion-color-danger)':'#eee'}" *ngIf="sSCD.s<10&&CDReady">0</span>{{sSCD.s}}</span>
+                                <span [ngStyle]="{'color':sSCD.h<=1?'var(--ion-color-danger)':'#aaa'}" *ngIf="sSCD.m<=0&&CDReady" class="sscd-colon">s</span>
+                            </div>
+                            <div *ngIf="!hasLoaded||sSCD===null&&!doneSIsShowing" class="ss-pag-info-cdown-div values-wrapper no-next-shift">
+                                <ion-icon class="sscd-noshift-ico" name="ellipsis-horizontal"></ion-icon>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <!-- HISTORY HEADER -->
+        <div class="sheriff-history-statsbar-main-wrapper">
+            <ion-grid class="sheriff-grid history-statsbar-grid">
+                <ion-row class="sheriff-row history-statsbar-row heading-row">
+                    <ion-col size="6" class="sheriff-col history-statsbar-col heading-col">
+                        <div class="history-statsbar-heading-wrapper">
+                            completed
+                        </div>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col history-statsbar-col heading-col heading-ico-col publisher">
+                        <ion-icon class="doneshifts-div-line-ico publisher-ico head-ico" name="person-add-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col history-statsbar-col heading-col heading-ico-col comments">
+                        <ion-icon class="doneshifts-div-line-ico comments-ico head-ico" name="chatbox-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col history-statsbar-col heading-col heading-ico-col warnings">
+                        <ion-icon class="doneshifts-div-line-ico warnings-ico head-ico" name="warning-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col history-statsbar-col heading-col heading-ico-col swaps">
+                        <ion-icon class="doneshifts-div-line-ico swap-ico head-ico" name="swap-horizontal-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2" class="sheriff-col history-statsbar-col totop-col">
+                        <ion-button (click)="scrollHistoryTop()" *ngIf="showTTopBtn" class="sheriff-btn shifts-history-btn totopbtn  animDur animate__slideInUp">
+                            <ion-icon [ngStyle]="{'color':scrollingTT?'var(--ion-color-success)':'#848484'}" name="chevron-up" class="shifts-history-totop-btn-ico"></ion-icon>
+                            <div [ngStyle]="{'color':scrollingTT?'var(--ion-color-success)':'#848484'}" class="shifts-history-totop-btn-text">top</div>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row history-statusbar-row divline-row">
+                    <ion-col class="sheriff-col history-statusbar-col heading-col">
+                        <div class="history-statsbar-heading-divider"></div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+    <!-- ION/TAB-CONTENT - START -->
+    <ion-content [scrollEvents]="true" (ionScroll)="historyScroll($event)" class="sheriff-content tab-content shifts" #historyContent (ionScrollStart)="disableRefresher(true)" (ionScrollEnd)="disableRefresher(false)">
+        <div slot="fixed" class="sheriff-subheader-shadow-div"></div>
+        <!-- MAIN LIST WRAPPER -->
+        <div class="sheriff-tabcontent-itemlistcontent-wrapper shifts">
+            <!-- NO ITEMS FOUND CARD -->
+            <ion-card *ngIf="noShiftItems" class="sheriff-card tab-list-card no-items-card">
+                <div class="sheriff-no-items-card-wrapper">No {{dbDataTbl}} Items Found</div>
+            </ion-card>
+            <!-- V-SCROLL LIST -->
+            <ion-list *ngIf="!noShiftItems" class="sheriff-tablist tabshifts">
+                <ion-virtual-scroll *ngIf="hasLoaded" [items]="shiftItems" [headerFn]="calHeaderGroups" approxItemHeight="42" approxHeaderHeight="25" class="sheriff-vscroll dbitem-vscroll doneshifts">
+                    <ion-item-divider [hidden]="header.week===null&&header.month===null" *virtualHeader="let header" class="sheriff-list-item-divider donerosters-weekheader">
+                        <ion-grid class="sheriff-grid item-list-divider-grid donerosters">
+                            <ion-row *ngIf="header.month!==null" class="sheriff-divider-row donerosters-month">
+                                <ion-col class="sheriff-divider-col donerosters-month">{{header.month}}</ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="header.week!==null" class="sheriff-divider-row donerosters-week">
+                                <ion-col class="sheriff-divider-col donerosters-week">{{header.week}}</ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-item-divider>
+                    <!-- ITEM START -->
+                    <ion-item *virtualItem="let item; let i = index" [ngClass]="{'doneshift-showingdetail-dim-not-selected':doneSIsShowing&&doneSId!==item.Id,'doneshift-showingdetail-hl-selected':doneSIsShowing&&doneSId===item.Id}" class="sheriff-item tablist-item doneshifts-item doneshifts-index-{{i}}"
+                        id="id-doneroster-{{item.Id}}">
+                        <ion-grid class="sheriff-grid list-item-grid doneshifts-item-grid">
+                            <ion-row class="sheriff-row list-item-row doneshifts-item-row maingrid-row">
+                                <div (click)="showShiftDetail(item.Id,i)" [ngClass]="{'doneshift-showingdetail':doneSId===item.Id}" class="doneshifts open-doneshift-outter-wrapper ion-activatable ripple-parent">
+                                    <ion-col size="6" class="sheriff-col list-item-col doneshifts-col">
+                                        <div class="doneshifts-div-line date-area-dl">
+                                            <span *ngIf="!isRefreshing" class="doneshifts date-value">{{item.nDate}}</span>
+                                            <span *ngIf="!isRefreshing" class="doneshifts rosterid-value">#{{item.Id}}</span>
+                                            <ion-skeleton-text *ngIf="isRefreshing" animated style="width:75%"></ion-skeleton-text>
+                                        </div>
+                                        <div class="doneshifts-div-line startend-ttime-dl">
+                                            <span *ngIf="!isRefreshing" class="doneshifts areaat-sign">@</span>
+                                            <span *ngIf="!isRefreshing" [ngStyle]="{'color':workColor,'filter':incBright?'brightness(2.5)':'brightness(1)'}" class="doneshifts ccode">{{item.nCompanyName}}</span>
+                                            <span *ngIf="!isRefreshing" class="doneshifts startend-value stime">{{item.nStart}}</span>
+                                            <span *ngIf="!isRefreshing" class="doneshifts startend-value"><ion-icon class="doneshifts startend-value ico" name="caret-forward"></ion-icon></span>
+                                            <span *ngIf="!isRefreshing" class="doneshifts startend-value etime">{{item.nEnd}}</span>
+                                            <span *ngIf="!isRefreshing" class="doneshifts ttime-value">
+                                            <span  *ngIf="!isRefreshing" class="doneshifts ttbrack">(</span>
+                                            <span *ngIf="!isRefreshing&&item.nTotalTime.hours>0" class="doneroster-detail-tt-value hrs">{{item.nTotalTime.hours}}</span>
+                                            <span *ngIf="!isRefreshing&&item.nTotalTime.minutes>0" class="doneroster-detail-tt-value mins">:{{item.nTotalTime.minutes}}</span>
+                                            <span *ngIf="!isRefreshing" class="doneshifts ttbrack">)</span></span>
+                                            <span *ngIf="!isRefreshing&&item.MatchedByTimesheet===0" class="doneshifts notsalert-span">-<ion-icon class="doneshifts-notsalert-ico" name="stopwatch"></ion-icon>?</span>
+                                            <ion-skeleton-text *ngIf="isRefreshing" animated style="width:70%"></ion-skeleton-text>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col size="1" class="sheriff-col list-item-col doneshifts-col publisher-col">
+                                        <div *ngIf="!isRefreshing" class="doneshifts-div-line publisher-dl value">
+                                            <span style="color:#848484" class="doneshifts publisher-value">{{item.nPublisher}}</span>
+                                        </div>
+                                        <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                    </ion-col>
+                                    <ion-col size="1" class="sheriff-col list-item-col doneshifts-col comments-col">
+                                        <div *ngIf="!isRefreshing" class="doneshifts-div-line comments-dl value">
+                                            <span [ngStyle]="{'color':item.nCommCount>0?'var(--ion-color-success-48)':'#848484'}" class="doneshifts comments-value">
+                                            <span *ngIf="item.nCommCount>0" class="doneshifts comments-value hasvalue">{{item.nCommCount}}</span>
+                                            <span *ngIf="item.nCommCount===0" class="doneshifts nilvalue">-</span>
+                                            </span>
+                                        </div>
+                                        <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                    </ion-col>
+                                    <ion-col size="1" class="sheriff-col list-item-col doneshifts-col warnings-col">
+                                        <div *ngIf="!isRefreshing" class="doneshifts-div-line warnings-dl value">
+                                            <span [ngStyle]="{'color':item.nWarnCount>0?'var(--ion-color-danger-48)':'#848484'}" class="doneshifts warnings-value">
+                                              <span *ngIf="item.nWarnCount>0" class="doneshifts warnings-value hasvalue">{{item.nWarnCount}}</span>
+                                            <span *ngIf="item.nWarnCount===0" class="doneshifts nilvalue">-</span>
+                                            </span>
+                                        </div>
+                                        <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                    </ion-col>
+                                    <ion-col size="1" class="sheriff-col list-item-col doneshifts-col swap-col">
+                                        <div *ngIf="!isRefreshing" class="doneshifts-div-line swap-dl value">
+                                            <span class="doneshifts swap-value">
+                                            <span style="color:#848484" *ngIf="item.SwapStatus===0||item.SwapStatus===6" class="doneshifts swap-value nilvalue">-</span>
+                                            <span *ngIf="item.SwapStatus===1" style="color:var(--ion-color-primary-68)" class="doneshifts swap-ico pendingout-1"><ion-icon name="chevron-forward-outline"></ion-icon></span>
+                                            <span *ngIf="item.SwapStatus===2" style="color:var(--ion-color-primary-68)" class="doneshifts swap-value pendingin-2"><ion-icon name="chevron-forward-outline"></ion-icon></span>
+                                            <span *ngIf="item.SwapStatus===3" style="color:var(--ion-color-primary-68)" class="doneshifts swap-value pendinginout-3"><ion-icon name="code-working-outline"></ion-icon></span>
+                                            <span *ngIf="item.SwapStatus===4" style="color:var(--ion-color-primary-68)" class="doneshifts swap-value pendingapproval-4"><ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon></span>
+                                            <span *ngIf="item.SwapStatus===5" style="color:var(--ion-color-success-68)" class="doneshifts swap-value approved-5"><ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon></span>
+                                            <span *ngIf="item.SwapStatus===7" style="color:var(--ion-color-danger-68)" class="doneshifts swap-value declined-7"><ion-icon name="close-circle-outline"></ion-icon></span>
+                                            </span>
+                                        </div>
+                                        <ion-skeleton-text *ngIf="isRefreshing" animated class="skele-shifts-history-statuscols"></ion-skeleton-text>
+                                    </ion-col>
+                                    <ion-ripple-effect></ion-ripple-effect>
+                                </div>
+                                <ion-col size="1" class="sheriff-col list-item-col doneshifts-col opents-col">
+                                    <div *ngIf="item.MatchedByTimesheet>0" (click)="gotoTimesheet(item.Id,item.MatchedByTimesheet)" [ngStyle]="{'border-color':gotoTSId===item.Id?'var(--ion-color-success-68)':'#262626'}" class="doneshifts-goto-ts-ico-wrapper ion-activatable ripple-parent">
+                                        <ion-icon [ngStyle]="{'color':gotoTSId===item.Id?'var(--ion-color-success)':'var(--ion-color-primary-68)'}" class="sheriff-ico doneshifts-goto-ts-ico clock" name="stopwatch-outline"></ion-icon>
+                                        <ion-ripple-effect></ion-ripple-effect>
+                                    </div>
+                                    <div style="border-color:#262626" *ngIf="item.MatchedByTimesheet===0" class="doneshifts-goto-ts-ico-wrapper">
+                                        <ion-icon style="color:var(--ion-color-danger-68)" class="sheriff-ico doneshifts-missingts-alert-ico" name="alert-circle-outline"></ion-icon>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="1" class="sheriff-col list-item-col doneshifts-col opendoneros-col">
+                                    <div (click)="closeShiftDetail()" [ngClass]="{'doneshift-open':doneSId===item.Id}" class="doneshifts-close-detail-ico-wrapper ion-activatable ripple-parent">
+                                        <ion-icon *ngIf="doneSId===item.Id" [ngStyle]="{'color':doneSId===item.Id?'var(--ion-color-danger)':'var(--ion-color-primary-68)'}" class="sheriff-ico doneshifts-close-detail-ico" name="close"></ion-icon>
+                                        <ion-icon *ngIf="doneSId!==item.Id" [ngStyle]="{'color':doneSId!==item.Id?'var(--ion-color-primary-68)':'var(--ion-color-danger)'}" class="sheriff-ico doneshifts-show-detail-ico" name="chevron-forward"></ion-icon>
+                                        <ion-ripple-effect></ion-ripple-effect>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-item>
+                    <!-- ITEM END -->
+                </ion-virtual-scroll>
+            </ion-list>
+            <ion-card *ngIf="endOfList" class="sheriff-card tab-list-card endoflist-card  animate__zoomIn animate__fast">
+                <div class="sheriff-endoflist-card-wrapper">End of Selected Range</div>
+            </ion-card>
+            <!-- I-SCROLL FEEDER -->
+            <ion-infinite-scroll style="opacity:0!important" disabled=true class="sheriff-iscroll shifts" threshold="25%" (ionInfinite)="feedItems($event)">
+                <ion-infinite-scroll-content [ngStyle]="{'opacity':hasLoaded===true?'1':'0'}" loadingSpinner=null>
+                    <ion-row class="sheriff-row inf-loading-row">
+                        <ion-col class="sheriff-col inf-loading-col spinleft" size="4">
+                            <ion-spinner duration="750" class="sheriff-infscroll-loading-spinner" name="dots"></ion-spinner>
+                        </ion-col>
+                        <ion-col class="sheriff-col inf-loading-col textmiddle" size="4">
+                            loading
+                            <div class="info-load-batch-wrapper"><span class="inf-load-batch-start">{{batchStart}}</span><span class="inf-load-batch-hyphen">-</span><span class="inf-load-batch-end">{{batchEnd}}</span></div>
+                        </ion-col>
+                        <ion-col class="sheriff-col inf-loading-col spinright" size="4">
+                            <ion-spinner duration="750" class="sheriff-infscroll-loading-spinner right" name="dots"></ion-spinner>
+                        </ion-col>
+                    </ion-row>
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </div>
+    </ion-content>
+</ion-content>
+<!-- ION FAB BUTTON -->
+<ion-fab class="sheriff-fader-fab tabshifts" vertical="bottom" horizontal="end" slot="fixed">
+    <div class="sheriff-fade-nav-btn-wrapper tabshifts ion-activatable ripple-parent">
+        <img class="sheriff-fade-nav-btn-img" src="../../../assets/img/sheriff-fadenavbtn.png">
+        <ion-ripple-effect></ion-ripple-effect>
+    </div>
+</ion-fab>

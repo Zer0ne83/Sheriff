@@ -1,0 +1,115 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+  <ion-toolbar class="sheriff-toolbar">
+      <div class="sheriff-header-background-wrapper">
+          <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+          <div class="sheriff-header-background-inner-wrapper">
+              <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                  <ion-row class="sheriff-row sheriff-page-header-row">
+                      <ion-col class="sheriff-col sheriff-page-header-col left-col serverlog">
+                          <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar serverlog">
+                              <div class="sheriff-title-leftanimbar-inner serverlog"></div>
+                          </div>
+                          <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                              <div class="sheriff-page-title sheriff-heading-sansman hcl-title serverlog">
+                                  <div class="sheriff-title tight-wrap serverlog">serverlog</div>
+                              </div>
+                          </div>
+                      </ion-col>
+                      <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                          <div class="sheriff-page-header-logo-wrapper">
+                              <div class="sheriff-page-header-logo-inner-wrapper">
+                                  <div class="sheriff-page-header-logo-highlight-layer hcl-ring serverlog"></div>
+                                  <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle serverlog hcl-progcirc serverlog">
+                                      <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                          [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                  </div>
+                                  <div id="logo-top-patchcover-outter" class="logo-top-patchcover outter hcl-opatch serverlog">
+                                      <div id="logo-top-patchcover-inner" class="logo-top-patchcover inner hcl-ipatch serverlog"></div>
+                                  </div>
+                                  <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star serverlog">
+                                  <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo serverlog">
+                              </div>
+                          </div>
+                      </ion-col>
+                      <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                          <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                              <div class="sheriff-page-backbtn-wrapper serverlogment">
+                                  <ion-back-button icon="chevron-back-outline" class="sheriff-backbtn serverlog" defaultHref="/tabs"></ion-back-button>
+                              </div>
+                              <div class="sheriff-menu-button-wrapper">
+                                  <ion-menu-button class="sheriff-menu-button serverlog" autoHide="false">
+                                      <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                  </ion-menu-button>
+                              </div>
+                          </div>
+                      </ion-col>
+                  </ion-row>
+              </ion-grid>
+          </div>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheriff-content tab-content serverlog">
+  <!-- PAGE REFRESHER -->
+  <ion-refresher class="sheriff-refresher page serverlog" slot="fixed" (ionRefresh)="doServerLogRefresh($event)">
+      <div class="sheriff-refresher-noise-wrapper">
+          <ion-refresher-content class="sheriff-refresher-content-class" pullingIcon="arrow-down-circle" refreshingSpinner="dots"></ion-refresher-content>
+      </div>
+  </ion-refresher>
+  <!-- PAGE-CONTENT -->
+  <!-- CONTENT HEADING -->
+  <div class="sheriff-tabcontent-mainheading-wrapper serverlog">
+      <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid serverlog">
+          <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 serverlog">
+              <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 serverlog">
+              </ion-col>
+              <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 serverlog">
+                  <img class="sheriff-reflect-title" src="../../assets/img/sheriff-reflecttitle-serverlog.png">
+              </ion-col>
+              <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 serverlog">
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+  </div>  
+  <!-- CONTENT WRAPPER -->
+  <div class="sheriff-serverlog-page main-page-outter-wrapper">
+    <div class="sheriff-serverlog-page-togglebtn-header-wrapper">
+      <ion-grid class="sheriff-grid sheriff-serverlog-togglebtnheader-grid">
+        <ion-row class="sheriff-row sheriff-serverlog-togglebtnheader-row">
+          <ion-col size="6" class="sheriff-col sheriff-serverlog-togglebtnheader-col all-logs">
+            <ion-button (click)="toggleHeaderBtn()" [ngClass]="{'logbanbtn-selected':headerBtn!=='all'}" class="sheriff-btn sheriff-togglebtnheader-btn all-logs">
+              <div class="sheriff-togglebtnheader-btn-wrapper all-logs">
+                <ion-icon class="sheriff-btn-ico sheriff-togglebtnheader-btn-ico all-logs" name="list"></ion-icon>
+                <div class="sheriff-btn-txt sheriffbtnheaderbtn-txt all-logs">all console msgs</div>
+              </div>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" class="sheriff-col sheriff-serverlog-togglebtnheader-col notifs">
+            <ion-button (click)="toggleHeaderBtn()" [ngClass]="{'logbanbtn-selected':headerBtn!=='notifs'}" class="sheriff-btn sheriff-togglebtnheader-btn notifs">
+              <div class="sheriff-togglebtnheader-btn-wrapper notifs">
+                <ion-icon class="sheriff-btn-ico sheriff-togglebtnheader-btn-ico notifs" name="notifications"></ion-icon>
+                <div class="sheriff-btn-txt sheriffbtnheaderbtn-txt notifs">notifications</div>
+              </div>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div *ngIf="headerBtn==='all'" class="sheriff-serverlog-page main-page-inner-wrapper all-logs">
+      <div [ngClass]="{'fadelogsout':isRefreshing}" class="sheriff-serverlog-page logdata-container all-logs">
+        <div *ngFor="let logLine of logData;let i=index" [ngStyle]="{'animation-delay':250+(i*50)+'ms'}" class="sheriff-serverlog-line-div logline{{i}} animate__animated animate__fadeIn animDur-250">
+          {{logLine}}
+        </div>
+      </div>  
+    </div>
+    <div *ngIf="headerBtn==='notifs'" class="sheriff-serverlog-page main-page-inner-wrapper notifs">
+      <div [ngClass]="{'fadelogsout':isRefreshing}" class="sheriff-serverlog-page logdata-container notifs">
+        <div *ngFor="let notifLine of notifData;let i=index" [ngStyle]="{'animation-delay':250+(i*50)+'ms'}" class="sheriff-serverlog-line-div logline{{i}} animate__animated animate__fadeIn animDur-250">
+          {{notifLine}}
+        </div>
+      </div>  
+    </div>
+  </div>
+  <!-- END OF PAGE-CONTENT -->
+</ion-content>

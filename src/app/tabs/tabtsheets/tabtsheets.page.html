@@ -1,0 +1,324 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row">
+                        <ion-col class="sheriff-col sheriff-page-header-col left-col tabtsheets tsheets">
+                            <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar tabtsheets tsheets">
+                                <div class="sheriff-title-leftanimbar-inner tabtsheets tsheets"></div>
+                            </div>
+                            <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                                <div class="sheriff-page-title sheriff-heading-sansman hcl-title tabtsheets tsheets">
+                                    <div class="sheriff-title tight-wrap tabtsheets tsheets">Timesheets</div>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                            <div class="sheriff-page-header-logo-wrapper">
+                                <div class="sheriff-page-header-logo-inner-wrapper">
+                                    <div class="sheriff-page-header-logo-highlight-layer hcl-ring tsheets"></div>
+                                    <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle tsheets hcl-progcirc tsheets">
+                                        <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                            [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                    </div>
+                                    <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star tabtsheets tsheets">
+                                    <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo tabtsheets tsheets">
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                            <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                                <div class="sheriff-menu-button-wrapper edit-tsheets-menu-btn">
+                                    <div *ngIf="!editMode" (click)="toggleEditMode('start')" class="edit-tsheets-menu-btn-inner-wrapper start ion-activatable ripple-parent">
+                                        <ion-icon class="edit-tsheets-menu-btn-ico start-edit-mode-ico" name="create-outline"></ion-icon>
+                                        <ion-ripple-effect></ion-ripple-effect>
+                                    </div>
+                                    <div *ngIf="editMode" (click)="toggleEditMode('stop')" class="edit-tsheets-menu-btn-inner-wrapper stop ion-activatable ripple-parent">
+                                        <ion-icon class="edit-tsheets-menu-btn-ico stop-edit-mode-ico" name="close-outline"></ion-icon>
+                                        <ion-ripple-effect></ion-ripple-effect>
+                                    </div>
+                                </div>
+                                <div class="sheriff-menu-button-wrapper">
+                                    <ion-menu-button class="sheriff-menu-button tabtsheets" autoHide="false">
+                                        <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                    </ion-menu-button>
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+<!-- TAB-CONTENT - START -->
+<ion-content class="main-tabtsheets-content-wrapper" [scrollEvents]="false">
+    <!-- PAGE REFRESHER -->
+    <ion-refresher #tsheetsRefresher class="sheriff-refresher tabs tsheets" slot="fixed" (ionRefresh)="doRefresh($event)" disabled="{{preventRefreshPull}}">
+        <div class="sheriff-refresher-noise-wrapper">
+            <ion-refresher-content class="sheriff-refresher-content-class" pullingIcon="arrow-down-circle" refreshingSpinner="dots"></ion-refresher-content>
+        </div>
+    </ion-refresher>
+    <div class="sheriff-tabtsheets-mainpage-section-wrapper top-section">
+        <!-- TAB-CONTENT -->
+        <!-- CONTENT HEADING -->
+        <div slot="fixed" class="sheriff-tabcontent-mainheading-wrapper tsheets">
+            <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid tsheets">
+                <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 tsheets">
+                    <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 tsheets">
+                        <div *ngIf="editMode" class="tsheets-editmode-header-txt-wrapper left">edit mode</div>
+                    </ion-col>
+                    <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 tsheets">
+                        <img class="sheriff-reflect-title" src="../../assets/img/sheriff-reflecttitle-tsheets.png">
+                    </ion-col>
+                    <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 tsheets">
+                        <div *ngIf="editMode" class="tsheets-editmode-header-txt-wrapper right">edit mode</div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <!-- ITEM LIST CONTENT -->
+        <!-- ITEM LIST SUMMARY/RANGE-SELECT -->
+        <div slot="fixed" class="tsheets-list-summary-main-outter-wrapper">
+            <ion-grid [ngStyle]="{'opacity':editMode?'0.48':'1'}" class="sheriff-grid list-summary-grid tsheets">
+                <ion-row size="12" class="sheriff-row tsheet-navbar-row navbar-gradborder-row top">
+                    <ion-col class="sheriff-col tsheet-navbar-col navbar-gradborder-col top"></ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row list-summary-row searching-row">
+                    <ion-col (click)="swapOrder()" size="1" class="sheriff-col list-summary-col ico-col ion-activatable ripple-parent">
+                        <div class="ascdesc-order-dim-wrapper" [ngStyle]="{'opacity':(drModalOpen)?'0.36':'1'}">
+                            <div *ngIf="orderDir==='asc'" class="swap-order-ico-label asc">asc</div>
+                            <div class="swap-item-order-btn-wrapper">
+                                <img *ngIf="orderDir==='asc'" src="./../../../assets/img/sheriffsort-asc-ico.png" class="sheriff-ico summary-list-ico swaporder-dr-ico asc tsheets">
+                                <img *ngIf="orderDir==='desc'" src="./../../../assets/img/sheriffsort-desc-ico.png" class="sheriff-ico summary-list-ico swaporder-dr-ico desc tsheets">
+                            </div>
+                            <div *ngIf="orderDir==='desc'" class="swap-order-ico-label desc">des</div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </div>
+                    </ion-col>
+                    <ion-col class="sheriff-col list-summary-col daterange-input-col from">
+                        <div *ngIf="!drModalOpen" class="list-summary-date-input-label from tsheets">from:</div>
+                        <div *ngIf="!drModalOpen" class="summary-list-data-div drstart-val tabtsheets tsheets">{{summaryFromDate}}</div>
+                        <div *ngIf="drModalOpen" class="waiting-custom-input-wrapper from">
+                            <div class="customdrwait loadingdots">waiting</div>
+                        </div>
+                    </ion-col>
+                    <ion-col class="sheriff-col list-summary-col daterange-input-col to">
+                        <div *ngIf="!drModalOpen">
+                            <div class="list-summary-date-input-label-wrapper">
+                                <div class="list-summary-date-input-label to tsheets">to:</div>
+                                <div *ngIf="toDateIsToday" class="list-summary-istoday-indic-wrapper">today</div>
+                            </div>
+                            <div class="summary-list-data-div drend-val tabtsheets tsheets">{{summaryToDate}}</div>
+                        </div>
+                        <div *ngIf="drModalOpen" class="waiting-custom-input-wrapper to">
+                            <div class="customdrwait loadingdots">waiting</div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="1" (click)="openCustomRange()" class="sheriff-col list-summary-col ico-col tsheets ion-activatable ripple-parent">
+                        <div class="summary-list-btn-wrapper cutomrange">
+                            <ion-icon class="sheriff-ico summary-list-ico open-dr-ico tsheets" name="calendar"></ion-icon>
+                        </div>
+                        <ion-ripple-effect></ion-ripple-effect>
+                    </ion-col>
+                    <ion-col class="sheriff-col list-summary-col daterange-input-col preset-col">
+                        <div *ngIf="!dpPopOpen" (click)="showDPPopover($event)" class="list-summary-touchaction-zone-wrapper ion-activatable ripple-parent">
+                            <div class="list-summary-date-input-label select tsheets">Preset:</div>
+                            <div *ngIf="!isCustomRange" class="summary-list-data-div presets-val tabtsheets tsheets">
+                                {{datePresetValue}}
+                            </div>
+                            <div *ngIf="isCustomRange" class="list-summary-iscustomrange">Custom</div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </div>
+                        <div *ngIf="dpPopOpen" class="waiting-custom-input-wrapper preset">
+                            <div class="customdrwait loadingdots">wait</div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row size="12" class="sheriff-row tsheet-navbar-row navbar-gradborder-row middle">
+                    <ion-col class="sheriff-col tsheet-navbar-col navbar-gradborder-col middle"></ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row list-summary-row found-row">
+                    <ion-col class="sheriff-col list-summary-col found-col">
+                        <div class="found-col-all-wrapper">
+                            <span class="found-label-text">Showing</span>
+                            <span class="summary-found-sep colon">:</span>
+                            <span class="found-date-wrapper" [ngSwitch]="orderDir">
+                          <span *ngSwitchCase="'desc'" class="found-range-desc"><span class="found-date-fval">{{foundToNice}}</span>
+                            <ion-icon class="found-bar-ico toarrow" name="caret-forward"></ion-icon><span class="found-date-tval">{{foundFromNice}}</span></span>
+                            <span *ngSwitchCase="'asc'" class="found-range-asc"><span class="found-date-fval">{{foundFromNice}}</span>
+                            <ion-icon class="found-bar-ico toarrow" name="caret-forward"></ion-icon><span class="found-date-tval">{{foundToNice}}</span></span>
+                            <span *ngSwitchDefault class="found-range-desc"><span class="found-date-fval">{{foundToNice}}</span>
+                            <ion-icon class="found-bar-ico toarrow" name="caret-forward"></ion-icon><span class="found-date-tval">{{foundFromNice}}</span></span>
+                            </span>
+                            <ion-icon class="found-bar-ico sepslash" name="remove"></ion-icon>
+                            <span class="found-count-wrapper">    
+                        <span class="found-count-fval">{{showItemCount}}</span>
+                            <span class="summary-found-sep slash">/</span>
+                            <span class="found-count-tval">{{listTtlItms}}</span>
+                            </span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row size="12" class="sheriff-row tsheet-navbar-row navbar-gradborder-row bottom">
+                    <ion-col class="sheriff-col tsheet-navbar-col navbar-gradborder-col bottom"></ion-col>
+                </ion-row>
+            </ion-grid>
+            <div *ngIf="editMode" class="tsheet-editmode-summary-shield"></div>
+        </div>
+    </div>
+    <ion-content [scrollEvents]="true" class="sheriff-content tab-content tsheets" #tsheetsContent (ionScrollStart)="disableRefresher(true)" (ionScrollEnd)="disableRefresher(false)">
+        <div slot="fixed" class="sheriff-subheader-shadow-div"></div>
+        <!-- MAIN LIST WRAPPER -->
+        <div class="sheriff-tabcontent-itemlistcontent-wrapper tsheets">
+            <!-- V-SCROLL LIST -->
+            <ion-card *ngIf="listTtlItms<1" class="sheriff-card tab-list-card no-items-card  animate__animated animate__zoomIn animate__delay-1s">
+                <div class="sheriff-no-items-card-wrapper">No <span style="text-transform:capitalize">{{dbTblName}}</span> Found</div>
+            </ion-card>
+            <ion-list *ngIf="listTtlItms>0" class="sheriff-list dbitem-list tsheets">
+                <ion-virtual-scroll *ngIf="hasLoaded" [items]="listItms" [headerFn]="calHeaderGroups" [footerFn]="groupTotals" approxItemHeight="56" approxFooterHeight="32" approxHeaderHeight="32" class="sheriff-vscroll dbitem-vscroll tsheets">
+                    <ion-item-divider [hidden]="header.week===null&&header.month===null" *virtualHeader="let header" class="sheriff-list-item-divider tsheets-weekheader">
+                        <ion-grid class="sheriff-grid item-list-divider-grid tsheets">
+                            <ion-row *ngIf="header.month!==null" class="sheriff-divider-row tsheets-month">
+                                <ion-col class="sheriff-divider-col tsheets-month">{{header.month}}</ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="header.week!==null" class="sheriff-divider-row tsheets-week">
+                                <ion-col class="sheriff-divider-col tsheets-week">{{header.week}}</ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-item-divider>
+                    <ion-item (click)="openDetail(item)" *virtualItem="let item;let i = index" button="true" [ngClass]="{'tsforopen':item.Id===tsForOpen}" class="sheriff-item sheriff-vitem dbitem-vitem tsheet tsheet-{{i}}" id="tsheet-{{item.Id}}">
+                        <ion-grid class="sheriff-grid list-item-grid tsheet-item-grid">
+                            <ion-row class="sheriff-row list-item-row tsheet-item-row maingrid-row">
+                                <ion-col size="6" class="sheriff-col list-item-col tsheet-col ww-detail-col">
+                                    <div class="sheriff-row ww-detail-row date">{{item.nDate}}</div>
+                                    <div class="sheriff-row ww-detail-row time-area">
+                                        <span class="ww-detail-span time">
+                                        <span class="ww-detail-span stime">{{item.nStartTime}}</span>
+                                        <span class="ww-detail-span time-hyphen"><ion-icon name="arrow-forward"></ion-icon></span>
+                                        <span class="ww-detail-span etime">{{item.nEndTime}}</span>
+                                        </span>
+                                        <span class="ww-detail-span totaltime-wrapper">
+                                          <span class="ww-detail-span tt-equals"><ion-icon class="tt-eq-ico" name="reorder-two-outline"></ion-icon></span>
+                                        <span class="ww-detail-span tt-value">{{item.nDur}}</span>
+                                        <span *ngIf="item.TotalTime>item.TotalTimeInv" class="ww-detail-span tt-plus"><ion-icon class="tt-pm-ico p" name="caret-up-outline"></ion-icon></span>
+                                        <span *ngIf="item.TotalTime<item.TotalTimeInv" class="ww-detail-span tt-minus"><ion-icon class="tt-pm-ico m" name="caret-down-outline"></ion-icon></span>
+                                        </span>
+                                    </div>
+                                    <div class="sheriff-row ww-detail-row areawork-wrapper">
+                                        <div class="ww-detail-div area">
+                                            <span class="ww-detail-span area">
+                                              <span class="ww-detail-span area-at"><ion-icon name="locate-outline"></ion-icon></span>
+                                              <span class="ww-detail-span areaname">{{item.nOperationalUnit}}</span>
+                                              <span class="ww-detail-span areaat-sign">@</span>
+                                            </span>
+                                        </div>
+                                        <div [ngStyle]="{'color':workColor,'filter':incBright?'brightness(2.5)':'brightness(1)'}" class="ww-detail-div work">{{item.nCompanyName}}</div>
+                                        <div class="ww-detail-span ids-div">
+                                          <ion-icon class="ww-detail-ids-ico" name="finger-print-outline"></ion-icon>
+                                          <span class="ww-detail-ids-txt-wrapper tsheetid">{{item.Id}}</span>
+                                        </div>
+                     
+
+                                    </div>
+                                    <div class="tsheet-item-isnew-wrapper isnew-{{item.Id}} animate__animated animate__tada animate__fast">
+                                        <img class="tsheet-item-isnew-img-ico" src="../../../assets/img/sheriff-new-ico.png">
+                                    </div>
+                                </ion-col>
+                                <ion-col size="2" class="sheriff-col tsheet-ttincome-col">
+                                    <div class="sheriff-tsheetlist-ttincome-wrapper tt-wrapper">
+                                        <ion-icon class="sheriff-tsheetlist-ttincome-ico tt-ico" name="hourglass-outline"></ion-icon>
+                                        <span class="sheriff-tsheetlist-ttincome-val tt-val">{{item.TotalTime.toFixed(2)}}<span class="tsheet-ttincome-hrs">h</span></span>
+                                    </div>
+                                    <div *ngIf="showIncome" class="sheriff-tsheetlist-ttincome-wrapper income-wrapper">
+                                        <ion-icon class="sheriff-tsheetlist-ttincome-ico income-ico" name="logo-usd"></ion-icon>
+                                        <span class="sheriff-tsheetlist-ttincome-val tt-val"><span class="tsheet-ttincome-dollar">$</span>{{item.nIncome.t.toFixed(0)}}</span>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="3" class="sheriff-col list-item-col tsheet-col status-col">
+                                    <div *ngIf="eMId!==item.Id" class="tsheet-status-col-main-wrapper">
+                                        <span *ngIf="!item.nIsInProgress&&!item.nTimeApproved&&!item.nDisputed&&!item.nDiscarded" style="color:#ff9800db" class="tsheet-status pending">Pending</span>
+                                        <span *ngIf="item.nIsInProgress" style="color:#ff9800db" class="tsheet-status inprog">Underway</span>
+                                        <span *ngIf="item.nTimeApproved" style="color:#2dd36fdb" class="tsheet-status approved">Approved</span>
+                                        <span *ngIf="item.nDisputed" style="color:#f44034db" class="tsheet-status disputed">Disputed</span>
+                                        <span *ngIf="item.nDiscarded" style="color:#f44034db" class="tsheet-status discarded">Discarded</span>
+                                    </div>
+                                    <div *ngIf="(eMConfirmOpen&&eMId===item.Id)||(eMIsDeleting&&eMId===item.Id)" class="tsheet-status-col-delete-wrapper">
+                                        <span *ngIf="eMConfirmOpen" class="tsheet-editmode-delete confirm-txt">Delete?</span>
+                                        <span *ngIf="eMIsDeleting" class="tsheet-editmode-delete confirm-txt">Deleting...</span>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="1" class="sheriff-col list-item-col opentsheet-col">
+                                    <div class="status-col-touch-wrapper ion-activatable ripple-parent">
+                                        <ion-icon *ngIf="!editMode" class="sheriff-ico tsheet-status-ico status" name="chevron-forward"></ion-icon>
+                                        <ion-icon *ngIf="editMode" class="sheriff-ico tsheet-editmode-ico" name="trash"></ion-icon>
+                                        <ion-ripple-effect></ion-ripple-effect>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-item>
+                    <ion-item-divider *virtualFooter="let footer" class="sheriff-list-item-divider tsheets-weekfooter">
+                        <ion-grid class="sheriff-grid item-list-divider-grid tsheets">
+                            <ion-row class="sheriff-divider-row footer-divider-row">
+                                <ion-col class="sheriff-divider-col footer-divider-col">
+                                    <div class="sheriff-divider-div footer-div weektotal">
+                                        <span class="footer-total-label">Week Total</span>
+                                        <span class="footer-total-equals">=</span>
+                                        <span *ngIf="footer.t.h>0" class="footer-total-totalno hours">{{footer.t.h}}</span>
+                                        <span *ngIf="footer.t.h>0" class="footer-total-suffix hours">h</span>
+                                        <span *ngIf="footer.t.m>0" class="footer-total-totalno mins">{{footer.t.m}}</span>
+                                        <span *ngIf="footer.t.m>0" class="footer-total-suffix mins">m</span>
+                                        <span *ngIf="showIncome">
+                                          <span class="footer-total-equals sep">|</span>
+                                          <span class="footer-total-equals dollar">$</span>
+                                          <span class="footer-total-totalno income">{{footer.i}}</span>
+                                        </span>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-item-divider>
+                </ion-virtual-scroll>
+            </ion-list>
+            <ion-card *ngIf="endOfList" class="sheriff-card tab-list-card endoflist-card animate__animated animate__zoomIn animate__fast">
+                <div class="sheriff-endoflist-card-wrapper">End of Selected Range</div>
+            </ion-card>
+
+            <!-- I-SCROLL FEEDER -->
+            <ion-infinite-scroll disabled="true" class="sheriff-iscroll tsheet" threshold="25%" (ionInfinite)="feedItems($event)">
+                <ion-infinite-scroll-content loadingSpinner=null class="sheriff-iscroll-content tsheet">
+                    <ion-grid class="sheriff-iscrollcontent-grid">
+                        <ion-row class="sheriff-row inf-loading-row">
+                            <ion-col class="sheriff-col inf-loading-col spinleft" size="4">
+                                <ion-spinner duration="750" class="sheriff-infscroll-loading-spinner" name="dots"></ion-spinner>
+                            </ion-col>
+                            <ion-col class="sheriff-col inf-loading-col textmiddle" size="4">loading
+                                <div class="info-load-batch-wrapper"><span class="inf-load-batch-start">{{batchStart}}</span><span class="inf-load-batch-hyphen">-</span><span class="inf-load-batch-end">{{batchEnd}}</span></div>
+                            </ion-col>
+                            <ion-col class="sheriff-col inf-loading-col spinright" size="4">
+                                <ion-spinner duration="750" class="sheriff-infscroll-loading-spinner right" name="dots"></ion-spinner>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </div>
+    </ion-content>
+</ion-content>
+<!-- ADD TSHEET FAB -->
+<ion-fab *ngIf="!editMode" (click)="addTSheet()" class="sheriff-fab tsheet-addtsheet-fab tablistfab" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="sheriff-fab-button addtsheet-fab-btn">
+        <img class="sheriff-fab-btn-img addtsheet-fab-btn-img" src="../../../assets/img/sheriff-fab-addtsheet-ico.png">
+    </ion-fab-button>
+</ion-fab>
+<!-- SHOW OPTIONS FAB -->
+<ion-fab class="sheriff-fader-fab tabtsheets" vertical="bottom" horizontal="end" slot="fixed">
+    <div class="sheriff-fade-nav-btn-wrapper tabtsheets ion-activatable ripple-parent">
+        <img class="sheriff-fade-nav-btn-img" src="../../../assets/img/sheriff-fadenavbtn.png">
+        <ion-ripple-effect></ion-ripple-effect>
+    </div>
+</ion-fab>
+<!-- END CONTENT -->

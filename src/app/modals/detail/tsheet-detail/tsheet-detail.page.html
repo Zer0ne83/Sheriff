@@ -1,0 +1,243 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid detailmodalheader-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row detailmodalheader-row">
+                        <ion-col (click)="closeDetail()" class="sheriff-col detail-header-col close-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-detail-header-btn-wrapper close-btn">
+                                <ion-icon class="sheriff-detail-header-ico close-btn-ico" name="arrow-back"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col class="sheriff-col detail-header-col title-col">
+                            <div class="sheriff-detail-header title-wrapper">
+                                <span class="tsdetail-title-prefix">Timesheet</span><span class="tsdetail-title-hash">#</span><span class="tsdetail-title-idno">{{ts.Id}}</span>
+                            </div>
+                        </ion-col>
+                        <ion-col *ngIf="!ts.nIsInProgress&&!ts.nTimeApproved&&!ts.nDisputed&&!ts.nDiscarded" (click)="openPop($event)" class="sheriff-col detail-header-col share-btn-col ion-activatable ripple-parent">
+                            <div class="shouldsave-indic-wrapper">
+                                <ion-icon *ngIf="shouldSave" class="shouldsave-indic-ico animate__animated animate__fadeIn" name="ellipse"></ion-icon>
+                            </div>
+                            <div *ngIf="!popOpen" class="sheriff-detail-header-btn-wrapper edit-btn">
+                                <ion-icon class="sheriff-detail-header-ico share-btn-ico" name="create"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col (click)="shareTS()" class="sheriff-col detail-header-col share-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-detail-header-btn-wrapper share-btn">
+                                <ion-icon class="sheriff-detail-header-ico share-btn-ico" name="share"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="tsheet-detail-content tsheet-detail-modal">
+    <div class="tsheet-detail-bground-wrapper"></div>
+    <div class="tsheet-detail-main-wrapper">
+        <div *ngIf="wasChanged" class="tsheet-detail-updated-banner-wrapper">{{updateSaveBannerTxt}}</div>
+        <ion-grid class="tsheet-detail-item-grid heading-grid">
+            <ion-row class="tsheet-detail-item-row heading-row">
+                <ion-col size="2" class="sheriff-detail-item-grid heading-ico-col">
+                    <img class="sheriff-detail-heading-ico tsheet-heading-ico" src="../../../../assets/img/sheriff-totaltimespan-ico-white.png">
+                </ion-col>
+                <ion-col size="8" class="sheriff-detail-item-grid heading-text-col">
+                    <div class="sheriff-detail-heading-txt tsheet-heading-txt">timesheet details</div>
+                </ion-col>
+                <ion-col size="2" class="sheriff-detail-item-grid heading-ico-col">
+                    <img class="sheriff-detail-heading-avatar tsheet-heading-avatar" src="{{meAvatar}}">
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid class="tsheet-detail-item-grid data-grid">
+            <ion-row class="tsheet-detail-item-row status">
+                <ion-col size="12" class="sheriff-col tsheet-detail-item-col status">
+                    <span *ngIf="!ts.nIsInProgress&&!ts.nTimeApproved&&!ts.nDisputed&&!ts.nDiscarded" style="color:#ff9800db" class="tsheet-status pending">Pending</span>
+                    <span *ngIf="ts.nIsInProgress" style="color:#ff9800db" class="tsheet-status inprog">Underway</span>
+                    <span *ngIf="ts.nTimeApproved" style="color:#2dd36fdb" class="tsheet-status approved">Approved</span>
+                    <span *ngIf="ts.nDisputed" style="color:#f44034db" class="tsheet-status disputed">Disputed</span>
+                    <span *ngIf="ts.nDiscarded" style="color:#f44034db" class="tsheet-status discarded">Discarded</span>
+                </ion-col>
+            </ion-row>
+            <ion-row (click)="editArea(ts.OperationalUnit)" class="tsheet-detail-item-row area-at-workplace ion-activatable ripple-parent">
+                <ion-col size="2" class="sheriff-col tsheet-detail-item-col area-at-workplace-col ico-col">
+                    <ion-icon class="sheriff-ico tsheet-detail-item-main-ico areaatworkplace-ico" name="locate"></ion-icon>
+                </ion-col>
+                <ion-col size="8" class="sheriff-col tsheet-detail-item-col area-at-workplace-col data-col">
+                    <div class="tsheet-detail-item-data-label area-at-workplace">Area at {{ts.nCompanyName}}</div>
+                    <div class="tsheet-detail-item-data-value area-at-workplace">{{ts.nOperationalUnit}}</div>
+                </ion-col>
+                <ion-col size="2" class="sheriff-col tsheet-detail-item-col area-at-workplace-col detail-col">
+                    <ion-icon *ngIf="!ts.nTimeApproved" [ngClass]="{'tsheet-warea-asheet-open-ico':aSheetOpen,'tsheet-warea-asheet-close-ico':!aSheetOpen}" class="sheriff-ico tsheet-detail-item-detail-ico area-at-workplace" name="chevron-forward"></ion-icon>
+                </ion-col>
+                <ion-ripple-effect></ion-ripple-effect>
+            </ion-row>
+            <ion-row class="tsheet-detail-item-row date-time">
+                <ion-col size="2" class="sheriff-col tsheet-detail-item-col date-time-col ico-col">
+                    <img class="sheriff-ico tsheet-detail-item-main-ico date-time-ico" src="../../../../assets/img/sheriff-tsheet-detail-datetime-ico.png">
+                    <div class="tsheet-detail-datetime-icon-wrapper time">
+                        <ion-icon class="sheriff-ico tsheet-detail-item-main-ico startendtime-ico" name="stopwatch"></ion-icon>
+                    </div>
+                    <div class="tsheet-detail-datetime-icon-wrapper breaks">
+                        <ion-icon class="sheriff-ico tsheet-detail-item-main-ico breaks-ico" name="pause"></ion-icon>
+                    </div>
+                    <div class="tsheet-detail-datetime-icon-wrapper tt">
+                        <ion-icon class="sheriff-ico tsheet-detail-item-main-ico tt-ico" name="calculator"></ion-icon>
+                    </div>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col tsheet-detail-item-col date-time-col data-col">
+                    <ion-grid class="tsheet-detail-item-grid datetime-grid">
+                        <ion-row class="tsheet-detail-item-row date-time-inner-row date-row">
+                            <ion-col size="12" class="tsheet-detail-item-col date-time-inner-col date-col">
+                                <div class="tsheet-detail-item-data-label date">Date</div>
+                                <div class="tsheet-detail-item-data-value date">{{ts.nDate}}</div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="tsheet-detail-item-row date-time-inner-row time-row">
+                            <ion-col size="6" class="tsheet-detail-item-col date-time-inner-col starttime-col">
+                                <div class="tsheet-detail-item-data-label starttime">Start</div>
+                                <div class="tsheet-detail-item-data-value starttime">{{ts.nStartTime}}</div>
+                            </ion-col>
+                            <ion-col size="6" class="tsheet-detail-item-col date-time-inner-col endtime-col">
+                                <div class="tsheet-detail-item-data-label endtime">End</div>
+                                <div class="tsheet-detail-item-data-value endtime">{{ts.nEndTime}}</div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row (click)="editBreaks()" class="tsheet-detail-item-row date-time-inner-row breaks-row ion-activatable ripple-parent">
+                            <ion-col size="10" class="tsheet-detail-item-col date-time-inner-col breakstaken-col">
+                                <div class="tsheet-detail-item-data-label breakstaken">Breaks Taken</div>
+                                <div class="tsheet-detail-item-data-value breakstakencount">
+                                    <span class="tsheet-detail-breaks-value mbreaktotal">{{rBreakCount}}</span>
+                                    <span class="tsheet-detail-breaks-type-lbl rest-lbl">Rest</span>
+                                    <span class="tsheet-detail-breaks-sep">|</span>
+                                    <span class="tsheet-detail-breaks-value mbreaktotal">{{mBreakCount}}</span>
+                                    <span class="tsheet-detail-breaks-type-lbl rest-lbl">Meal</span>
+                                    <span class="tsheet-detail-breaks-equals">=</span>
+                                    <span class="tsheet-detail-breaks-total-time-value">{{breaksTtlDur}}<span *ngIf="showTTLBreakMins" class="show-ttl-break-mins-span">mins</span></span>
+                                </div>
+                            </ion-col>
+                            <ion-col size="2" class="sheriff-col tsheet-detail-item-col breaks-detail-col">
+                                <ion-icon class="sheriff-ico tsheet-detail-item-detail-ico breaks-detail" name="chevron-forward"></ion-icon>
+                            </ion-col>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-row>
+                        <ion-row class="tsheet-detail-item-row date-time-inner-row total-time-col">
+                            <ion-col size="12" class="tsheet-detail-item-col date-time-inner-col totaltime-col">
+                                <div class="tsheet-detail-item-data-label totaltime">Total Time</div>
+                                <div class="tsheet-detail-item-data-value totaltime">
+                                    <span class="tsheet-detail-tt-value">
+                                      <span *ngIf="shiftDurObj.hours>0" class="tsheet-detail-tt-value hrs">{{shiftDurObj.hours}}<span class="tt-suffix hrs">hrs</span></span>
+                                    <span *ngIf="shiftDurObj.minutes>0" class="tsheet-detail-tt-value mins">{{shiftDurObj.minutes}}<span class="tt-suffix mins">mins</span></span>
+                                    </span>
+                                    <span class="tsheet-detail-tt-sep">|</span>
+                                    <span *ngIf="TTPerformance!==0" class="tsheet-detail-tt-plusminusroster">
+                                      <div *ngIf="TTPerformance===1" class="tt-pm-icons-wrapper plus">
+                                        <ion-icon class="tsheet-detail-plusminusroster-ico plus upcaret" name="caret-up"></ion-icon>
+                                        <ion-icon class="tsheet-detail-plusminusroster-ico plus plussymbol" name="add"></ion-icon>
+                                      </div>
+                                      <div *ngIf="TTPerformance===-1" class="tt-pm-icons-wrapper minus">
+                                        <ion-icon class="tsheet-detail-plusminusroster-ico minus downcaret" name="caret-down"></ion-icon>
+                                        <ion-icon class="tsheet-detail-plusminusroster-ico minus minussymbol" name="remove"></ion-icon>
+                                      </div>
+                                      <span class="tsheet-detail-ttperformance-value-main-wrapper">
+                                        <span [ngStyle]="{'color':TTPerformance===1?'#2dd36fad':'#f44336ad'}" *ngIf="TTPerfValObj.hours!==0">{{TTPerfValObj.hours}}<span class="tt-pm-suffix hrs" [ngStyle]="{'color':TTPerformance===1?'#2dd36fad':'#f44336ad'}">hrs</span></span>
+                                    <span [ngStyle]="{'color':TTPerformance===1?'#2dd36fad':'#f44336ad'}" *ngIf="TTPerfValObj.minutes!==0">{{TTPerfValObj.minutes}}<span class="tt-pm-suffix mins" [ngStyle]="{'color':TTPerformance===1?'#2dd36fad':'#f44336ad'}">mins</span></span>
+                                    </span>
+                                    </span>
+                                    <span *ngIf="TTPerformance===0" class="tsheet-detail-tt-performance equal">
+                                      <ion-icon class="tt-performance-equals-ico" name="reorder-two"></ion-icon>
+                                    </span>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="showIncome" class="tsheet-detail-item-row date-time-inner-row income-row">
+                            <ion-col size="12" class="tsheet-detail-item-col date-time-inner-col income-row">
+                                <div class="tsheet-detail-item-data-value income-wrapper">
+                                    <span class="tsheet-detail income value-wrapper total">
+                                      <span class="tsheet-detail income symbol-val dollar">$</span>
+                                    <span class="tsheet-detail income income-val total">{{ts.nIncome.t}}</span>
+                                    </span>
+                                    <span *ngIf="ts.nIncome.p>0" class="tsheet-detail income value-wrapper breakdown">
+                                      <span class="tsheet-detail income symbol-val brack">(</span>
+                                    <span class="tsheet-detail income symbol-val v-label base">B:</span>
+                                    <span class="tsheet-detail income income-val base">{{ts.nIncome.b}}</span>
+                                    <span class="tsheet-detail income symbol-val plus">+</span>
+                                    <span class="tsheet-detail income symbol-val v-label penalty">P:</span>
+                                    <span class="tsheet-detail income income-val base">{{ts.nIncome.p}}</span>
+                                    <span class="tsheet-detail income symbol-val brack">)</span>
+                                    </span>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+            <ion-row class="tsheet-detail-item-row history">
+                <ion-col size="12" class="tsheet-detail-item-col history-col">
+                    <ion-button (click)="viewHistory()" class="sheriff-btn tsheet-detail-history-btn">
+                        <div class="tsheet-detail-history-btn-wrapper">
+                            <ion-icon class="tsheet-detail-history-btn-ico" name="receipt"></ion-icon>
+                            <div class="tsheet-detail-history-btn-txt">View History</div>
+                        </div>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row class="tsheet-detail-item-row comments">
+                <ion-col size="2" class="sheriff-col tsheet-detail-item-col comments ico-col">
+                    <ion-icon class="sheriff-ico tsheet-detail-item-main-ico comments-ico" name="chatbox"></ion-icon>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col tsheet-detail-item-col area-at-workplace-col data-col">
+                    <div class="tsheet-detail-item-data-label comments">Comments</div>
+                    <div *ngIf="noComments" class="tsheet-detail-nocomments-wrapper">
+                        <div class="tsheet-detail-nocomments-txt">No Comments</div>
+                    </div>
+                    <div *ngIf="hasEmployeeComment" class="tsheet-detail-comment-type-wrapper employee">
+                        <div class="tsheet-detail-type-and-avatar-wrapper employee">
+                            <div class="tsheet-detail-comment-type-label employee">Employee</div>
+                            <ion-chip class="tsheet-detail-comment-avatar-chip employee">
+                                <ion-avatar class="tsheet-detail-comment-avatar employee">
+                                    <img class="tsheet-detail-comment-avatar-img employee" src="{{meAvatar}}">
+                                </ion-avatar>
+                                <ion-label class="tsheet-detail-comment-avatar-label employee">You</ion-label>
+                            </ion-chip>
+                        </div>
+                        <div class="tsheet-detail-comment-text employee">{{ts.EmployeeComment}}</div>
+                    </div>
+                    <div *ngIf="hasSupervisorComment" class="tsheet-detail-comment-type-wrapper supervisor">
+                        <div class="tsheet-detail-type-and-avatar-wrapper supervisor">
+                            <div class="tsheet-detail-comment-type-label supervisor">Supervisor</div>
+                            <ion-chip class="tsheet-detail-comment-avatar-chip supervisor">
+                                <ion-avatar class="tsheet-detail-comment-avatar supervisor">
+                                    <img [ngStyle]="{'opacity':(sVNK)?'.68':'1'}" class="tsheet-detail-comment-avatar-img supervisor" src="{{supervisorObj.avatar}}">
+                                </ion-avatar>
+                                <ion-label class="tsheet-detail-comment-avatar-label supervisor">{{supervisorObj.label}}</ion-label>
+                            </ion-chip>
+                        </div>
+                        <div class="tsheet-detail-comment-text employee">{{ts.SupervisorComment}}</div>
+                    </div>
+                    <div *ngIf="hasInvoiceComment" class="tsheet-detail-comment-type-wrapper invoice">
+                        <div class="tsheet-detail-type-and-avatar-wrapper invoice">
+                            <div class="tsheet-detail-comment-type-label supervisor">Invoice</div>
+                            <ion-chip class="tsheet-detail-comment-avatar-chip invoice">
+                                <ion-avatar class="tsheet-detail-comment-avatar invoice">
+                                    <img class="tsheet-detail-comment-avatar-img invoice" src="../../../../assets/img/sheriff-tsheet-detail-invoice-avatar-ico.png">
+                                </ion-avatar>
+                                <ion-label class="tsheet-detail-comment-avatar-label supervisor">Payroll</ion-label>
+                            </ion-chip>
+                        </div>
+                        <div class="tsheet-detail-comment-text invoice">{{ts.InvoiceComment}}</div>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+    </div>
+
+</ion-content>

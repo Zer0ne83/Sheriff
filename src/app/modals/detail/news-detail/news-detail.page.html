@@ -1,0 +1,203 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid detailmodalheader-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row detailmodalheader-row">
+                        <ion-col (click)="closeDetail('dismiss')" class="sheriff-col detail-header-col close-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-detail-header-btn-wrapper close-btn">
+                                <ion-icon class="sheriff-detail-header-ico close-btn-ico" name="arrow-back"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col class="sheriff-col detail-header-col title-col">
+                            <div class="sheriff-detail-header title-wrapper">
+                                <span class="memodetail-title-prefix">Memo</span><span class="memodetail-title-hash">#</span><span class="memodetail-title-idno">{{memo.Id}}</span>
+                                <span *ngIf="memo._DPMetaData.RequireConfirmation" class="memodetail-requires-confirmation-main-wrapper">
+                                  <span class="memodetail-confirmstatus-joiner">-</span>
+                                <span *ngIf="!memo._DPMetaData.RequireMyConfirm" class="memodetail-memo-isconfirmed-wrapper">Confirmed</span>
+                                <span *ngIf="memo._DPMetaData.RequireMyConfirm" class="memodetail-memo-isnotconfirmed-wrapper">Confirm Now</span>
+                                </span>
+                            </div>
+                        </ion-col>
+                        <ion-col *ngIf="memo._DPMetaData.RequireMyConfirm" (click)="confirmMemo()" class="sheriff-col detail-header-col confirm-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-detail-header-btn-wrapper confirm-btn">
+                                <ion-icon class="animate__animated animate__infinite animDur-2000 animate__flash sheriff-detail-header-ico delete-btn-ico" name="thumbs-up"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col (click)="deleteMemo()" class="sheriff-col detail-header-col share-btn-col ion-activatable ripple-parent">
+                            <div [ngStyle]="{'opacity':memo._DPMetaData.CanDelete?'1':'0.5'}" class="sheriff-detail-header-btn-wrapper delete-btn">
+                                <ion-icon class="sheriff-detail-header-ico delete-btn-ico" name="trash"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                        <ion-col (click)="shareMemo()" class="sheriff-col detail-header-col share-btn-col ion-activatable ripple-parent">
+                            <div class="sheriff-detail-header-btn-wrapper share-btn">
+                                <ion-icon class="sheriff-detail-header-ico share-btn-ico" name="share"></ion-icon>
+                            </div>
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="sheriff-content modal-newsdetail-content">
+
+    <div class="sheriff-modal-backer-wrapper">
+        <ion-grid class="sheriff-grid sheriff-newsdetail-modal-grid main-memo-grid">
+            <ion-row class="sheriff-row sheriff-newsdetail-modal-row creator-row">
+                <ion-col size="2" class="sheriff-col sheriff-newsdetail-modal-col creator-ava-col">
+                    <div class="memo-item-ava-img-wrapper detail">
+                        <div class="memo-item-ava-img-value-wrapper detail">
+                            <img src="{{memo._DPMetaData.CreatorInfo.Photo}}" class="memo-item-ava-img detail">
+                        </div>
+                    </div>
+                </ion-col>
+                <ion-col size="10" class="sheriff-col memo-item-content-col creator-col detail">
+                    <div class="memo-item-creator-name detail">{{memo._DPMetaData.CreatorInfo.DisplayName}}</div>
+                    <div class="memo-item-date-item-wrapper created detail">
+                        <ion-icon class="memo-item-date-item-ico created" name="push"></ion-icon>
+                        <span class="memo-item-label-txt created">Posted:</span>
+                        <span class="memo-item-date-item-value created">{{memo.nCreated}}</span>
+                    </div>
+                    <div *ngIf="memo.nModified!==memo.nCreated" class="memo-item-date-item-wrapper modified detail">
+                        <ion-icon class="memo-item-date-item-ico modified" name="create"></ion-icon>
+                        <span class="memo-item-label-txt modified">Edited:</span>
+                        <span class="memo-item-date-item-value modified">{{memo.nModified}}</span>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row memodetail-row dividerline-row">
+                <ion-col class="sheriff-col memodetail-col dividerline-col">
+                    <div class="memo-detail-gradient-div-line top"></div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row memo-item-content-row recipients-row detail">
+                <ion-col size="12" class="sheriff-col memo-item-content-col recipients-col detail">
+                    <ion-icon class="memo-item-sentto-ico sentto" name="send"></ion-icon>
+                    <div class="memo-item-label-txt sentto detail">Sent to:</div>
+                    <div *ngIf="memo._DPMetaData.AssignedUsers.length>1" class="memo-item-sentto-wrapper people detail">
+                        <div (click)="showPeoplePop($event)" class="memo-item-sentto-group-countshow people detail">
+                            <div class="memo-item-senttocount-value">
+                                {{memo._DPMetaData.AssignedUsers.length}}
+                                <ion-icon class="memo-item-sentto-ico people" name="people"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="memo._DPMetaData.Companies.length>0" class="memo-item-sentto-wrapper companies detail">
+                        <div class="memo-item-senttocount-value detail">
+                            {{memo._DPMetaData.Companies.length}}
+                            <ion-icon class="memo-item-sentto-ico companies" name="business"></ion-icon>
+                            <span class="memo-senttocompany-wrapper" *ngFor="let c of memo._DPMetaData.Companies;let ci=index">
+                            <span [ngStyle]="{'color':c.Code===this.workName?workColor:'#eee','filter':incBright===true?'brightness(2.5)':'brightness(1)'}" class="memo-senttocompany-name">{{c.Code}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row memo-item-content-row message-text-row detail">
+                <ion-col *ngIf="memo.Title!==null&&memo.Title!==undefined&&memo.Title!==''" size="12" class="sheriff-col memo-item-content-col message-text-title-col detail">{{memo.Title}}</ion-col>
+                <ion-col size="12" class="sheriff-col memo-item-content-col message-text-content-col detail">
+                    <div class="memo-item-content-message-wrapper detail">
+                        {{memo.Content}}
+                    </div>
+                </ion-col>
+                <ion-col size="12" *ngIf="memo.File!==null&&memo.File!==undefined&&memo.File!==''&&memo.File>0" class="sheriff-col memo-item-content-col message-text-file-col">
+                    <ion-icon class="memo-item-ico file-ico" name="document"></ion-icon>
+                    <span class="memo-item-label-txt file">Files:</span>
+                    <div *ngFor="let file of memo._DPMetaData.Files" class="memo-item-file-objects-wrapper">
+                        <span class="memo-item-value-txt file">{{file.Id}}</span>
+                    </div>
+                </ion-col>
+                <ion-col size="12" *ngIf="memo.Url!==null&&memo.Url!==undefined&&memo.Url!==''" class="sheriff-col memo-item-content-col message-text-url-col">
+                    <ion-icon class="memo-item-ico url-ico" name="link"></ion-icon>
+                    <span class="memo-item-label-txt url">Links:</span>
+                    <span class="memo-item-value-txt url"><a href="{{memo.Url}}">{{memo.Url}}</a></span>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <div class="sheriff-modal-newsdetail-commentslist-main-wrapper">
+            <div class="memo-detail-gradient-div-line bottom"></div>
+            <ion-grid class="sheriff-grid commentslist-main-grid">
+                <ion-row class="sheriff-grid commentslist-main-row title-row">
+                    <ion-col size="12" class="sheriff-col commentslist-main-col title-col ico-col">
+                        <div class="commentslist-heading-title-txt-wrapper">
+                            <ion-icon class="sheriff-ico commentslist-heading-ico" name="chatbox"></ion-icon>comments<span class="commentslist-heading-count-wrapper"><span class="commentslist-countbrack">(</span><span class="comments-list-count-value">{{memo._DPMetaData.Comments.length}}</span><span class="commentslist-countbrack">)</span></span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-grid commentslist-main-row commentslist-row">
+                    <ion-col size="12" class="sheriff-col commentslist-main-col commentslist-col">
+                        <div *ngIf="memo._DPMetaData.Comments.length===0" class="sheriff-newsdetail-nocomments-wrapper">no comments found</div>
+                        <ion-list *ngIf="memo._DPMetaData.Comments.length>0" class="sheriff-list modal-newsdetail-comments-list">
+                            <ion-item *ngFor="let comment of memo._DPMetaData.Comments;let i = index" class="sheriff-item news-comment-item memo-comment-{{i}}">
+                                <ion-grid class="sheriff-grid memo-comment-item-grid">
+                                    <ion-row class="sheriff-row memo-comment-item-row whowhen-row">
+                                        <ion-col size="1" class="sheriff-col memo-comment-item-col ava-col">
+                                            <div class="memo-comment-item-ava-img-wrapper">
+                                                <div class="memo-comment-item-ava-img-value-wrapper">
+                                                    <img src="{{comment._DPMetaData.CreatorInfo.Photo}}" class="memo-comment-item-ava-img">
+                                                </div>
+                                            </div>
+                                        </ion-col>
+                                        <ion-col size="11" class="sheriff-col memo-comment-item-col namedate-col">
+                                            <div class="comment-item-date-item-wrapper creator name">
+                                                {{comment._DPMetaData.CreatorInfo.DisplayName}}
+                                            </div>
+                                            <div class="memo-item-date-item-wrapper created detail">
+                                                <ion-icon class="memo-item-date-item-ico created" name="push"></ion-icon>
+                                                <span class="memo-item-label-txt created comment">Posted:</span>
+                                                <span class="memo-item-date-item-value created">{{comment.Created}}</span>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="sheriff-row memo-comment-item-row what-row">
+                                        <ion-col size="12" class="sheriff-col memo-comment-item-col comment-col">{{comment.Comment}}</ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-item>
+                        </ion-list>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+
+        <div [ngStyle]="{'bottom':kbO?kbH:'0px'}" class="sheriff-modal-newsdetail-chat-input-wrapper">
+            <ion-grid class="sheriff-grid memo-chat-input-grid">
+                <ion-row class="sheriff-row memo-chat-input-row input-info-topper-row">
+                    <ion-col size="1" class="sheriff-col memo-chat-input-row input-info-topper-col status-ico-col">
+                        <ion-icon *ngIf="cbStatus.type==='icon'" class="memo-chat-input-status-ico {{cbStatus.ico}}" name="{{cbStatus.name}}"></ion-icon>
+                        <ion-spinner *ngIf="cbStatus.type==='spinner'" class="memo-chat-input-status-ico {{cbStatus.ico}}" name="{{cbStatus.name}}"></ion-spinner>
+                    </ion-col>
+                    <ion-col size="9" class="sheriff-col memo-chat-input-col input-info-topper-col status-text-col">
+                        <div class="chatbox-input-status-text-wrapper">{{cbStatus.text}}</div>
+                    </ion-col>
+                    <ion-col size="2" class="sheriff-col memo-chat-input-col input-info-topper-col charcount-col">
+                        <div *ngIf="cbCount>0" [ngStyle]="{'color':cbCount===2000?'var(--ion-color-danger)':'#565656'}" class="chatbox-input-status-charcount-wrapper">{{2000-cbCount}}</div>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="sheriff-row memo-chat-input-row input-component-row">
+                    <ion-col size="10" class="sheriff-col memo-chat-input-col input-component-field-col">
+                        <ion-input #cbInput [clearInput]="true" [clearOnEdit]="false" [debounce]="0" [disabled]="false" [placeholder]="'Post a Comment...'" [value]="''" (ionBlur)="chatBoxInput('blur',cbInput.value.toString())" (ionFocus)="chatBoxInput('focus',cbInput.value.toString())"
+                            (ionInput)="chatBoxInput('input',cbInput.value.toString())" class="sheriff-input memo-chat-input"></ion-input>
+                    </ion-col>
+                    <ion-col size="2" class="sheriff-col memo-chat-input-col input-component-button-col">
+                        <ion-button *ngIf="cbStatus.type!=='spinner'" (click)="chatBoxInput('send',cbInput.value.toString())" class="sheriff-btn news-comment-chatbox-send-btn">
+                            <ion-icon class="sheriff-btn-ico news-comment-chatbox-send-btn-ico" name="send"></ion-icon>
+                            <div class="sheriff-btn-txt news-comment-chatbox-sent-btn-txt">send</div>
+                        </ion-button>
+                        <ion-spinner *ngIf="cbStatus.type!==null&&cbStatus.type==='spinner'" [duration]="1500" class="memo-comment-chatbox-sending-btn-spinner"></ion-spinner>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+
+    </div>
+
+</ion-content>

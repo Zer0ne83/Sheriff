@@ -1,0 +1,37 @@
+<ion-tabs (ionTabsWillChange)="tabsWillChange($event)" class="sheriff-tabs">
+
+    <ion-tab-bar class="sheriff-tab-bar" slot="bottom">
+
+        <ion-tab-button class="sheriff-tab-btn tabshifts" tab="tabshifts">
+            <ion-icon class="sheriff-tab-ico tabshifts" name="alarm"></ion-icon>
+            <ion-label class="sheriff-tab-label tabshifts">Shifts</ion-label>
+            <div *ngIf="activeTab==='shifts'" class="lightdown"></div>
+        </ion-tab-button>
+
+        <ion-tab-button class="sheriff-tab-btn tabrosters" tab="tabrosters">
+            <ion-icon class="sheriff-tab-ico tabrosters" name="calendar"></ion-icon>
+            <ion-label class="sheriff-tab-label tabrosters">Rosters</ion-label>
+            <div *ngIf="activeTab==='rosters'" class="lightdown"></div>
+        </ion-tab-button>
+
+        <ion-tab-button class="sheriff-tab-btn tabtsheets" tab="tabtsheets">
+            <ion-icon class="sheriff-tab-ico tabtsheets" name="stopwatch"></ion-icon>
+            <ion-label class="sheriff-tab-label tabtsheets">T/Sheets</ion-label>
+            <div *ngIf="activeTab==='tsheets'" class="lightdown"></div>
+        </ion-tab-button>
+
+        <ion-tab-button class="sheriff-tab-btn tabtasks" tab="tabtasks">
+            <ion-icon class="sheriff-tab-ico tabtasks" name="list"></ion-icon>
+            <ion-label class="sheriff-tab-label tabtasks">Tasks</ion-label>
+            <div *ngIf="activeTab==='tasks'" class="lightdown"></div>
+        </ion-tab-button>
+
+        <ion-tab-button class="sheriff-tab-btn tabnews" tab="tabnews">
+            <ion-icon class="sheriff-tab-ico tabnews" name="newspaper"></ion-icon>
+            <ion-label class="sheriff-tab-label tabnews">News</ion-label>
+            <div *ngIf="activeTab==='news'" class="lightdown"></div>
+        </ion-tab-button>
+
+    </ion-tab-bar>
+
+</ion-tabs>

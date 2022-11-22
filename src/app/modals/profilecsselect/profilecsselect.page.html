@@ -1,0 +1,59 @@
+<ion-content class="profile-csselectlist-listcontent">
+    <div slot="fixed" class="profile-csselectlist-headerwrapper">
+        <ion-grid class="sheriff-grid profile-csselectlist-header-grid">
+            <ion-row class="sheriff-row profile-csselectlist-header-title-row">
+                <ion-col size="2" class="sheriff-col profile-csselectlist-header-space-col"></ion-col>
+                <ion-col size="8" class="sheriff-col profile-csselectlist-header-title-col">
+                    <div class="profile-csselectlist-header-title-wrapper">{{labelProp}}</div>
+                </ion-col>
+                <ion-col size="2" class="sheriff-col profile-csselectlist-header-close-col">
+                  <ion-button (click)="cancelChange()" class="sheriff-btn profile-csselectlist-close-btn">
+                    <ion-icon class="sheriff-btn-ico css-selectlist-close-ico" name="close"></ion-icon>
+                  </ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row class="sheriff-row profile-csselectlist-header-current-selection-row">
+                <ion-col size="12" class="sheriff-col profile-csselectlist-currentselection-col">
+                    <div class="profile-csselectlist-currentselection-wrapper"><span *ngIf="noSelection===false&&selectedSubT!==null">Selected: {{selectedSubT}}</span><span *ngIf="noSelection===true">Select a {{labelProp}}</span></div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <div class="profile-csselectlist-list-outterwrapper-div">
+      <ion-searchbar slot="fixed" *ngIf="labelProp==='Country'" #cSearchBar class="sheriff-searchbar profile-clist-searchbar" [type]="'text'" [showClearButton]="true" [searchIcon]="'search'" [placeholder]="'Start typing...'" [mode]="'md'" [inputmode]="'search'" [debounce]="250" [animated]="false" [value] (ionInput)="countrySearch(cSearchBar.value)"></ion-searchbar>
+        <div *ngIf="labelProp==='Country'" class="sheriff-countrysb-status-wrapper">
+          <div *ngIf="sbCs<minSBCs" class="sheriff-countrysb-xmorechars-txt">{{minSBCs-sbCs}} more characters</div>
+          <div *ngIf="sbCs>=minSBCs&&!isSearch" class="sheriff-countrysb-results-txt">
+            <span [ngStyle]="{'color':listData.length===0?'var(--ion-color-danger)':'#848484'}" class="sb-noresults">found {{listData.length}} matches</span>
+          </div>
+          <div *ngIf="sbCs>=minSBCs&&isSearch" class="sheriff-countrysb-status-spinner-wrapper">
+            <ion-spinner *ngIf="" style="--color:#848484" class="sheriff-countrysb-search-spinner" [name]="'dots'" [duration]="500"></ion-spinner>
+          </div>
+        </div>
+        <ion-list *ngIf="listData.length>0&&!isSearch" class="profile-csselectlist-list">
+            <ion-item *ngFor="let cs of listData" (click)="selectItem(cs)" [disabled]="cs.isChecked" [button]="true" [lines]="'none'" [ngClass]="{'csitem-ischecked':cs.isChecked}" class="sheriff-item profile-csselectlist-item">
+              <ion-grid class="sheriff-grid profile-csselectlist-item-grid">
+                <ion-row class="sheriff-row profile-csselectlist-item-row">
+                  <ion-col size="2" class="sheriff-col profile-csselectlist-item-col cb-col">
+                    <ion-checkbox class="profile-csselectlist-item-checkbox" [mode]="'ios'" [checked]="cs.isChecked"></ion-checkbox>
+                  </ion-col>
+                  <ion-col size="10" class="sheriff-col profile-csselectlist-item-col label-col">
+                    <div class="profile-csselectlist-item-label-wrapper">
+                      {{cs.label}}
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+        </ion-list>
+    </div>
+    <div slot="fixed" class="profile-csselectlist-footerwrapper">
+        <ion-grid slot="fixed" class="sheriff-grid profile-csselectlist-footer-grid">
+            <ion-row class="sheriff-row profile-csselectlist-footer-row">
+              <ion-col size="12" class="sheriff-col profile-cssselectlist-footer-col">
+                <div class="profile-csselect-list-footer-div-wrapper"></div>
+              </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>

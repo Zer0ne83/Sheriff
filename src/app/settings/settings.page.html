@@ -1,0 +1,692 @@
+<ion-header class="sheriff-header sheriff-tabpage-header">
+    <ion-toolbar class="sheriff-toolbar">
+        <div class="sheriff-header-background-wrapper">
+            <div class="sheriff-header-droidstatus-padding-wrapper"></div>
+            <div class="sheriff-header-background-inner-wrapper">
+                <ion-grid class="sheriff-grid sheriff-page-header-grid">
+                    <ion-row class="sheriff-row sheriff-page-header-row">
+                        <ion-col class="sheriff-col sheriff-page-header-col left-col settings">
+                            <div class="sheriff-title-leftanimbar-wrapper hcl-leftbar settings">
+                                <div class="sheriff-title-leftanimbar-inner settings"></div>
+                            </div>
+                            <div class="sheriff-header-toolbar-btn-wrapper left-side">
+                                <div class="sheriff-page-title sheriff-heading-sansman hcl-title settings">
+                                    <div class="sheriff-title tight-wrap settings">Settings</div>
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col middle-logo-col2">
+                            <div class="sheriff-page-header-logo-wrapper">
+                                <div class="sheriff-page-header-logo-inner-wrapper">
+                                    <div class="sheriff-page-header-logo-highlight-layer hcl-ring settings"></div>
+                                    <div id="sheriff-circle-progress-header-wrapper" class="sheriff-progress-circle settings hcl-progcirc settings">
+                                        <circle-progress [responsive]=progCirc.responsive [showTitle]=progCirc.showTitle [showSubtitle]=progCirc.showSubtitle [showUnits]=progCirc.showUnits [percent]=progCirc.percent [radius]=progCirc.radius [outerStrokeWidth]=progCirc.outerStrokeWidth [showInnerStroke]=progCirc.showInnerStroke
+                                            [outerStrokeColor]=progCirc.outerStrokeColor [animation]=progCirc.animation [backgroundPadding]=progCirc.backgroundPadding [animationDuration]=progCirc.animationDuration></circle-progress>
+                                    </div>
+                                    <div id="logo-top-patchcover-outter" class="logo-top-patchcover outter hcl-opatch settings">
+                                        <div id="logo-top-patchcover-inner" class="logo-top-patchcover inner hcl-ipatch settings"></div>
+                                    </div>
+                                    <img src="../../../assets/img/loadingstar.png" class="sheriff-page-header-starbadge-img hcl-star settings">
+                                    <img src="../../../assets/img/slogo-w.png" class="sheriff-page-header-main-logo-img hcl-slogo settings">
+                                </div>
+                            </div>
+                        </ion-col>
+                        <ion-col class="sheriff-col sheriff-page-header-col right-menubtns-col3">
+                            <div class="sheriff-header-toolbar-btn-wrapper right-side">
+                                <div class="sheriff-page-backbtn-wrapper settings">
+                                    <ion-back-button icon="chevron-back-outline" class="sheriff-backbtn settings" defaultHref="/tabs"></ion-back-button>
+                                </div>
+                                <div class="sheriff-menu-button-wrapper">
+                                    <ion-menu-button class="sheriff-menu-button settings" autoHide="false">
+                                        <img src="../../../assets/img/sheriff-mainmenu-s.png" class="sheriff-mainmenuico">
+                                    </ion-menu-button>
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="sherrif-content tab-content settings">
+    <!-- SETTINGS-CONTENT -->
+    
+    <!-- CONTENT HEADING -->
+    <div class="sheriff-tabcontent-mainheading-wrapper settings">
+        <ion-grid class="sheriff-grid sheriff-tabcontent-header-grid settings">
+            <ion-row class="sheriff-row sheriff-tabcontent-header-row row1 settings">
+                <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col1 settings">
+
+                </ion-col>
+                <ion-col size="6" class="sheriff-col sheriff-tabcontent-header-col col2 settings">
+                    <img class="sheriff-reflect-title settings" src="../../assets/img/sheriff-reflecttitle-settings.png">
+                </ion-col>
+                <ion-col size="3" class="sheriff-col sheriff-tabcontent-header-col col3 settings">
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <!-- ITEM LIST CONTENT -->
+    <div *ngIf="domDataReady" class="sheriff-tabcontent-itemlistcontent-wrapper settings">
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="sheriff-page settings-page settings-section-wrapper database">
+            <div class="settings-main-section-header-gradient"></div>
+            <ion-grid class="sheriff-grid settings-page-grid heading-grid database">
+                <ion-row (click)="sectionVisToggle('database',databaseVisToggle.checked)" class="sheriff-row settings-page-row heading-row">
+                    <ion-col size="9" class="sheriff-col settings-page-col heading-col title-col">
+                        <div class="sheriff-settings-subtitle-wrapper">
+                            <div class="settings-main-title-text database">Database<span class="settings-sec-noof-opts-span"><span class="set-noof-hyphen">-</span>{{noofOpts.database}}<span class="noof-opt-txt">Opts</span></span></div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col settings-page-col heading-col vis-col">
+                        <ion-icon *ngIf="appSettings.database.showSection" class="settings-section-heading-vis-ico dbbackups visible" name="eye-outline"></ion-icon>
+                        <ion-icon *ngIf="!appSettings.database.showSection" class="settings-section-heading-vis-ico dbbackups hidden" name="eye-off-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2" class="sheriff-col settings-page-col heading-col toggle-col">
+                        <ion-toggle #databaseVisToggle checked={{appSettings.database.showSection}} mode="ios" class="settings-section-vis-toggle database"></ion-toggle>
+                        <div class="setting-tog-shield"></div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="settings-main-section-header-gradient"></div>
+            <div *ngIf="appSettings.database.showSection" class="settings-section-toggle-inner-wrapper database">
+                <!-- -------------------------------------------------------------------------- -->
+                <!-- DB Options -->
+                <!-- -------------------------------------------------------------------------- -->
+                <ion-grid class="sheriff-grid sheriff-settings-main-grid database">
+                    <ion-row class="sheriff-row sheriff-settings-main-row database">
+                        <ion-col size="12" class="sheriff-col sheriff-settings-main-col database">
+                            <ion-grid class="sheriff-grid settings-option-grid database-autobackup">
+                                <ion-row class="sheriff-row settings-option-row option-action-row database-autobackup">
+                                    <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col database-autobackup">
+                                        <div class="settings-option-name-wrapper database-autobackup">
+                                            <div class="settings-option-name-label-txt">Backup</div>
+                                            <ion-icon (click)="toggleOptInfo('database','backupMode')" [ngStyle]="{'color':appSettings.database.options.backupMode.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col size="9" class="sheriff-col settings-option-col settings-option-selection-col database-autobackup">
+                                        <ion-radio-group #databaseAutobackupRG (ionChange)="changeDatabaseOpts('backupMode',databaseAutobackupRG.value)" [allowEmptySelection]="false" [value]="appSettings.database.options.backupMode.value" class="sheriff-settings-radio-group database-autobackup">
+                                            <ion-item class="settings-radio-item database-autobackup sheriff-radioitem-3opts auto">
+                                                <div class="settings-radio-item-labelcenterwrap">
+                                                    <ion-radio [mode]="'md'" [value]="'auto'" class="sheriff-settings-radio database-autobackup-option auto"></ion-radio>
+                                                    <div class="sheriff-settings-radio-label database-autobackup-label auto">auto</div>
+                                                </div>
+                                            </ion-item>
+                                            <ion-item class="settings-radio-item database-autobackup sheriff-radioitem-3opts user">
+                                                <div class="settings-radio-item-labelcenterwrap">
+                                                    <ion-radio [mode]="'md'" [value]="'user'" class="sheriff-settings-radio database-autobackup-option user"></ion-radio>
+                                                    <div class="sheriff-settings-radio-label database-autobackup-label user">user</div>
+                                                </div>
+                                            </ion-item>
+                                            <ion-item class="settings-radio-item database-autobackup sheriff-radioitem-3opts none">
+                                                <div class="settings-radio-item-labelcenterwrap">
+                                                    <ion-radio [mode]="'md'" [value]="'none'" class="sheriff-settings-radio database-autobackup-option none"></ion-radio>
+                                                    <div class="sheriff-settings-radio-label database-autobackup-label none">none</div>
+                                                </div>
+                                            </ion-item>
+                                        </ion-radio-group>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="appSettings.database.options.backupMode.info" class="sheriff-row settings-option-row option-info-row database-autobackup">
+                                    <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col database-autobackup">
+                                        <ion-button (click)="toggleOptInfo('database','backupMode')" class="sheriff-btn sheriff-settings-info-close-btn">
+                                            <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col database-autobackup">
+                                        <div class="settings-option-info-text-wrapper database-autobackup">
+                                            <div class="settings-info-line-item database-autobackup-info auto"><span class="option-info-label">Auto:</span>DB backups are created/updated automatically each time a change to the Active database occurs.</div>
+                                            <div class="settings-info-line-item database-autobackup-info manual"><span class="option-info-label">User:</span>A DB backup will only be created/updated when you manually action it using the 'Backup' button below.</div>
+                                            <div class="settings-info-line-item database-autobackup-info off"><span class="option-info-label">None:</span>No DB backups are created or available.</div>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid *ngIf="appSettings.database.options.backupMode.value==='user'" class="sheriff-grid settings-option-grid database-manualbackup">
+                                <ion-row class="sheriff-row settings-option-row option-action-row database-manualbackup">
+                                    <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col database-manualbackup">
+                                        <div class="settings-option-name-wrapper database-autobackup">
+                                            <div class="settings-option-name-label-txt">Actions</div>
+                                            <ion-icon (click)="toggleOptInfo('database','backupActions')" [ngStyle]="{'color':appSettings.database.options.backupActions.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col *ngIf="dbBUManAct!==null" size="9" class="sheriff-col settings-option-col settings-option-selection-col database-manualbackup action-status-col">
+                                        <div style="color:#848484" *ngIf="dbBUManAct.stage==='inprog'" class="database-manualactions-actionstatus-msgtext inprog">
+                                            <ion-spinner [name]="'dots'" [duration]="500" class="settings-uploaddbbu-spinner"></ion-spinner>
+                                            <span style="margin-right:2px" *ngIf="dbBUManAct.action==='create'&&dbBUItem===null">Creating</span>
+                                            <span style="margin-right:2px" *ngIf="dbBUManAct.action==='create'&&dbBUItem!==null">Updating</span>
+                                            <span style="margin-right:2px" *ngIf="dbBUManAct.action==='delete'">Deleting</span>
+                                            <span style="margin-right:2px" *ngIf="dbBUManAct.action==='install'">Installing</span> Backup DB
+                                        </div>
+                                        <div style="color:var(--ion-color-danger)" *ngIf="dbBUManAct.stage==='fail'" class="database-manualactions-actionstatus-msgtext fail">
+                                            <ion-icon *ngIf="dbBUManAct.stage==='fail'" style="color:var(--ion-color-danger);margin:0 auto;padding-right:2px" name="close"></ion-icon>Action Failed
+                                        </div>
+                                        <div style="color:var(--ion-color-success)" *ngIf="dbBUManAct.stage==='success'" class="database-manualactions-actionstatus-msgtext success">
+                                            <ion-icon *ngIf="dbBUManAct.stage==='success'" style="color:var(--ion-color-success);margin:0 auto;padding-right:2px" name="checkmark"></ion-icon>Action Successful
+                                        </div>
+                                    </ion-col>
+                                    <ion-col *ngIf="dbBUManAct===null" size="3" class="sheriff-col settings-option-col settings-option-selection-col database-manualbackup actb savebu">
+                                        <ion-button (click)="dbBUAction('upload')" [disabled]="appSettings.database.options.backupMode.value!=='user'" class="sheriff-btn sheriff-settings-manualbackup-btn save">
+                                            <div *ngIf="dbBUItem===null" class="sheriff-btn-txt db-save">Create</div>
+                                            <div *ngIf="dbBUItem!==null" class="sheriff-btn-txt db-save">Update</div>
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col *ngIf="dbBUManAct===null" size="3" class="sheriff-col settings-option-col settings-option-selection-col database-manualbackup actb deletebu">
+                                        <ion-button [disabled]="hasDBBU===false||appSettings.database.options.backupMode.value!=='user'?true:false" (click)="dbBUAction('delete')" class="sheriff-btn sheriff-settings-manualbackup-btn delete">
+                                            <div class="sheriff-btn-txt db-delete">Delete</div>
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col *ngIf="dbBUManAct===null" size="3" class="sheriff-col settings-option-col settings-option-selection-col database-manualbackup actb installbu">
+                                        <ion-button [disabled]="hasDBBU===false||appSettings.database.options.backupMode.value!=='user'?true:false" (click)="dbBUAction('install')" class="sheriff-btn sheriff-settings-manualbackup-btn install">
+                                            <div class="sheriff-btn-txt db-install">Install</div>
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="appSettings.database.options.backupActions.info" class="sheriff-row settings-option-row option-info-row database-manualactions">
+                                    <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col database-autobackup">
+                                        <ion-button (click)="toggleOptInfo('database','backupActions')" class="sheriff-btn sheriff-settings-info-close-btn">
+                                            <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col database-autobackup">
+                                        <div class="settings-option-info-text-wrapper database-autobackup">
+                                            <div class="settings-info-line-item database-autobackup-info create"><span class="option-info-label">Create:</span>Save a backup copy of your current/active DB to the cloud (DB Backups must be set to 'User').</div>
+                                            <div class="settings-info-line-item database-autobackup-info delete"><span class="option-info-label">Delete:</span>Delete your backup DB (if any) from the cloud.</div>
+                                            <div class="settings-info-line-item database-autobackup-info install"><span class="option-info-label">Install:</span>Replace your current/active DB with your backup copy from the cloud and restart Sheriff.</div>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-grid *ngIf="appSettings.database.options.backupMode.value!=='none'" class="sheriff-grid database-list-table-grid">
+                                <ion-row *ngIf="hasDBBU&&dbBUItem!==null" class="sheriff-row settings-page-row col-label-row dblist-head-row">
+                                    <ion-col size="4" class="sheriff-col col-label-col name">database</ion-col>
+                                    <ion-col size="4" class="sheriff-col col-label-col date">last saved</ion-col>
+                                    <ion-col size="2" class="sheriff-col col-label-col size">file size</ion-col>
+                                    <ion-col size="2" class="sheriff-col col-label-col saved">
+                                        <ion-icon class="settings-db-saved-ico locate" name="locate"></ion-icon>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="hasDBBU&&dbBUItem!==null" class="sheriff-row settings-page-row founddbs-row">
+                                  <ion-col size="4" class="sheriff-col settings-page-col founddbs-col name dbbuitem">
+                                      <div [ngClass]="{'dbbuitem-newdata-class':dbBUNewData}" class="sheriff-settings-dbbulist-wrapper name">{{dbBUItem.name}}<span class="dbnewd settings-dbname-suffix">(SQLite.db)</span></div>
+                                  </ion-col>
+                                  <ion-col *ngIf="dbBUULStatus===null" size="4" class="sheriff-col settings-page-col founddbs-col date dbbuitem">
+                                      <div [ngClass]="{'dbbuitem-newdata-class':dbBUNewData}" class="dbnewd sheriff-settings-dbbulist-wrapper date">{{dbBUItem.date}}</div>
+                                  </ion-col>
+                                  <ion-col *ngIf="dbBUULStatus===null" size="2" class="sheriff-col settings-page-col founddbs-col size dbbuitem">
+                                      <div [ngClass]="{'dbbuitem-newdata-class':dbBUNewData}" class="dbnewd sheriff-settings-dbbulist-wrapper size">{{dbBUItem.size}}</div>
+                                  </ion-col>
+                                  <ion-col *ngIf="dbBUULStatus===null" size="2" class="sheriff-col settings-page-col founddbs-col saved dbbuitem">
+                                      <div class="dbnewd sheriff-settings-dbbulist-wrapper saved">
+                                          <ion-icon [ngClass]="{'dbbuitem-newdata-class':dbBUNewData}" class="dbnewd settings-db-saved-ico phone" name="cloud"></ion-icon>
+                                      </div>
+                                  </ion-col>
+                                  <ion-col class="dbbuupload-pbar-col" *ngIf="dbBUULStatus!==null" size="8">
+                                    <div class="sheriff-settings-firedbbupload-progressbar-wrapper">
+                                      <ion-progress-bar [ngClass]="{'ulfiredbbu-inprog':dbBUULStatus==='inprog','ulfiredbbu-success':dbBUULStatus==='success','ulfiredbbu-error':dbBUULStatus==='error'}" *ngIf="dbBUULPerc>0" class="sheriff-settings-firedbbuupload-progress" value={{dbBUULPerc}}></ion-progress-bar>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                                <ion-row *ngIf="!hasDBBU&&dbBUError!==null" class="sheriff-row settings-page-row nodbbu-row">
+                                  <ion-col class="sheriff-col settings-page-col nodbbu-col">
+                                    <div class="nodbbu-warning-text-wrapper">
+                                      {{dbBUError}}
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="sheriff-page settings-page settings-section-wrapper alerts">
+            <div class="settings-main-section-header-gradient"></div>
+            <ion-grid class="sheriff-grid settings-page-grid heading-grid alerts">
+                <ion-row (click)="sectionVisToggle('alerts',alertsVisToggle.checked)" class="sheriff-row settings-page-row heading-row">
+                    <ion-col size="9" class="sheriff-col settings-page-col heading-col title-col">
+                        <div class="sheriff-settings-subtitle-wrapper">
+                            <div class="settings-main-title-text">alerts<span class="settings-sec-noof-opts-span"><span class="set-noof-hyphen">-</span>{{noofOpts.alerts}}<span class="noof-opt-txt">Opts</span></span></div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col settings-page-col heading-col vis-col">
+                        <ion-icon *ngIf="appSettings.alerts.showSection" class="settings-section-heading-vis-ico alerts visible" name="eye-outline"></ion-icon>
+                        <ion-icon *ngIf="!appSettings.alerts.showSection" class="settings-section-heading-vis-ico alerts hidden" name="eye-off-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2" class="sheriff-col settings-page-col heading-col toggle-col">
+                        <ion-toggle #alertsVisToggle checked={{appSettings.alerts.showSection}} mode="ios" class="settings-section-vis-toggle alerts"></ion-toggle>
+                        <div class="setting-tog-shield"></div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="settings-main-section-header-gradient"></div>
+            <!-- -------------------- ALERTS -------------------- -->
+            <ion-grid *ngIf="appSettings.alerts.showSection" class="sheriff-grid sheriff-settings-main-grid alerts">
+                <ion-row class="sheriff-row settings-page-row">
+                    <ion-col size="12" class="sheriff-col">
+                        <!-- -------------------- ALERT - METHODS -------------------- -->
+                        <ion-grid class="sheriff-grid settings-option-grid alerts-methods">
+                            <ion-row class="sheriff-row settings-option-row option-action-row alerts-methods">
+                                <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col alerts-methods">
+                                    <div class="settings-option-name-wrapper alerts-methods">
+                                        <div class="settings-option-name-label-txt">Methods</div>
+                                        <ion-icon (click)="toggleOptInfo('alerts','alertMethods')" [ngStyle]="{'color':appSettings.alerts.options.alertMethods.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                                    </div>
+                                </ion-col>
+                                <ion-col class="sheriff-col settings-option-col settings-option-selection-col alerts-methods phone-cb-col">
+                                    <ion-item [disabled]="isRescheduling" (click)="changeAlertMethods('phone',amcbPhone.checked)" class="settings-alertsopt-methods-item phone">
+                                        <div class="settings-alertsopt-methods-wrapper phone">
+                                            <ion-checkbox [disabled]="isRescheduling" #amcbPhone class="settings-alertsopt-methods-btn-cb phone" [mode]="'md'" [checked]="appSettings.alerts.options.alertMethods.value.phone"></ion-checkbox>
+                                            <div [ngStyle]="{'color':amcbPhone.checked?'var(--ion-color-success)':'#aaa'}" [ngClass]="{'notepermsbad':amcbPhone.checked&&notePerms===false}" class="sheriff-btn-txt settings-alertsopt-methods-btn-txt phone">Phone</div>
+                                        </div>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col class="sheriff-col settings-option-col settings-option-selection-col alerts-methods calendar-cb-col">
+                                    <ion-item [disabled]="isRescheduling" (click)="changeAlertMethods('calendar',amcbCalendar.checked)" class="settings-alertsopt-methods-item calendar">
+                                        <div class="settings-alertsopt-methods-wrapper calendar">
+                                            <ion-checkbox [disabled]="isRescheduling" #amcbCalendar class="settings-alertsopt-methods-btn-cb calendar" [mode]="'md'" [checked]="appSettings.alerts.options.alertMethods.value.calendar"></ion-checkbox>
+                                            <div [ngStyle]="{'color':amcbCalendar.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-alertsopt-methods-btn-txt calendar">Calendar</div>
+                                        </div>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col class="sheriff-col settings-option-col settings-option-selection-col alerts-methods email-cb-col">
+                                  <ion-item [disabled]="isRescheduling" (click)="changeAlertMethods('email',amcbEmail.checked)" class="settings-alertsopt-methods-item email">
+                                      <div class="settings-alertsopt-methods-wrapper email">
+                                          <ion-checkbox [disabled]="isRescheduling" #amcbEmail class="settings-alertsopt-methods-btn-cb email" [mode]="'md'" [checked]="appSettings.alerts.options.alertMethods.value.email"></ion-checkbox>
+                                          <div [ngStyle]="{'color':amcbEmail.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-alertsopt-methods-btn-txt email">Email</div>
+                                      </div>
+                                  </ion-item>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="appSettings.alerts.options.alertMethods.info" class="sheriff-row settings-option-row option-info-row alert-methods">
+                                <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col alert-methods">
+                                    <ion-button (click)="toggleOptInfo('alerts','alertMethods')" class="sheriff-btn sheriff-settings-info-close-btn">
+                                        <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col alert-methods">
+                                    <div class="settings-option-info-text-wrapper alert-methods">
+                                        <div class="settings-info-line-item alert-methods-info phone"><span class="option-info-label">Phone:</span>Local notifications triggered on your device/phone.</div>
+                                        <div class="settings-info-line-item alert-methods-info calendar"><span class="option-info-label">Calendar:</span>Calendar events & reminders added to your nominated calendar.</div>
+                                        <div class="settings-info-line-item alert-methods-info email"><span class="option-info-label">Email:</span>Reminder messages emailed to your primary email.</div>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        <!-- -------------------- ALERT - EVENTS -------------------- -->
+                        <ion-grid *ngIf="appSettings.alerts.options.alertMethods.value.phone||appSettings.alerts.options.alertMethods.value.calendar" class="sheriff-grid settings-option-grid alerts-eventsevents">
+                            <ion-row class="sheriff-row settings-option-row option-action-row alerts-events">
+                                <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col alerts-events">
+                                    <div class="settings-option-name-wrapper alerts-events">
+                                        <div class="settings-option-name-label-txt">Events</div>
+                                        <ion-icon (click)="toggleOptInfo('alerts','alertEvents')" [ngStyle]="{'color':appSettings.alerts.options.alertEvents.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                                    </div>
+                                </ion-col>
+                                <ion-col class="sheriff-col settings-option-col settings-option-selection-col alerts-events shift-cb-col">
+                                    <ion-item [disabled]="isRescheduling" (click)="changeAlertEvents('shift',aecbShift.checked)" class="settings-alertsopt-events-item shift">
+                                        <div class="settings-alertsopt-events-wrapper shift">
+                                            <ion-checkbox [disabled]="isRescheduling" #aecbShift class="settings-alertsopt-events-btn-cb shift" [mode]="'md'" [checked]="appSettings.alerts.options.alertEvents.value.shift"></ion-checkbox>
+                                            <div [ngStyle]="{'color':aecbShift.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-alertsopt-events-btn-txt shift">Shifts</div>
+                                        </div>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col class="sheriff-col settings-option-col settings-option-selection-col alerts-events task-cb-col">
+                                    <ion-item [disabled]="isRescheduling" (click)="changeAlertEvents('task',aecbTask.checked)" class="settings-alertsopt-events-item task">
+                                        <div class="settings-alertsopt-events-wrapper task">
+                                            <ion-checkbox [disabled]="isRescheduling" #aecbTask class="settings-alertsopt-events-btn-cb task" [mode]="'md'" [checked]="appSettings.alerts.options.alertEvents.value.task"></ion-checkbox>
+                                            <div [ngStyle]="{'color':aecbTask.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-alertsopt-events-btn-txt task">Tasks</div>
+                                        </div>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col class="sheriff-col settings-option-col settings-option-selection-col alerts-events tsheet-cb-col">
+                                  <ion-item [disabled]="isRescheduling" (click)="changeAlertEvents('tsheet',aecbTSheet.checked)" class="settings-alertsopt-events-item tsheet">
+                                      <div class="settings-alertsopt-events-wrapper tsheet">
+                                          <ion-checkbox [disabled]="isRescheduling" #aecbTSheet class="settings-alertsopt-events-btn-cb tsheet" [mode]="'md'" [checked]="appSettings.alerts.options.alertEvents.value.tsheet"></ion-checkbox>
+                                          <div [ngStyle]="{'color':aecbTSheet.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-alertsopt-events-btn-txt tsheet">TSheets</div>
+                                      </div>
+                                  </ion-item>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="appSettings.alerts.options.alertEvents.info" class="sheriff-row settings-option-row option-info-row alert-events">
+                                <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col alert-events">
+                                    <ion-button (click)="toggleOptInfo('alerts','alertEvents')" class="sheriff-btn sheriff-settings-info-close-btn">
+                                        <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col alert-methods">
+                                    <div class="settings-option-info-text-wrapper alert-events">
+                                      <div class="settings-info-line-item alert-methods-info calendar"><span class="option-info-label">Shifts:</span>Alerts triggered X time before a shift starts or a confirm/accept shift confirmation deadline expires.</div>
+                                      <div class="settings-info-line-item alert-methods-info calendar"><span class="option-info-label">Tasks:</span>Alerts triggered X time before a task is deadline is due (if Due By set)</div>
+                                      <div class="settings-info-line-item alert-methods-info calendar"><span class="option-info-label">TSheets:</span>Alerts triggered X time after you fail/forget to clock on/off</div>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        <!-- -------------------- ALERT - BEFORE -------------------- -->
+                        <ion-grid *ngIf="(appSettings.alerts.options.alertMethods.value.phone||appSettings.alerts.options.alertMethods.value.calendar)&&(appSettings.alerts.options.alertEvents.value.shift||appSettings.alerts.options.alertEvents.value.task)" class="sheriff-grid settings-option-grid alerts-before">
+                            <ion-row class="sheriff-row settings-option-row option-action-row alerts-before">
+                                <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col alerts-before">
+                                    <div class="settings-option-name-wrapper before">
+                                        <div class="settings-option-name-label-txt">Times</div>
+                                        <ion-icon (click)="toggleOptInfo('alerts','alertBefore')" [ngStyle]="{'color':appSettings.alerts.options.alertBefore.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                                    </div>
+                                </ion-col>
+                                <ion-col size="9" class="sheriff-col settings-option-col settings-option-selection-col alerts-before-settings-col">
+                                    <ion-grid class="sheriff-grid settings-suboptions-grid alerts-before-grid">
+                                        <ion-row *ngIf="appSettings.alerts.options.alertEvents.value.shift" [ngStyle]="{'border-bottom':appSettings.alerts.options.alertEvents.value.task?'solid 1px #212121':'0'}" class="sheriff-row settings-suboptions-row alerts-before-row fn-btn-row shifts">
+                                            <ion-col size="3" class="sheriff-col settings-suboptions-col alerts-before-col fn-label-col shifts">
+                                                Shifts:
+                                            </ion-col>
+                                            <ion-col size="2" class="sheriff-col settings-suboptions-col alerts-before-col fn-nicevalue-col shifts">
+                                              <div class="alerts-b4-selected-value-wrapper">
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===1" class="alerts-before-nicevalue">30</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===2" class="alerts-before-nicevalue">60</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===3" class="alerts-before-nicevalue">90</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===4" class="alerts-before-nicevalue">2</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===5" class="alerts-before-nicevalue">6</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===6" class="alerts-before-nicevalue">12</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===1||appSettings.alerts.options.alertBefore.value.shift.range===2||appSettings.alerts.options.alertBefore.value.shift.range===3" class="alerts-b4-mh-suffix mins">mins</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.shift.range===4||appSettings.alerts.options.alertBefore.value.shift.range===5||appSettings.alerts.options.alertBefore.value.shift.range===6" class="alerts-b4-mh-suffix hours">hrs</span>
+                                              </div>
+                                            </ion-col>
+                                            <ion-col size="7" class="sheriff-col settings-suboptions-col alerts-before-col fn-btn-col shifts">
+                                                <ion-range [disabled]="isRescheduling" #abRangeShift (ionChange)="changeAlertBefore('shift',abRangeShift.value)" [debounce]="250" [max]="6" [min]="1" [mode]="'ios'" [pin]="false" [snaps]="true" [step]="1" [ticks]="true" [value]="appSettings.alerts.options.alertBefore.value.shift.range" class="sheriff-settings-range alertbefore-range shifts"></ion-range>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngIf="appSettings.alerts.options.alertEvents.value.task" class="sheriff-row settings-suboptions-row alerts-before-row fn-btn-row tasks">
+                                            <ion-col size="3" class="sheriff-col settings-suboptions-col alerts-before-col fn-label-col tasks">
+                                                Tasks:
+                                            </ion-col> 
+                                            <ion-col size="2" class="sheriff-col settings-suboptions-col alerts-before-col fn-nicevalue-col tasks">
+                                              <div class="alerts-b4-selected-value-wrapper">
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===1" class="alerts-before-nicevalue">30</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===2" class="alerts-before-nicevalue">60</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===3" class="alerts-before-nicevalue">90</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===4" class="alerts-before-nicevalue">2</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===5" class="alerts-before-nicevalue">6</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===6" class="alerts-before-nicevalue">12</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===1||appSettings.alerts.options.alertBefore.value.task.range===2||appSettings.alerts.options.alertBefore.value.task.range===3" class="alerts-b4-mh-suffix mins">mins</span>
+                                                <span *ngIf="appSettings.alerts.options.alertBefore.value.task.range===4||appSettings.alerts.options.alertBefore.value.task.range===5||appSettings.alerts.options.alertBefore.value.task.range===6" class="alerts-b4-mh-suffix hours">hrs</span>
+                                              </div>
+                                            </ion-col>
+                                            <ion-col size="7" class="sheriff-col settings-suboptions-col alerts-before-col fn-btn-col tasks">
+                                                <ion-range [disabled]="isRescheduling" #abRangeTask (ionChange)="changeAlertBefore('task',abRangeTask.value)" [debounce]="250" [max]="6" [min]="1" [mode]="'ios'" [pin]="false" [snaps]="true" [step]="1" [ticks]="true" [value]="appSettings.alerts.options.alertBefore.value.task.range" class="sheriff-settings-range alertbefore-range tasks"></ion-range>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngIf="appSettings.alerts.options.alertEvents.value.tsheet" class="sheriff-row settings-suboptions-row alerts-before-row fn-btn-row tsheet">
+                                          <ion-col size="3" class="sheriff-col settings-suboptions-col alerts-before-col fn-label-col tsheets">
+                                              TSheets:
+                                          </ion-col> 
+                                          <ion-col size="2" class="sheriff-col settings-suboptions-col alerts-before-col fn-nicevalue-col tsheets">
+                                            <div class="alerts-b4-selected-value-wrapper">
+                                              <span *ngIf="appSettings.alerts.options.alertBefore.value.tsheet.range===1" class="alerts-before-nicevalue">5</span>
+                                              <span *ngIf="appSettings.alerts.options.alertBefore.value.tsheet.range===2" class="alerts-before-nicevalue">10</span>
+                                              <span *ngIf="appSettings.alerts.options.alertBefore.value.tsheet.range===3" class="alerts-before-nicevalue">15</span>
+                                              <span *ngIf="appSettings.alerts.options.alertBefore.value.tsheet.range===4" class="alerts-before-nicevalue">20</span>
+                                              <span *ngIf="appSettings.alerts.options.alertBefore.value.tsheet.range===5" class="alerts-before-nicevalue">25</span>
+                                              <span *ngIf="appSettings.alerts.options.alertBefore.value.tsheet.range===6" class="alerts-before-nicevalue">30</span>
+                                              <span class="alerts-b4-mh-suffix mins">mins</span> 
+                                            </div>
+                                          </ion-col>
+                                          <ion-col size="7" class="sheriff-col settings-suboptions-col alerts-before-col fn-btn-col tsheets">
+                                              <ion-range [disabled]="isRescheduling" #abRangeTSheet (ionChange)="changeAlertBefore('tsheet',abRangeTSheet.value)" [debounce]="250" [max]="6" [min]="1" [mode]="'ios'" [pin]="false" [snaps]="true" [step]="1" [ticks]="true" [value]="appSettings.alerts.options.alertBefore.value.tsheet.range" class="sheriff-settings-range alertbefore-range tsheets"></ion-range>
+                                          </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="appSettings.alerts.options.alertBefore.info" class="sheriff-row settings-option-row option-info-row alert-before">
+                                <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col alert-before">
+                                    <ion-button (click)="toggleOptInfo('alerts','alertBefore')" class="sheriff-btn sheriff-settings-info-close-btn">
+                                        <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col alert-methods">
+                                    <div class="settings-option-info-text-wrapper alert-before">
+                                        <div class="settings-info-line-item alert-before-info shifts">
+                                            <span class="option-info-label">Shift:</span>Alert triggered X time before each shift/roster is due to start.
+                                        </div>
+                                        <div class="settings-info-line-item alert-before-info tasks">
+                                          <span class="option-info-label">Tasks:</span>Alert triggered X time before a task deadline (if 'Due By' set).
+                                        </div>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                        <!-- -------------------- CALENDAR SELECTION ------------------ -->
+                        <ion-grid *ngIf="appSettings.alerts.options.alertMethods.value.calendar&&(appSettings.alerts.options.alertEvents.value.shift||appSettings.alerts.options.alertEvents.value.task)"  class="sheriff-grid settings-option-grid calendarselect-grid">
+                          <ion-row class="sheriff-row settings-option-row option-action-row calendarselect">
+                            <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col calendarselect">
+                                <div class="settings-option-name-wrapper calendarselect">
+                                    <div class="settings-option-name-label-txt">Calendar</div>
+                                    <ion-icon (click)="toggleOptInfo('alerts','alertCal')" [ngStyle]="{'color':appSettings.alerts.options.alertCal.info?'var(--ion-color-danger)':'#343434'}"  class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                                </div>
+                            </ion-col>
+                            <ion-col class="sheriff-col settings-option-col settings-option-selection-col calendarselect-col selectedcal-col">
+                              <div class="sheriff-settings-selectedcal-value-wrapper">{{selectedCal.name}}</div>
+                            </ion-col>
+                            <ion-col class="sheriff-col settings-option-col settings-option-selection-col calendarselect-col select-cal-btn-col">
+                              <ion-button [disabled]="isRescheduling" (click)="alertCalSelect(selectedCal)" class="sheriff-btn settings-calselect-btn">
+                                <ion-icon class="sheiff-btn-ico settings-calselect-btn-ico" name="calendar-outline"></ion-icon>
+                                <div class="sheriff-btn-txt settings-calselect-btn-txt">Change</div>
+                              </ion-button>
+                            </ion-col>
+                          </ion-row>
+                          <ion-row *ngIf="appSettings.alerts.options.alertCal.info" class="sheriff-row settings-option-row option-info-row alert-cal">
+                            <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col alert-cal">
+                                <ion-button (click)="toggleOptInfo('alerts','alertCal')" class="sheriff-btn sheriff-settings-info-close-btn">
+                                    <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col alert-methods">
+                                <div class="settings-option-info-text-wrapper alert-cal">
+                                    <div class="settings-info-line-item alert-cal-info">
+                                      Sheriff will add your shift/task events & reminders (as selected) to this calendar
+                                    </div>
+                                </div>
+                            </ion-col>
+                          </ion-row>
+                        </ion-grid>
+                        <!-- -------------------- ALERT - SCHEDULE -------------------- -->
+                        <ion-grid *ngIf="(appSettings.alerts.options.alertMethods.value.phone||appSettings.alerts.options.alertMethods.value.calendar)&&(appSettings.alerts.options.alertEvents.value.shift||appSettings.alerts.options.alertEvents.value.task)" class="sheriff-grid settings-option-grid scheduled-alerts-grid">
+                          <ion-row class="sheriff-row settings-option-row option-action-row alerts-schedule">
+                            <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col alerts-schedule">
+                                <div class="settings-option-name-wrapper alerts-schedule">
+                                    <div class="settings-option-name-label-txt">Scheduled</div>
+                                </div>
+                            </ion-col>
+                            <ion-col size="9" class="sheriff-col settings-option-col settings-option-selection-col alerts-schedule-settings-col">
+                              <ion-button (click)="openAlertSchedule()" *ngIf="!isRescheduling" class="sheriff-btn sheriff-settings-openalertschedule-btn">
+                                <div class="sheriff-btn-txt openalertschedule-btn-txt"><ion-icon class="view-scheduled-alerts-btn-ico" name="search"></ion-icon>View Alert Schedule</div>
+                              </ion-button>
+                              <div *ngIf="isRescheduling" style="color:#848484" class="alerts-rescheduling-msgtext inprog">
+                                <ion-spinner [name]="'dots'" [duration]="500" class="settings-reschedlingalerts-spinner"></ion-spinner>
+                                <span style="margin-right:2px">Reschedling Alerts</span>
+                              </div>
+                            </ion-col>
+                          </ion-row>
+                        </ion-grid>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="sheriff-page settings-page settings-section-wrapper payrates">
+            <div class="settings-main-section-header-gradient"></div>
+            <ion-grid class="sheriff-grid settings-page-grid heading-grid payrates">
+                <ion-row (click)="sectionVisToggle('payrates',payratesVisToggle.checked)" class="sheriff-row settings-page-row heading-row">
+                    <ion-col size="9" class="sheriff-col settings-page-col heading-col title-col">
+                        <div class="sheriff-settings-subtitle-wrapper">
+                            <div class="settings-main-title-text">Pay Rates<span class="settings-sec-noof-opts-span"><span class="set-noof-hyphen">-</span>{{noofOpts.payrates}}<span class="noof-opt-txt">Opts</span></span></div>
+                        </div>
+                    </ion-col>
+                    <ion-col size="1" class="sheriff-col settings-page-col heading-col vis-col">
+                        <ion-icon *ngIf="appSettings.payrates.showSection" class="settings-section-heading-vis-ico payrates visible" name="eye-outline"></ion-icon>
+                        <ion-icon *ngIf="!appSettings.payrates.showSection" class="settings-section-heading-vis-ico payrates hidden" name="eye-off-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2" class="sheriff-col settings-page-col heading-col toggle-col">
+                        <ion-toggle #payratesVisToggle checked={{appSettings.payrates.showSection}} mode="ios" class="settings-section-vis-toggle payrates"></ion-toggle>
+                        <div class="setting-tog-shield"></div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="settings-main-section-header-gradient"></div>
+            <div *ngIf="appSettings.payrates.showSection" class="settings-section-toggle-inner-wrapper payrates">
+                <ion-grid *ngIf="appSettings.payrates.showSection" class="sheriff-grid sheriff-settings-main-grid payrates">
+                  <ion-row class="sheriff-row settings-option-row option-action-row payrates-option1">
+                      <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col payrates-option1">
+                          <div class="settings-option-name-wrapper payrates-option1">
+                              <div class="settings-option-name-label-txt">Show $</div>
+                              <ion-icon (click)="toggleOptInfo('payrates','show')" [ngStyle]="{'color':appSettings.payrates.options.show.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                          </div>
+                      </ion-col>
+                      <ion-col size="9" class="sheriff-col settings-option-col settings-option-selection-col payrates-option1">
+                        <ion-item (click)="toggleShowPR(prShow.checked)" class="settings-propt-item">
+                          <div class="settings-propt-wrapper">
+                              <ion-checkbox #prShow class="settings-payratesopt-btn-cb show" [mode]="'md'" [checked]="appSettings.payrates.options.show.value"></ion-checkbox>
+                              <div [ngStyle]="{'color':prShow.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-propt-btn-txt show">Showing Income ($)</div>
+                          </div>
+                          </ion-item>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="appSettings.payrates.options.show.info" class="sheriff-row settings-option-row option-info-row payrates-show">
+                      <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col payrates-show">
+                          <ion-button (click)="toggleOptInfo('payrates','show')" class="sheriff-btn sheriff-settings-info-close-btn">
+                              <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                          </ion-button>
+                      </ion-col>
+                      <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col payrates-show">
+                          <div class="settings-option-info-text-wrapper payrates-show">
+                              <div class="settings-info-line-item payrates-show-info">
+                                Sheriff will calculate & include income ($) figures next to your time/hours
+                              </div>
+                          </div>
+                      </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </div>
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="sheriff-page settings-page settings-section-wrapper profile">
+          <div class="settings-main-section-header-gradient"></div>
+          <ion-grid class="sheriff-grid settings-page-grid heading-grid profile">
+              <ion-row (click)="sectionVisToggle('profile',profileVisToggle.checked)" class="sheriff-row settings-page-row heading-row">
+                  <ion-col size="9" class="sheriff-col settings-page-col heading-col title-col">
+                      <div class="sheriff-settings-subtitle-wrapper">
+                          <div class="settings-main-title-text">Profile<span class="settings-sec-noof-opts-span"><span class="set-noof-hyphen">-</span>{{noofOpts.profile}}<span class="noof-opt-txt">Opts</span></span></div>
+                      </div>
+                  </ion-col>
+                  <ion-col size="1" class="sheriff-col settings-page-col heading-col vis-col">
+                      <ion-icon *ngIf="appSettings.profile.showSection" class="settings-section-heading-vis-ico profile visible" name="eye-outline"></ion-icon>
+                      <ion-icon *ngIf="!appSettings.profile.showSection" class="settings-section-heading-vis-ico profile hidden" name="eye-off-outline"></ion-icon>
+                  </ion-col>
+                  <ion-col size="2" class="sheriff-col settings-page-col heading-col toggle-col">
+                      <ion-toggle #profileVisToggle checked={{appSettings.profile.showSection}} mode="ios" class="settings-section-vis-toggle profile"></ion-toggle>
+                      <div class="setting-tog-shield"></div>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
+          <div class="settings-main-section-header-gradient"></div>
+          <div *ngIf="appSettings.profile.showSection" class="settings-section-toggle-inner-wrapper profile">
+              <ion-grid *ngIf="appSettings.profile.showSection" class="sheriff-grid sheriff-settings-main-grid settings-option-grid profile-option1 profile">
+                  <ion-row class="sheriff-row settings-option-row option-action-row profile-option1">
+                    <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col profile-option1">
+                        <div class="settings-option-name-wrapper profile-option1">
+                            <div class="settings-option-name-label-txt">Force Sync</div>
+                            <ion-icon (click)="toggleOptInfo('profile','alwaysSync')" [ngStyle]="{'color':appSettings.profile.options.alwaysSync.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                        </div>
+                    </ion-col>
+                    <ion-col size="9" class="sheriff-col settings-option-col settings-option-selection-col profile-option1">
+                      <ion-item (click)="toggleSyncProfile(pAlwaysSync.checked)" class="settings-propt-item">
+                        <div class="settings-propt-wrapper">
+                            <ion-checkbox #pAlwaysSync class="settings-profileopt-btn-cb show" [mode]="'md'" [checked]="appSettings.profile.options.alwaysSync.value"></ion-checkbox>
+                            <div [ngStyle]="{'color':pAlwaysSync.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-propt-btn-txt show">Force Web-Sync</div>
+                        </div>
+                        </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row *ngIf="appSettings.profile.options.alwaysSync.info" class="sheriff-row settings-option-row option-info-row profile-alwayssync">
+                    <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col profile-alwayssync">
+                        <ion-button (click)="toggleOptInfo('profile','alwaysSync')" class="sheriff-btn sheriff-settings-info-close-btn">
+                            <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col profile-alwayssync">
+                        <div class="settings-option-info-text-wrapper profile-alwayssync">
+                            <div class="settings-info-line-item profile-alwayssync-info">
+                              Force web-scraping of private/profile data every time (slower).
+                            </div>
+                        </div>
+                    </ion-col>
+                  </ion-row>
+              </ion-grid>
+          </div>
+        </div>
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="sheriff-page settings-page settings-section-wrapper snoop">
+          <div class="settings-main-section-header-gradient"></div>
+          <ion-grid class="sheriff-grid settings-page-grid heading-grid snoop">
+              <ion-row (click)="sectionVisToggle('snoop',snoopVisToggle.checked)" class="sheriff-row settings-page-row heading-row">
+                  <ion-col size="9" class="sheriff-col settings-page-col heading-col title-col">
+                      <div class="sheriff-settings-subtitle-wrapper">
+                          <div class="settings-main-title-text">snoop<span class="settings-sec-noof-opts-span"><span class="set-noof-hyphen">-</span>{{noofOpts.snoop}}<span class="noof-opt-txt">Opts</span></span></div>
+                      </div>
+                  </ion-col>
+                  <ion-col size="1" class="sheriff-col settings-page-col heading-col vis-col">
+                      <ion-icon *ngIf="appSettings.snoop.showSection" class="settings-section-heading-vis-ico snoop visible" name="eye-outline"></ion-icon>
+                      <ion-icon *ngIf="!appSettings.snoop.showSection" class="settings-section-heading-vis-ico snoop hidden" name="eye-off-outline"></ion-icon>
+                  </ion-col>
+                  <ion-col size="2" class="sheriff-col settings-page-col heading-col toggle-col">
+                      <ion-toggle #snoopVisToggle checked={{appSettings.snoop.showSection}} mode="ios" class="settings-section-vis-toggle snoop"></ion-toggle>
+                      <div class="setting-tog-shield"></div>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
+          <div class="settings-main-section-header-gradient"></div>
+          <div *ngIf="appSettings.snoop.showSection" class="settings-section-toggle-inner-wrapper snoop">
+              <ion-grid *ngIf="appSettings.snoop.showSection" class="sheriff-grid sheriff-settings-main-grid settings-option-grid snoop-option1 snoop">
+                <ion-row class="sheriff-row settings-option-row option-action-row snoop-option1">
+                  <ion-col size="3" class="sheriff-col settings-option-col settings-option-name-col snoop-option1">
+                      <div class="settings-option-name-wrapper snoop-option1">
+                          <div class="settings-option-name-label-txt">Activated</div>
+                          <ion-icon (click)="toggleOptInfo('snoop','activated')" [ngStyle]="{'color':appSettings.snoop.options.activated.info?'var(--ion-color-danger)':'#343434'}" class="sheriff-option-info-ico" name="information-circle"></ion-icon>
+                      </div>
+                  </ion-col>
+                  <ion-col size="9" class="sheriff-col settings-option-col settings-option-selection-col snoop-option1">
+                    <ion-item (click)="toggleSnoop(snoopActivated.checked)" class="settings-propt-item">
+                      <div class="settings-propt-wrapper">
+                          <ion-checkbox #snoopActivated class="settings-snoopopt-btn-cb show" [mode]="'md'" [checked]="appSettings.snoop.options.activated.value"></ion-checkbox>
+                          <div [ngStyle]="{'color':snoopActivated.checked?'var(--ion-color-success)':'#aaa'}" class="sheriff-btn-txt settings-propt-btn-txt show">Snoop Data</div>
+                      </div>
+                      </ion-item>
+                  </ion-col>
+              </ion-row>
+              <ion-row *ngIf="appSettings.snoop.options.activated.info" class="sheriff-row settings-option-row option-info-row snoop-activated">
+                <ion-col size="1" class="sheriff-col settings-option-col option-info-close-col snoop-activated">
+                    <ion-button (click)="toggleOptInfo('snoop','activated')" class="sheriff-btn sheriff-settings-info-close-btn">
+                        <ion-icon name="close" class="sheriff-btn-ico sheriff-settings-info-close-btn-ico"></ion-icon>
+                    </ion-button>
+                </ion-col>
+                <ion-col size="11" class="sheriff-col settings-option-col option-info-txt-col snoop-activated">
+                    <div class="settings-option-info-text-wrapper snoop-activated">
+                        <div class="settings-info-line-item snoop-activated-info">
+                          Monitor, report and record extra levels of workplace/coworker activity.
+                        </div>
+                    </div>
+                </ion-col>
+              </ion-row>
+              </ion-grid>
+          </div>
+        </div>
+      <!-- -------------------------------------------------------------------------- -->
+      <!-- -------------------------------------------------------------------------- -->
+    </div>
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------------------- -->
+</ion-content>

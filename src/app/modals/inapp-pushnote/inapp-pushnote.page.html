@@ -1,0 +1,28 @@
+<div class="inapp-pushnote-outter-wrapper">
+  <div *ngIf="modalTitle!==null&&modalBody!null" class="inapp-pushnote-inner-wrapper">
+    <ion-grid class="sheriff-grid inapp-pushnote-grid header-grid">
+      <ion-row class="sheriff-row inapp-pushnote-header-row">
+          <ion-col size="12" class="sheriff-col inapp-pushnote-header-col title-col">
+              <div class="inapp-pushnote-header-title-wrapper">{{modalTitle}}</div> 
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="sheriff-grid inapp-pushnote-grid message-grid">
+      <ion-row class="sheriff-row inapp-pushnote-row message-row">
+        <ion-col class="sheriff-col inapp-pushnote-col message-col">
+          <div class="sheriff-inapppushnote-div">{{modalBody}}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="sheriff-grid inapp-pushnote-grid footer-grid">
+      <ion-row class="sheriff-row inapp-pushnote-footer-row">
+          <ion-col size="12" class="sheriff-col inapp-pushnote-footer-col closebtn-col">
+              <ion-button (click)="closeModal()" class="sheriff-btn settings-alertschedule-close-btn">
+                <ion-icon name="close" class="sheriff-btn-ico settings-alertschedule-close-btn-ico"></ion-icon>
+                <div class="sheriff-btn-txt settings-alertschedule-close-btn-txt">close</div>
+              </ion-button>
+          </ion-col>          
+      </ion-row>
+    </ion-grid>
+  </div>
+</div>

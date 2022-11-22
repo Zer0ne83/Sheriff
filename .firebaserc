@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "sherifffb-90311": {
+      "hosting": {
+        "app": [
+          "sherifffb-90311"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "sherifffb-90311"
+  }
+}
